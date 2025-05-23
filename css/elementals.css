@@ -1,0 +1,101 @@
+@import url('varColors.css');
+
+html, body {
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--blancoLigth);
+    background-color: var(--negroDark);
+    margin: 0;
+    padding: 1;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+div{
+    padding: 10px;
+}
+
+a {
+    color: var(--azulLigth);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background-color: var(--azulLigth);
+    color: var(--negro);
+    border: 1px solid var(--negroDark);;
+    font-size: 14px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid var(--negro);
+    text-align: left;
+}
+
+th {
+    background-color:var(--azulLigth);
+    font-weight: bold;
+}
+
+/* Para ocultar columnas específicas */
+td[style*="display: none"],
+th[style*="display: none"] {
+    display: none !important;
+}
+
+button {
+    background-color: var(--azul);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px 10px 5px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    width: 100%;
+    background: var(--azulDark);
+    height: 8vh;
+    text-align: center;
+}
+
+h2, h3 {
+    color: var(--blanco);
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: var(--blanco);;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}

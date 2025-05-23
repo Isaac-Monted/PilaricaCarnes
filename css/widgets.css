@@ -1,0 +1,79 @@
+@import url('varColors.css');
+
+.login-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-form-group {
+    margin-bottom: 20px;
+}
+
+.login-password-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.login-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-password-wrapper .login-input {
+    flex: 1;
+}
+
+.login-show-password-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #555;
+    padding: 0;
+}
+
+.login-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Diseño de formulario */
+.filtros,
+.formulario {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filtros div,
+.formulario div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filtros div > div,
+.formulario div > div {
+    flex: 1 1 180px;
+}
+

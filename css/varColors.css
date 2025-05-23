@@ -1,0 +1,11 @@
+:root{
+    --negro: rgba(0, 0, 0, 1);
+    --negroDark: rgba(0, 17, 48, 1);
+    --negroLigth: rgba(182, 208, 255, 1);
+    --blanco: rgba(255, 255, 255, 1);
+    --blancoDark: rgb(48, 48, 48, 1);
+    --blancoLigth: rgb(206, 206, 206);
+    --azul: rgb(0, 89, 172, 1);
+    --azulDark: rgb(0, 47, 90, 1);
+    --azulLigth: rgb(95, 178, 255);
+}

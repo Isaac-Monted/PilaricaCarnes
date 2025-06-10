@@ -103,53 +103,53 @@
                     <div>
                         <div>
                             <label for="cajasOri_cambios">Caja Origen</label>
-                            <input type="text" id="cajasOri_cambios" name="cajasOri_cambios">
+                            <input type="number" id="cajasOri_cambios" name="cajasOri_cambios">
                         </div>
                         <div>
                             <label for="kilosBOri_cambios">Kilos Brutos Origen</label>
-                            <input type="text" id="kilosBOri_cambios" name="kilosBOri_cambios">
+                            <input type="number" id="kilosBOri_cambios" name="kilosBOri_cambios">
                         </div>
                         <div>
                             <label for="piezasEOri_cambios">Piezas Extra Origen</label>
-                            <input type="text" id="piezasEOri_cambios" name="piezasEOri_cambios">
+                            <input type="number" id="piezasEOri_cambios" name="piezasEOri_cambios">
                         </div>
                         <div>
                             <label for="destareAOri_cambios">Destare Adicional Origen</label>
-                            <input type="text" id="destareAOri_cambios" name="destareAOri_cambios">
+                            <input type="number" id="destareAOri_cambios" name="destareAOri_cambios">
                         </div>
                         <div>
                             <label for="totalPOri_cambios">Total Piezas Origen</label>
-                            <input type="text" id="totalPOri_cambios" name="totalPOri_cambios">
+                            <input type="number" id="totalPOri_cambios" name="totalPOri_cambios">
                         </div>
                         <div>
                             <label for="totalKOri_cambios">Total Kilos Origen</label>
-                            <input type="text" id="totalKOri_cambios" name="totalKOri_cambios">
+                            <input type="number" id="totalKOri_cambios" name="totalKOri_cambios">
                         </div>
                     </div>
                     <div>
                         <div>
                             <label for="cajasDes_cambios">Caja Destino</label>
-                            <input type="text" id="cajasDes_cambios" name="cajasDes_cambios">
+                            <input type="number" id="cajasDes_cambios" name="cajasDes_cambios">
                         </div>
                         <div>
                             <label for="kilosBDes_cambios">Kilos Brutos Destino</label>
-                            <input type="text" id="kilosBDes_cambios" name="kilosBDes_cambios">
+                            <input type="number" id="kilosBDes_cambios" name="kilosBDes_cambios">
                         </div>
                         <div>
                             <label for="piezasEDes_cambios">Piezas Extra Destino</label>
-                            <input type="text" id="piezasEDes_cambios" name="piezasEDes_cambios">
+                            <input type="number" id="piezasEDes_cambios" name="piezasEDes_cambios">
                         </div>
                         <div>
                             <label for="destareADes_cambios">Destare Adicional Destino</label>
-                            <input type="text" id="destareADes_cambios" name="destareADes_cambios">
+                            <input type="number" id="destareADes_cambios" name="destareADes_cambios">
                         </div>
                         <div>
                             <label for="totalPDes_cambios">Total Piezas Destino</label>
-                            <input type="text" id="totalPDes_cambios" name="totalPDes_cambios">
+                            <input type="number" id="totalPDes_cambios" name="totalPDes_cambios">
                         </div>
                         <div>
                             <label for="totalKDes_cambios">Total Kilos Destino</label>
-                            <input type="text" id="totalKDes_cambios" name="totalKDes_cambios">
+                            <input type="number" id="totalKDes_cambios" name="totalKDes_cambios">
                         </div>
                     </div>
                     <div>

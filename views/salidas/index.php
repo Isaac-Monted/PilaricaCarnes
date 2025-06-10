@@ -75,27 +75,27 @@
                 <div>
                     <div>
                         <label for="cajas_salidas">Caja</label>
-                        <input type="text" id="cajas_salidas" name="cajas_salidas">
+                        <input type="number" id="cajas_salidas" name="cajas_salidas">
                     </div>
                     <div>
                         <label for="kilosB_salidas">Kilos Brutos</label>
-                        <input type="text" id="kilosB_salidas" name="kilosB_salidas">
+                        <input type="number" id="kilosB_salidas" name="kilosB_salidas">
                     </div>
                     <div>
                         <label for="piezasE_salidas">Piezas Extra</label>
-                        <input type="text" id="piezasE_salidas" name="piezasE_salidas">
+                        <input type="number" id="piezasE_salidas" name="piezasE_salidas">
                     </div>
                     <div>
                         <label for="destareA_salidas">Destare Adicional</label>
-                        <input type="text" id="destareA_salidas" name="destareA_salidas">
+                        <input type="number" id="destareA_salidas" name="destareA_salidas">
                     </div>
                     <div>
                         <label for="totalP_salidas">Total Piezas</label>
-                        <input type="text" id="totalP_salidas" name="totalP_salidas">
+                        <input type="number" id="totalP_salidas" name="totalP_salidas">
                     </div>
                     <div>
                         <label for="totalK_salidas">Total Kilos</label>
-                        <input type="text" id="totalK_salidas" name="totalK_salidas">
+                        <input type="number" id="totalK_salidas" name="totalK_salidas">
                     </div>
                     <div>
                         <label for="Observaciones_salidas">Observacione</label>

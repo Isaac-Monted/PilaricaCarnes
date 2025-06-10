@@ -12,14 +12,8 @@
             <p>Filtros</p>
             <div>
                 <div>
-                    <label for="fechaF_productos">Fecha:</label>
-                    <input type="date" id="fechaF_productos" name="fechaF_productos">
-                </div>
-                <div>
                     <label for="productoF_productos">Producto:</label>
-                    <select id="productoF_productos" name="productoF_productos">
-                        <option value="opcion1">Opción 1</option>
-                    </select>
+                    <input type="search" id="productoF_productos" name="productoF_productos">
                 </div>
             </div>
         </div>
@@ -31,20 +25,24 @@
                         <tr>
                             <th style="display: none">id</th>
                             <th>Producto</th>
-                            <th style="display: none">id_producto</th>
-                            <th>Cajas</th>
-                            <th>Kilos Brutos</th>
-                            <th>Piezas extras</th>
-                            <th>Destare Adicional</th>
-                            <th>Total Piezas</th>
-                            <th>Total Kilos</th>
+                            <th>Descripcion</th>
+                            <th>Clave</th>
+                            <th>Presentacion</th>
+                            <th>Peso x Pieza</th>
+                            <th>Piezas x Caja</th>
+                            <th>Precio</th>
+                            <th>piezas iniciales</th>
+                            <th>Kilos Iniciales</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td style="display: none"> </td>
                             <td> </td>
-                            <td style="display: none"> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
                             <td> </td>
                             <td> </td>
                             <td> </td>
@@ -66,40 +64,51 @@
         </div>
         <div>
             <div>
-                <input type="hidden" id="id_productos" name="id_productos">
+                <input type="hidden" id="id_productos" name="id">
                 <div>
-                    <label for="nombre_productos">Producto</label>
-                    <input type="text" id="nombre_productos" name="nombre_productos">
-                    <input type="hidden" id="id_producto" name="id_producto">
+                    <label for="producto_productos">Producto</label>
+                    <input type="text" id="producto_productos" name="producto_productos">
                 </div>
                 <div>
                     <div>
-                        <label for="cajas_productos">Caja</label>
-                        <input type="text" id="cajas_productos" name="cajas_productos">
+                        <label for="descripcion_productos">Descripcion</label>
+                        <input type="text" id="descripcion_productos" name="descripcion_productos">
                     </div>
                     <div>
-                        <label for="kilosB_productos">Kilos Brutos</label>
-                        <input type="text" id="kilosB_productos" name="kilosB_productos">
+                        <label for="clave_productos">Clave</label>
+                        <input type="text" id="clave_productos" name="clave_productos">
                     </div>
                     <div>
-                        <label for="piezasE_productos">Piezas Extra</label>
-                        <input type="text" id="piezasE_productos" name="piezasE_productos">
+                        <label for="presentacion_productos">Presentacion</label>
+                        <input type="text" id="presentacion_productos" name="presentacion_productos">
                     </div>
                     <div>
-                        <label for="destareA_productos">Destare Adicional</label>
-                        <input type="text" id="destareA_productos" name="destareA_productos">
+                        <label for="pesoXpz_productos">Peso x Pieza</label>
+                        <input type="number" id="pesoXpz_productos" name="pesoXpz_productos">
                     </div>
                     <div>
-                        <label for="totalP_productos">Total Piezas</label>
-                        <input type="text" id="totalP_productos" name="totalP_productos">
+                        <label for="piezaXcja_productos">Pieza x Caja</label>
+                        <input type="number" id="piezaXcja_productos" name="piezaXcja_productos">
                     </div>
                     <div>
-                        <label for="totalK_productos">Total Kilos</label>
-                        <input type="text" id="totalK_productos" name="totalK_productos">
+                        <label for="precio_productos">Precio</label>
+                        <input type="number" id="precio_productos" name="precio_productos">
                     </div>
                     <div>
-                        <label for="Observaciones_productos">Observacione</label>
-                        <textArea type="text" id="Observaciones_productos" name="Observaciones_productos"></textarea>
+                        <label for="piezasInit_productos">Piezas Iniciales</label>
+                        <input type="number" id="piezasInit_productos" name="piezasInit_productos">
+                    </div>
+                    <div>
+                        <label for="kilosInit_productos">Kilos Iniciales</label>
+                        <input type="number" id="kilosInit_productos" name="kilosInit_productos">
+                    </div>
+                    <div>
+                        <label for="estado_productos">Estado:</label>
+                        <select id="estado_productos" name="estado_productos">
+                            <option value="" selected disabled>Selecciona el estado del producto</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -109,3 +118,27 @@
         </div>
     </div>
 </body>
+
+<script type="module">
+    import * as funciones from './views/productos/functions.js';
+    document.getElementById("agregar_productos").addEventListener("click", function (){
+        funciones.AgregarProductos();
+    });
+
+    document.getElementById("limpiar_productos").addEventListener("click", function (){
+        funciones.LimpiarProductos();
+    });
+
+    document.getElementById("editar_productos").addEventListener("click", function (){
+        funciones.EditarProductos();
+    });
+
+    document.getElementById("eliminar_productos").addEventListener("click", function (){
+        funciones.EliminarProductos();
+    });
+
+    document.getElementById("productoF_productos").addEventListener("input", function(){
+        const busqueda = document.getElementById("productoF_productos");
+        funciones.FitroBuscarProducto(busqueda.value);
+    });
+</script>

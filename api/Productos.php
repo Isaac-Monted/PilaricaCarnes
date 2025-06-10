@@ -29,7 +29,7 @@ function AgregarProducto($conn, $producto, $descripcion, $clave, $presentacion, 
         clave,
         presentacion,
         peso_x_pieza,
-        pieza_x_caja,
+        piezas_x_caja,
         precio,
         piezas_iniciales,
         kilos_iniciales,
@@ -43,7 +43,7 @@ function AgregarProducto($conn, $producto, $descripcion, $clave, $presentacion, 
     }
 
     // Vinculamos los parametros
-    $stmt->bind_param("ssssdididss", $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado);
+    $stmt->bind_param("ssssdidids", $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado);
 
     // Ejecutamos la consulta
     if ($stmt->execute()) {

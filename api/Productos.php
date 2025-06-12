@@ -132,7 +132,7 @@ function leerProductos($conn, $filters = []) {
         }
         $query .= " WHERE " . implode(" AND ", $conditions);
     }
-    $query .= " ORDER BY nombre_producto DESC";
+    $query .= " ORDER BY nombre_producto ASC";
 
     // Preparar y ejecutar la consulta
     $stmt = $conn->prepare($query);

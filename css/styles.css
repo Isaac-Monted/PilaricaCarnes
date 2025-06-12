@@ -8,8 +8,16 @@
 }
 
 .contenedorTabla{
+    max-height: 300px;
     overflow: auto;
     overflow-y: auto;
+}
+
+.contenedor-con-scroll {
+    max-height: 300px; /* O el alto fijo que desees, por ejemplo, 300px, 40vh, etc. */
+    overflow-y: auto;  /* Esto habilita el scroll vertical cuando el contenido exceda el alto */
+    /* Puedes agregar bordes, padding, etc., a este contenedor si lo necesitas */
+    border: 1px solid var(--negroDark); /* Opcional: si quieres un borde alrededor del área de scroll */
 }
 
 .botonera {

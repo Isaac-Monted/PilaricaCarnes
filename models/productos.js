@@ -3,11 +3,12 @@ import { ColocarDatosEnCasillas, LimpiarProductos } from '../views/productos/fun
 export function LlenarTabla(products){
     const Tabla = document.getElementById("contenedorTablaProductos");// El contenedor donde se mostrarán la tabla
     Tabla.innerHTML = ''; // Limpiar el contenedor para agregar la informacion
-    const productTable = document.createElement("tr"); // button
+    
 
     // Comprobar si hay un error en los datos (por ejemplo, "error" en la respuesta)
     if (products.error) {
-        productTable.innerHTML = `
+        const errorRow = document.createElement("tr"); // Crear la fila en blanco en caso de error
+        errorRow.innerHTML = `
             <td style="display: none"> </td>
             <td> </td>
             <td> </td>
@@ -20,13 +21,14 @@ export function LlenarTabla(products){
             <td> </td>
             <td> </td>
         `;
-        Tabla.appendChild(productTable); // Mostrar el mensaje de error en el DOM
+        Tabla.appendChild(errorRow); // Mostrar el mensaje de error en el DOM
         return;
     }
 
     // Si no hay productos, mostrar un mensaje adecuado
     if (products.length === 0) {
-        productTable.innerHTML = `
+        const noProductRow = document.createElement("tr"); // Crear la fila en blanco en caso de no haber productos
+        noProductRow.innerHTML = `
             <td style="display: none"> </td>
             <td> </td>
             <td> </td>
@@ -39,12 +41,13 @@ export function LlenarTabla(products){
             <td> </td>
             <td> </td>
         `;
-        Tabla.appendChild(productTable);
+        Tabla.appendChild(noProductRow);
         return;
     }
 
     // Recorrer los productos y crear elementos para mostrarlos
     products.forEach(product => {
+        const productTable = document.createElement("tr"); // Crear una fila para cada fila retornada
         // Agregar contenido a la tarjeta del producto
         productTable.innerHTML = `
             <td style="display: none">${product.id}</td>

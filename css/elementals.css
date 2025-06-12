@@ -40,6 +40,10 @@ th {
     font-weight: bold;
 }
 
+td {
+    background-color:var(--negroLigth);
+}
+
 /* Para ocultar columnas específicas */
 td[style*="display: none"],
 th[style*="display: none"] {

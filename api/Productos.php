@@ -112,21 +112,27 @@ function leerProductos($conn, $filters = []) {
         $conditions = [];
 
         foreach ($filters as $field => $value){
-            $conditions[] = "$field = ?";
-            $Params[] = $value;
+            if ($field === 'nombre_producto_buscar') {
+                $conditions[] = "nombre_producto LIKE ?";
+                $Params[] = "%" . $value . "%"; // Añadir los comodines aquí
+                $types[] = "s";
+            } else {
+                $conditions[] = "$field = ?";
+                $Params[] = $value;
 
-            // Determinar tipo para bind_param
-            if(is_int($value)){
-                $types[] = "i";
-            }elseif(is_double($value)){
-                $types[] = "d";
-            }else{
-                $types[] = "s"; // String por defecto
+                // Determinar tipo para bind_param
+                if(is_int($value)){
+                    $types[] = "i";
+                }elseif(is_double($value)){
+                    $types[] = "d";
+                }else{
+                    $types[] = "s"; // String por defecto
+                }
             }
         }
         $query .= " WHERE " . implode(" AND ", $conditions);
     }
-    $query .= "ORDER BY nombre_producto DESC";
+    $query .= " ORDER BY nombre_producto DESC";
 
     // Preparar y ejecutar la consulta
     $stmt = $conn->prepare($query);

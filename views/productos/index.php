@@ -36,7 +36,7 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="contenedorTablaProductos">
                         <tr>
                             <td style="display: none"> </td>
                             <td> </td>

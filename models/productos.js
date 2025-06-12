@@ -1,0 +1,64 @@
+
+export function LlenarTabla(products){
+    const Tabla = document.getElementById("contenedorTablaProductos");// El contenedor donde se mostrarán la tabla
+    Tabla.innerHTML = ''; // Limpiar el contenedor para agregar la informacion
+    const productTable = document.createElement("tr"); // button
+
+    // Comprobar si hay un error en los datos (por ejemplo, "error" en la respuesta)
+    if (products.error) {
+        productTable.innerHTML = `
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        `;
+        Tabla.appendChild(productTable); // Mostrar el mensaje de error en el DOM
+        return;
+    }
+
+    // Si no hay productos, mostrar un mensaje adecuado
+    if (products.length === 0) {
+        productTable.innerHTML = `
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        `;
+        Tabla.appendChild(productTable);
+        return;
+    }
+
+    // Recorrer los productos y crear elementos para mostrarlos
+    products.forEach(product => {
+        // Agregar contenido a la tarjeta del producto
+        productTable.innerHTML = `
+            <td style="display: none">${product.id}</td>
+            <td>${product.nombre_producto}</td>
+            <td>${product.descripcion}</td>
+            <td>${product.clave}</td>
+            <td>${product.presentacion}</td>
+            <td>${product.peso_x_pieza}</td>
+            <td>${product.piezas_x_caja}</td>
+            <td>${product.precio}</td>
+            <td>${product.piezas_iniciales}</td>
+            <td>${product.kilos_iniciales}</td>
+            <td>${product.estado}</td>
+        `;
+
+        Tabla.appendChild(productTable);
+    });
+}

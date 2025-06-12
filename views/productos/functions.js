@@ -1,6 +1,8 @@
+import * as funciones from '../../models/productos.js';
 // ========================== DOM ==========================
 window.addEventListener("DOMContentLoaded", function(){
     console.log("productos");
+    CargarPagina();
 });
 
 // ========================== EVENTOS ==========================
@@ -80,6 +82,8 @@ export function LimpiarProductos(){
         const casilla = productosElements[key];
         casilla.value = "";
     });
+
+    CargarPagina();
 }
 
 export function EditarProductos(){
@@ -90,8 +94,61 @@ export function EliminarProductos(){
     console.log("Eliminar");
 }
 
-export function FitroBuscarProducto(texto){
+export async function FitroBuscarProducto(texto){
+    // Construir el objeto de filtros
+    const filters = {
+        nombre_producto_buscar: texto,
+    };
 
+    // Crear un objeto URLSearchParams y añadir los filtros
+    const params = new URLSearchParams();
+    params.append('action', 'LeerProductos'); // Siempre añadir la acción
+
+    // Añadir el filtro específico (o filtros)
+    /* for (const key in filters) {
+        if (filters.hasOwnProperty(key)) { // Buena práctica para asegurar que la propiedad es propia del objeto
+            params.append(key, filters[key]);
+        }
+    } */
+
+    // COMIENZO DEL CAMBIO CLAVE: Codificar el objeto filters a JSON
+    params.append('filters', JSON.stringify(filters)); // <-- Envía todo el objeto filters como una cadena JSON
+
+    // Construir la URL completa usando template literals y params.toString()
+    const url = `/../carnes/api/Productos.php?${params.toString()}`;
+    //                                         ^ Solo un '?' aquí
+
+    // Realizar la solicitud fetch
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            // Lanzar un error si el estado HTTP no fue exitoso
+            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json(); // Esperar a que el JSON se parseé
+
+        console.log(data);
+        funciones.LlenarTabla(data);
+
+    } catch (error) {
+        console.error("Error al buscar productos:", error);
+        // Podrías retornar un array vacío o null aquí si hay un error
+        return [];
+    }
 }
 
+async function CargarPagina(){
+    // Traer todos los productos de la base de datos
+    await fetch(`/../carnes/api/Productos.php?action=LeerProductos`)
+        .then(respuesta => respuesta.json()) // Espera la respuesta como JSON
+        .then(data => {
+            console.log(data);
+            funciones.LlenarTabla(data);
+        })
+        .catch(error => {
+            console.error("Error al buscar productos:", error);
+    });
+}
 // ========================== FUNCIONES ==========================

@@ -71,7 +71,7 @@ function EditarProducto($conn, $id_producto, $producto, $descripcion, $clave, $p
         clave = ?,
         presentacion = ?,
         peso_x_pieza = ?,
-        pieza_x_caja = ?,
+        piezas_x_caja = ?,
         precio = ?,
         piezas_iniciales = ?,
         kilos_iniciales = ?,

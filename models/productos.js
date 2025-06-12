@@ -1,3 +1,4 @@
+import { ColocarDatosEnCasillas, LimpiarProductos } from '../views/productos/functions.js';
 
 export function LlenarTabla(products){
     const Tabla = document.getElementById("contenedorTablaProductos");// El contenedor donde se mostrarán la tabla
@@ -60,5 +61,52 @@ export function LlenarTabla(products){
         `;
 
         Tabla.appendChild(productTable);
+
+        // Agregar un evento para cada una de las filas
+        productTable.addEventListener('click', () => {
+            ColocarDatosEnCasillas(product.id);
+        });
+    });
+}
+
+export function ColocarDatos(Datos){
+    // mapa con los campos del formulario
+    const productosElements = {
+        id: document.getElementById("id_productos"),
+        producto: document.getElementById("producto_productos"),
+        descripcion: document.getElementById("descripcion_productos"),
+        clave: document.getElementById("clave_productos"),
+        presentacion: document.getElementById("presentacion_productos"),
+        pesoXpz: document.getElementById("pesoXpz_productos"),
+        piezaXcja: document.getElementById("piezaXcja_productos"),
+        precio: document.getElementById("precio_productos"),
+        piezasInit: document.getElementById("piezasInit_productos"),
+        kilosInit: document.getElementById("kilosInit_productos"),
+        estado: document.getElementById("estado_productos")
+    };
+
+    if (Datos.error){
+        LimpiarProductos();
+        return;
+    }
+
+    if (Datos.length === 0){
+        LimpiarProductos();
+        return;
+    }
+
+    Datos.forEach(dato =>{
+        console.log(dato);
+        productosElements.id.value = dato.id;
+        productosElements.producto.value = dato.nombre_producto;
+        productosElements.descripcion.value = dato.descripcion;
+        productosElements.clave.value = dato.clave;
+        productosElements.presentacion.value = dato.presentacion;
+        productosElements.pesoXpz.value = dato.peso_x_pieza;
+        productosElements.piezaXcja.value = dato.piezas_x_caja;
+        productosElements.precio.value = dato.precio;
+        productosElements.piezasInit.value = dato.piezas_iniciales;
+        productosElements.kilosInit.value = dato.kilos_iniciales;
+        productosElements.estado.value = dato.estado;
     });
 }

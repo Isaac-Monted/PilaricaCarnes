@@ -18,7 +18,7 @@
                 <div>
                     <label for="productoF_entradas">Producto:</label>
                     <select id="productoF_entradas" name="productoF_entradas">
-                        <option value="opcion1">Opción 1</option>
+                        <option value="1"></option>
                     </select>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                             <th>Total Kilos</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="contenedorTablaEntradas">
                         <tr>
                             <td style="display: none"> </td>
                             <td> </td>
@@ -91,11 +91,11 @@
                     </div>
                     <div>
                         <label for="totalP_entradas">Total Piezas</label>
-                        <input type="number" id="totalP_entradas" name="totalP_entradas">
+                        <input type="number" id="totalP_entradas" name="totalP_entradas" readonly>
                     </div>
                     <div>
                         <label for="totalK_entradas">Total Kilos</label>
-                        <input type="number" id="totalK_entradas" name="totalK_entradas">
+                        <input type="number" id="totalK_entradas" name="totalK_entradas" readonly>
                     </div>
                     <div>
                         <label for="Observaciones_entradas">Observacione</label>
@@ -112,6 +112,7 @@
 
 <script type="module">
     import * as funciones from './views/entradas/functions.js';
+    // ========= BOTONES =========
     document.getElementById("agregar_entradas").addEventListener("click", function (){
         funciones.AgregarArticulo();
     });
@@ -126,5 +127,19 @@
 
     document.getElementById("eliminar_entradas").addEventListener("click", function (){
         funciones.EliminarArticulo();
+    });
+
+    // ========= CASILLAS =========
+    document.getElementById("cajas_entradas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
+    });
+    document.getElementById("kilosB_entradas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
+    });
+    document.getElementById("piezasE_entradas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
+    });
+    document.getElementById("destareA_entradas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
     });
 </script>

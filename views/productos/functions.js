@@ -5,22 +5,23 @@ window.addEventListener("DOMContentLoaded", function(){
     CargarPagina();
 });
 
+// mapa con los campos del formulario
+const productosElements = {
+    id: document.getElementById("id_productos"),
+    producto: document.getElementById("producto_productos"),
+    descripcion: document.getElementById("descripcion_productos"),
+    clave: document.getElementById("clave_productos"),
+    presentacion: document.getElementById("presentacion_productos"),
+    pesoXpz: document.getElementById("pesoXpz_productos"),
+    piezaXcja: document.getElementById("piezaXcja_productos"),
+    precio: document.getElementById("precio_productos"),
+    piezasInit: document.getElementById("piezasInit_productos"),
+    kilosInit: document.getElementById("kilosInit_productos"),
+    estado: document.getElementById("estado_productos")
+};
+
 // ========================== EVENTOS ==========================
 export async function AgregarProductos(){
-    // mapa con los campos del formulario
-    const productosElements = {
-        id: document.getElementById("id_productos"),
-        producto: document.getElementById("producto_productos"),
-        descripcion: document.getElementById("descripcion_productos"),
-        clave: document.getElementById("clave_productos"),
-        presentacion: document.getElementById("presentacion_productos"),
-        pesoXpz: document.getElementById("pesoXpz_productos"),
-        piezaXcja: document.getElementById("piezaXcja_productos"),
-        precio: document.getElementById("precio_productos"),
-        piezasInit: document.getElementById("piezasInit_productos"),
-        kilosInit: document.getElementById("kilosInit_productos"),
-        estado: document.getElementById("estado_productos")
-    };
 
     if(!productosElements.producto.value){
         alert("No hay producto");
@@ -62,21 +63,7 @@ export async function AgregarProductos(){
 
 export function LimpiarProductos(){
     console.log("Limpiar");
-    // mapa con los campos del formulario
-    const productosElements = {
-        id: document.getElementById("id_productos"),
-        producto: document.getElementById("producto_productos"),
-        descripcion: document.getElementById("descripcion_productos"),
-        clave: document.getElementById("clave_productos"),
-        presentacion: document.getElementById("presentacion_productos"),
-        pesoXpz: document.getElementById("pesoXpz_productos"),
-        piezaXcja: document.getElementById("piezaXcja_productos"),
-        precio: document.getElementById("precio_productos"),
-        piezasInit: document.getElementById("piezasInit_productos"),
-        kilosInit: document.getElementById("kilosInit_productos"),
-        estado: document.getElementById("estado_productos")
-    };
-
+    
     // limpiar cada una de las casillas
     Object.keys(productosElements).forEach(key => {
         const casilla = productosElements[key];
@@ -87,20 +74,6 @@ export function LimpiarProductos(){
 }
 
 export async function EditarProductos(){
-    // mapa con los campos del formulario
-    const productosElements = {
-        id: document.getElementById("id_productos"),
-        producto: document.getElementById("producto_productos"),
-        descripcion: document.getElementById("descripcion_productos"),
-        clave: document.getElementById("clave_productos"),
-        presentacion: document.getElementById("presentacion_productos"),
-        pesoXpz: document.getElementById("pesoXpz_productos"),
-        piezaXcja: document.getElementById("piezaXcja_productos"),
-        precio: document.getElementById("precio_productos"),
-        piezasInit: document.getElementById("piezasInit_productos"),
-        kilosInit: document.getElementById("kilosInit_productos"),
-        estado: document.getElementById("estado_productos")
-    };
 
     if(!productosElements.producto.value){
         alert("No hay producto");

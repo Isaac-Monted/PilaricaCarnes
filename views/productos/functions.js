@@ -7,6 +7,7 @@ window.addEventListener("DOMContentLoaded", function(){
 
 // mapa con los campos del formulario
 const productosElements = {
+    filtroTexto: document.getElementById("productoF_productos"),
     id: document.getElementById("id_productos"),
     producto: document.getElementById("producto_productos"),
     descripcion: document.getElementById("descripcion_productos"),
@@ -22,7 +23,6 @@ const productosElements = {
 
 // ========================== EVENTOS ==========================
 export async function AgregarProductos(){
-
     if(!productosElements.producto.value){
         alert("No hay producto");
     }else{

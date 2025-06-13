@@ -69,8 +69,11 @@
                 <input type="hidden" id="id_entradas" name="id_entradas">
                 <div>
                     <label for="nombre_entradas">Producto</label>
-                    <input type="text" id="nombre_entradas" name="nombre_entradas">
                     <input type="hidden" id="id_producto" name="id_producto">
+                    <section class="filtroDeLista">
+                        <input type="text" id="nombre_entradas" name="nombre_entradas" class="campoBusqueda">
+                        <ul id="listaResultadosEntradas" class="listaResultados"></ul>
+                    </section>
                 </div>
                 <div>
                     <div>
@@ -130,6 +133,11 @@
     });
 
     // ========= CASILLAS =========
+    document.getElementById("nombre_entradas").addEventListener("input", function (){
+        const Search = document.getElementById("nombre_entradas");
+        funciones.SeleccionarProducto(Search.value);
+    });
+
     document.getElementById("cajas_entradas").addEventListener("input", function(){
         funciones.CalcularCamposCalculados();
     });

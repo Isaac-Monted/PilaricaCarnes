@@ -17,7 +17,7 @@ if ($conn->connect_error){
 }
 
 // ================================= FUNCIONES =================================
-function AgregarProducto($conn, $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado) {
+function AgregarProducto($conn, $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado='Activo') {
     if (empty($producto)){
         return "Error: debes proporcionar un producto para agregar";
     }
@@ -53,18 +53,18 @@ function AgregarProducto($conn, $producto, $descripcion, $clave, $presentacion, 
             return "Producto repetido";
         }
     } else {
-        return "Error al suscribir el correo: " . $stmt->error;
+        return "Error al agregar el producto: " . $stmt->error;
     }
 
     $stmt->close();
 }
 
 function EditarProducto($conn, $id_producto, $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado='Activo') {
-    if (empty($producto)){
+    if (empty($id_producto) || empty($producto)){
         return "Error: debes proporcionar un producto para agregar";
     }
 
-    // Consulta SQL para insertar los datos en la base de datos
+    // Consulta SQL para editar los datos en la base de datos
     $query = "UPDATE Carnes_productos SET
         nombre_producto = ?,
         descripcion = ?,
@@ -156,7 +156,7 @@ function leerProductos($conn, $filters = []) {
 }
 
 function EliminarProducto($conn, $id_producto) {
-    // verificar que $is_producto es un numero valido
+    // verificar que $id_producto es un numero valido
     if (!is_numeric($id_producto)){
         return "Error al eliminar el producto";
     }
@@ -180,7 +180,6 @@ function EliminarProducto($conn, $id_producto) {
         }
     } else {
         return "Error al ejecutar la operación: " . $stmt->error;
-
     }
 
     $stmt->close();
@@ -225,7 +224,7 @@ if (isset($_GET['action'])) {
             break;
 
         case 'EditarProducto':
-            if(isset($_POST['producto'])){
+            if(isset($_POST['producto']) && isset($_POST['id'])){
                 // Colocar los valores en variables
                 $id_producto = $_POST['id'];
                 $producto = $_POST['producto'];

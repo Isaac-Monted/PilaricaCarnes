@@ -9,8 +9,167 @@ require __DIR__ . '/../vendor/autoload.php';
 require '../api/db.php';
 
 // ================================= FUNCIONES =================================
-function main() {
+function AgregarEntrada($conn, $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones) {
+    if (empty($fecha) || empty($id_producto)){
+        return "Error: debes proporcionar los datos necesarios para agregar";
+    }
+
+    // Consulta SQL para insertar los datos en la base de datos
+    $query = " INSERT IGNORE INTO Carnes_entradas (
+    fecha_registro,
+    id_producto,
+    cajas,
+    kilos_brutos,
+    piezas_extra,
+    destare_add,
+    observaciones) VALUES (?,?,?,?,?,?,?)
+    ";
+
+    // Preparacion de la consulta
+    $stmt = $conn->preparate($query);
+    if ($stmt === false){
+        return "Error en la preparacion de la consulta: " . $conn->error;
+    }
+
+    // Vinculamos los parametros
+    $stmt->bind_param("siidids", $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones);
+
+    //ejecutamos la consulta
+    if ($stmt->execute()){
+        if ($stmt->affected_rows > 0){
+            return "Operacion realizada";
+        } else {
+            return "error de escritura";
+        }
+    } else {
+        return "Error al agregar la entrada";
+    }
+
+    $stmt->close();
     
+}
+
+function EditarEntrada($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones) {
+    if (empty($id_entrada) || empty($fecha) || empty($id_producto)){
+        return "Error: debes proporcionar los datos necesarios para agregar";
+    }
+
+    // Consulta SQL para editar los datos en la base de datos
+    $query = "UPDATE Carnes_entradas SET
+        fecha_registro = ?,
+        id_producto = ?,
+        cajas = ?,
+        kilos_brutos = ?,
+        piezas_extra = ?,
+        destare_add = ?,
+        observaciones = ?
+    WHERE id = ?
+    ";
+
+    // preparacion de la consulta
+    $stmt = $conn->preparate($query);
+    if ($stmt === false){
+        return "Error en la preparacion de la consulta: " . $conn->error;
+    }
+
+    // Vinculamos los parametros
+    $stmt->bind_param("siididsi", $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones);
+
+    //ejecutamos la consulta
+    if ($stmt->execute()){
+        if ($stmt->affected_rows > 0){
+            return "operacion realizada";
+        } else {
+            return "error de escritura";
+        }
+    } else {
+        return "Error al editar la entrada: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
+function LeerEntradas($conn, $filters = []) {
+    $query = "SELECT * FROM Carnes_entradas";
+    $Params = [];
+    $types = [];
+
+    // si hay filtros constuimos el where
+    if (!empty($filters)){
+        $conditions = [];
+
+        foreach ($filters as $field => $value){
+            if ($field === 'nombre_producto_buscar') {
+                $conditions[] = "producto_id LIKE ?";
+                $Params[] = "%" . $value . "%"; // añadir los comodines aqui
+                $types[] = "s";
+            } else {
+                $conditions[] = "$field = ?";
+                $Params[] = $value;
+
+                // determinar tipo para bind_param
+                if(is_int($value)){
+                    $types[] = "i";
+                }elseif(is_double($value)){
+                    $types[] = "d";
+                }else{
+                    $types[] = "s"; // string por defecto
+                }
+            }
+        }
+        $query .= " WHERE " . implode(" AND ", $conditions);
+    }
+    $query .= " ORDER BY id ASC";
+
+    // Preparar y ejecutar la consulta
+    $stmt = $conn->prepare($query);
+    if (!$stmt) {
+        return "Error en la preparacion de la coinsulta: " . $conn->error;
+    }
+
+    // Vinculamos los parametros
+    if(!empty($Params)){
+        $stmt->bind_param(implode("", $types), ...$Params);
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $comentarios = [];
+    while ($row = $result->fetch_assoc()){
+        $comentarios[] = $row;
+    }
+    return $comentarios;
+    $stmt->close();
+}
+
+function EliminarEntrada($conn, $id_entrada) {
+    // Verificar que $id_entrada es un numero valido
+    if (!is_numeric($id_entrada)){
+        return "Error al eliminar el producto";
+    }
+
+    // Preparar la consulta SQL para eliminar el producto
+    $query = "DELETE FROM Carnes_entradas WHERE id = ?";
+    $stmt = $conn->prepare($query);
+
+    if (!$stmt){
+        return "Error en la preparacion de la consulta: " . $conn->error;
+    }
+
+    // Vincular el parametro y ejecutar la consulta
+    $stmt->bind_param("i", $id_entrada);
+
+    if ($stmt->execute()){
+        if ($stmt->affected_rows > 0){
+            return "Operacion realizada";
+        } else {
+            return "Entrada no eliminada";
+        }
+    } else {
+        return "Error al ejecutar la operacion: " . $stmt->error;
+    }
+
+    $stmt->close();
 }
 
 // ================================= ENRUTAMIENTO =================================
@@ -22,15 +181,92 @@ if (isset($_GET['action'])) {
 
     // Dependiendo de la acción solicitada, ejecutar la función correspondiente
     switch ($action) {
-        case 'main':
-            // Llamar a la función para editar el correo en la base de datos
-            $result = '';
+        case 'AgregarEntrada':
+            if (isset($_POST['fecha']) && isset($_POST['producto'])){
+                // Colocar los valores en las variables
+                $fecha = $_POST['fecha'];
+                $producto = $_POST['producto'];
+                $cajas = $_POST['caja'] ?? 0;
+                $kilosBrutos = $_POST['KilosBrutos'] ?? 0.0;
+                $piezasExtra = $_POST['piezasExtra'] ?? 0;
+                $destareAdd = $_POST['destareAdd'] ?? 0.0;
+                $observaciones = $_POST['observaciones'] ?? '-';
 
-            // Procesar el resultado
-            if (str_starts_with($result, "Operacion realizada")) {
-                $data = ["success" => $result];
+                // Llamar a la función para editar el correo en la base de datos
+                $result = AgregarEntrada($conn, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
             } else {
-                $data = ["error" => $result];
+                $data = ["error" => "Operacion fallida"];
+            }
+            
+            break;
+
+        case 'EditarEntrada':
+            if(isset($_POST['id']) && isset($_POST['fecha']) && isset($_POST['producto'])){
+                // Colocar los valores en las variables
+                $id_entrada = $_POST['id'];
+                $fecha = $_POST['fecha'];
+                $producto = $_POST['producto'];
+                $cajas = $_POST['caja'] ?? 0;
+                $kilosBrutos = $_POST['KilosBrutos'] ?? 0.0;
+                $piezasExtra = $_POST['piezasExtra'] ?? 0;
+                $destareAdd = $_POST['destareAdd'] ?? 0.0;
+                $observaciones = $_POST['observaciones'] ?? '-';
+
+                // Llamar a la función para editar el correo en la base de datos
+                $result = EditarEntrada($conn, $id_entrada, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
+            } else {
+                $data = ["error" => "Operacion fallida"];
+            }
+
+            break;
+
+        case 'LeerEntradas':
+            // colocar los valores de las variables
+            $filters = isset($_GET['filters']) ? json_decode($_GET['filters'], true) : [];
+
+            // Prosesar el resultado
+            try {
+                // Llamar a la función para editar el correo en la base de datos
+                $result = LeerEntradas($conn, $filters);
+
+                // Procesar el resultado
+                $data = $result;
+            } catch(Exception $e){
+                $data = ["error" => $e->getMessage()];
+            }
+
+            break;
+
+        case 'EliminarEntradas':
+            if (isset($_POST['id'])){
+                // Colocar los valores en variables
+                $id_entrada = $_POST['id'];
+
+                 // Llamar a la función para editar el correo en la base de datos
+                $result = EliminarEntrada($conn, $id_entrada);
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
+            } else{
+                $data = ["error" => "Operacion fallida"];
             }
 
             break;

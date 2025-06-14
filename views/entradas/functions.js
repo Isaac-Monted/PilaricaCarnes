@@ -21,14 +21,18 @@ const entradasElements = {
     observaciones: document.getElementById("Observaciones_entradas")
 };
 
+// declarar la lista que se va a llenar
+const Lista = document.getElementById("listaResultadosEntradas");
+
 // ========================== EVENTOS ==========================
-export function AgregarArticulo(){
+export async function AgregarArticulo(){
     if(!entradasElements.filtroFecha.value){
-        alert("No hay fecha");
+        alert("por favor seleccione una fecha");
     }else if(!entradasElements.producto.value){
-        alert("No hay producto");
+        alert("por favor seleccione un producto");
     } else{
         console.log("Agregar");
+        // promesa para enviar los datos al servidor y esperar la confirmacion
     }
 }
 
@@ -41,6 +45,9 @@ export function LimpiarArticulo(){
         casilla.value = "";
     });
 
+    Lista.innerHTML = ''; // Limpiar el contenido de la lista
+
+    //Calcular los campos calculados
     CalcularCamposCalculados();
 }
 
@@ -55,6 +62,24 @@ export function EliminarArticulo(){
 export async function SeleccionarProducto(Texto){
     const productosFiltrados = await BuscarProductoText(Texto);
     funciones.LlenarListaConDatos(productosFiltrados);
+}
+
+export function ColocarSeleccionEnCasillas(id_producto, nombre_producto){
+    console.log(id_producto, nombre_producto);
+    // colocar los datos en las casillas
+    entradasElements.id_producto.value = id_producto;
+    entradasElements.producto.value = nombre_producto;
+    Lista.innerHTML = ''; // Limpiar el contenido de la lista
+}
+
+export function focoCasilla(evento){
+    if(evento===true){
+        Lista.style.display = 'block'; // Asegurarse de que la lista esté oculta
+    }else if(evento === false){
+        Lista.style.display = 'none'; // Asegurarse de que la lista esté oculta
+    }else{
+        Lista.innerHTML = ''; // Limpiar el contenido de la lista
+    }
 }
 
 function Cargarpagina(){

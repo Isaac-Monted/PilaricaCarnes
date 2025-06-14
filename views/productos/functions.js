@@ -24,7 +24,8 @@ const productosElements = {
 // ========================== EVENTOS ==========================
 export async function AgregarProductos(){
     if(!productosElements.producto.value){
-        alert("No hay producto");
+        alert("por favor seleccione un producto");
+        return;
     }else{
         console.log("Agregar");
          // promesa para enviar los datos al servidor y esperar la coonfirmacion
@@ -74,9 +75,9 @@ export function LimpiarProductos(){
 }
 
 export async function EditarProductos(){
-
     if(!productosElements.producto.value){
-        alert("No hay producto");
+        alert("por favor seleccione un producto");
+        return;
     }else{
         console.log("Ediatr");
          // promesa para enviar los datos al servidor y esperar la coonfirmacion
@@ -118,7 +119,7 @@ export async function EliminarProductos(){
     // declarar la casilla con el id a eliminar
     const idCasilla = document.getElementById("id_productos");
     if(!idCasilla.value){
-        alert("Seleccione un producto para eliminar");
+        alert("por favor seleccione un producto");
         return;
     }
     let confirmar = confirm("Esta seguro de eliminar el producto");

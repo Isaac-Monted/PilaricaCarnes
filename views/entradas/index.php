@@ -71,7 +71,7 @@
                     <label for="nombre_entradas">Producto</label>
                     <input type="hidden" id="id_producto" name="id_producto">
                     <section class="filtroDeLista">
-                        <input type="text" id="nombre_entradas" name="nombre_entradas" class="campoBusqueda">
+                        <input type="search" id="nombre_entradas" name="nombre_entradas" class="campoBusqueda">
                         <ul id="listaResultadosEntradas" class="listaResultados"></ul>
                     </section>
                 </div>
@@ -133,20 +133,30 @@
     });
 
     // ========= CASILLAS =========
+    //casilla de seleccion de producto
     document.getElementById("nombre_entradas").addEventListener("input", function (){
         const Search = document.getElementById("nombre_entradas");
         funciones.SeleccionarProducto(Search.value);
     });
-
+    document.getElementById("nombre_entradas").addEventListener("focus", function () {
+        setTimeout(() => funciones.focoCasilla(true), 200);
+    });
+    document.getElementById("nombre_entradas").addEventListener("blur", function () {
+        setTimeout(() =>funciones.focoCasilla(false), 200);
+    });
+    // casilla de cajas
     document.getElementById("cajas_entradas").addEventListener("input", function(){
         funciones.CalcularCamposCalculados();
     });
+    // casilla de kilos brutos
     document.getElementById("kilosB_entradas").addEventListener("input", function(){
         funciones.CalcularCamposCalculados();
     });
+    // casilla de piezas extras
     document.getElementById("piezasE_entradas").addEventListener("input", function(){
         funciones.CalcularCamposCalculados();
     });
+    // casilla de destare adicional
     document.getElementById("destareA_entradas").addEventListener("input", function(){
         funciones.CalcularCamposCalculados();
     });

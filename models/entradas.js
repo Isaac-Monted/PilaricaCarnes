@@ -1,4 +1,4 @@
-
+import { ColocarSeleccionEnCasillas } from '../views/entradas/functions.js';
 export function ColocarProductosEnLista(products){
     // declarar la lista que se va a llenar
     const Lista = document.getElementById("productoF_entradas");
@@ -32,7 +32,9 @@ export function ColocarProductosEnLista(products){
 }
 
 export function LlenarListaConDatos(Datos){
-    console.log(Datos);
+    //console.log(Datos);
+    // declarar la casilla del filtro
+    const filtro = document.getElementById("nombre_entradas");
     // declarar la lista que se va a llenar
     const Lista = document.getElementById("listaResultadosEntradas");
     Lista.innerHTML = ''; // Limpiar el contenido de la lista
@@ -51,17 +53,21 @@ export function LlenarListaConDatos(Datos){
         Lista.appendChild(noProductlist); // Mostrar el mensaje de error en el DOM
         return;
     }
-    // Recorrer los productos y crear elementos para mostrarlos
-    Datos.forEach(Dato => {
-        const productList = document.createElement("li"); // Crear una fila para cada fila retornada
-        // Agregar contenido a la tarjeta del producto
-        productList.innerText = `${Dato.nombre_producto}`;
+    if (filtro.value != ""){
+        // Recorrer los productos y crear elementos para mostrarlos
+        Datos.forEach(Dato => {
+            const productList = document.createElement("li"); // Crear una fila para cada fila retornada
+            // Agregar contenido a la tarjeta del producto
+            productList.innerText = `${Dato.nombre_producto}`;
 
-        Lista.appendChild(productList);
+            Lista.appendChild(productList);
 
-        // Agregar un evento para cada una de las filas
-        productList.addEventListener('click', () => {
-            //ColocarDatosEnCasillas(product.id);
+            // Agregar un evento para cada una de las filas
+            productList.addEventListener('click', () => {
+                ColocarSeleccionEnCasillas(Dato.id, Dato.nombre_producto);
+            });
         });
-    });
+    } else{
+        document.getElementById("id_producto").value = ""
+    }
 }

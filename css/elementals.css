@@ -63,7 +63,11 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #004a99;
+}
+
+button:active {
+    background-color: #003b7a;
 }
 
 footer {

@@ -21,6 +21,9 @@
                         <option value="1"></option>
                     </select>
                 </div>
+                <div>
+                    <button id="filtrar_entradas" name="filtrar_entradas">🔎</button>
+                </div>
             </div>
         </div>
         <div>
@@ -116,20 +119,24 @@
 <script type="module">
     import * as funciones from './views/entradas/functions.js';
     // ========= BOTONES =========
+    document.getElementById("filtrar_entradas").addEventListener("click", function (){
+        funciones.AplicarFiltros();
+    });
+
     document.getElementById("agregar_entradas").addEventListener("click", function (){
-        funciones.AgregarArticulo();
+        funciones.AgregarEntrada();
     });
 
     document.getElementById("limpiar_entradas").addEventListener("click", function (){
-        funciones.LimpiarArticulo();
+        funciones.LimpiarEntradas();
     });
 
     document.getElementById("editar_entradas").addEventListener("click", function (){
-        funciones.EditarArticulo();
+        funciones.EditarEntrada();
     });
 
     document.getElementById("eliminar_entradas").addEventListener("click", function (){
-        funciones.EliminarArticulo();
+        funciones.EliminarEntrada();
     });
 
     // ========= CASILLAS =========

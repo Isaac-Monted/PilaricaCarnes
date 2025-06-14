@@ -25,7 +25,7 @@ const entradasElements = {
 const Lista = document.getElementById("listaResultadosEntradas");
 
 // ========================== EVENTOS ==========================
-export async function AgregarArticulo(){
+export async function AgregarEntrada(){
     if(!entradasElements.filtroFecha.value){
         alert("por favor seleccione una fecha");
     }else if(!entradasElements.producto.value){
@@ -33,10 +33,37 @@ export async function AgregarArticulo(){
     } else{
         console.log("Agregar");
         // promesa para enviar los datos al servidor y esperar la confirmacion
+        const responseData = await fetch(`/../carnes/api/entradas.php?action=AgregarEntrada`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                fecha: entradasElements.filtroFecha.value,
+                producto: entradasElements.id_producto.value,
+                cajas: entradasElements.cajas.value,
+                kilosBrutos: entradasElements.kilosBru.value,
+                piezasExtra: entradasElements.piezasExt.value,
+                destareAdd: entradasElements.destareAdd.value,
+                observaciones: entradasElements.observaciones.value
+            })
+        });
+        // Verifiacar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+        // mostra el mnensaje acorde a la respuesta del servidor
+        if(respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha agregado correctamente");
+            LimpiarEntradas();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se agrego la entrada");
+        }
     }
 }
 
-export function LimpiarArticulo(){
+export function LimpiarEntradas(){
     console.log("Limpiar");
 
     // limpiar cada una de las casillas
@@ -49,13 +76,15 @@ export function LimpiarArticulo(){
 
     //Calcular los campos calculados
     CalcularCamposCalculados();
+    // Actualizar la tabla
+    LlenartablaEntradas();
 }
 
-export function EditarArticulo(){
+export function EditarEntrada(){
     console.log("Editar");
 }
 
-export function EliminarArticulo(){
+export function EliminarEntrada(){
     console.log("Eliminar");
 }
 
@@ -82,6 +111,27 @@ export function focoCasilla(evento){
     }
 }
 
+export function AplicarFiltros(){
+    console.log("Filtrado");
+    // construir el objeto con filtros
+    const filters = {};
+
+    // Determinar que filtros estan activos para armar la consulta
+    if(entradasElements.filtroFecha.value){
+        console.log("Fecha");
+        filters["fecha_registro"] = entradasElements.filtroFecha.value;
+    }
+    if(entradasElements.filtroProductos.value){
+        console.log("Producto");
+        filters["nombre_producto"] = entradasElements.filtroProductos.value;
+    }
+    if(!entradasElements.filtroFecha.value && !entradasElements.filtroProductos.value){
+        console.log("Ninguno");
+        LlenartablaEntradas();
+        return;
+    }
+}
+
 function Cargarpagina(){
     LlenarFiltroProductos();
     LlenartablaEntradas();
@@ -102,8 +152,17 @@ async function LlenarFiltroProductos(){
     });
 }
 
-function LlenartablaEntradas(){
-
+async function LlenartablaEntradas(){
+    // Traer todos las entradas de la base de datos
+    await fetch(`/../carnes/api/entradas.php?action=LeerEntradas`)
+        .then(respuesta => respuesta.json()) // Esperar la respuesta como JSON
+        .then(data => {
+            console.log(data);
+            funciones.LlenarTabla(data);
+        })
+        .catch(error => {
+            console.error("Error al buscar entradas:", error);
+    });
 }
 
 export async function CalcularCamposCalculados(){
@@ -119,10 +178,11 @@ export async function CalcularCamposCalculados(){
         let piezasExtra = parseFloat(entradasElements.piezasExt.value) || 0;
         let destareAdicional = parseFloat(entradasElements.destareAdd.value) || 0;
         // Buscar cuantas piezas tiene cada caja de producto
-        const DataProd = await BuscarProductoId(entradasElements.id.value);
+        const DataProd = await BuscarProductoId(entradasElements.id_producto.value);
         let piezasCaja = 0;
-        if(!DataProd){
-            piezasCaja = DataProd.piezas_x_caja;
+        if(DataProd){
+            console.log(DataProd);
+            piezasCaja = DataProd[0].piezas_x_caja;
         }
 
         //console.log(piezasCaja);
@@ -136,7 +196,7 @@ export async function CalcularCamposCalculados(){
     }
 }
 
-async function BuscarProductoId(id_prod){
+export async function BuscarProductoId(id_prod){
     // Construir el objeto de filtros
     const filters = {
         id: id_prod,

@@ -8,6 +8,14 @@ require __DIR__ . '/../vendor/autoload.php';
 // Importar la coneccion al servidor
 require '../api/db.php';
 
+// Crear conexion
+$conn = Database::connect();
+
+// verificar si no hubo errores de conexion
+if ($conn->connect_error){
+    die("Conexion fallida: " . $conn->connect_error);
+}
+
 // ================================= FUNCIONES =================================
 function AgregarEntrada($conn, $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones) {
     if (empty($fecha) || empty($id_producto)){
@@ -17,7 +25,7 @@ function AgregarEntrada($conn, $fecha, $id_producto, $cajas, $kilos_brutos, $pie
     // Consulta SQL para insertar los datos en la base de datos
     $query = " INSERT IGNORE INTO Carnes_entradas (
     fecha_registro,
-    id_producto,
+    producto_id,
     cajas,
     kilos_brutos,
     piezas_extra,
@@ -26,7 +34,7 @@ function AgregarEntrada($conn, $fecha, $id_producto, $cajas, $kilos_brutos, $pie
     ";
 
     // Preparacion de la consulta
-    $stmt = $conn->preparate($query);
+    $stmt = $conn->prepare($query);
     if ($stmt === false){
         return "Error en la preparacion de la consulta: " . $conn->error;
     }
@@ -39,10 +47,10 @@ function AgregarEntrada($conn, $fecha, $id_producto, $cajas, $kilos_brutos, $pie
         if ($stmt->affected_rows > 0){
             return "Operacion realizada";
         } else {
-            return "error de escritura";
+            return "Error de escritura";
         }
     } else {
-        return "Error al agregar la entrada";
+        return "Error al agregar la entrada" . $stmt->error;
     }
 
     $stmt->close();
@@ -57,7 +65,7 @@ function EditarEntrada($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_
     // Consulta SQL para editar los datos en la base de datos
     $query = "UPDATE Carnes_entradas SET
         fecha_registro = ?,
-        id_producto = ?,
+        producto_id = ?,
         cajas = ?,
         kilos_brutos = ?,
         piezas_extra = ?,
@@ -67,7 +75,7 @@ function EditarEntrada($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_
     ";
 
     // preparacion de la consulta
-    $stmt = $conn->preparate($query);
+    $stmt = $conn->prepare($query);
     if ($stmt === false){
         return "Error en la preparacion de la consulta: " . $conn->error;
     }
@@ -90,7 +98,26 @@ function EditarEntrada($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_
 }
 
 function LeerEntradas($conn, $filters = []) {
-    $query = "SELECT * FROM Carnes_entradas";
+    $query = "
+        SELECT
+            Carnes_entradas.id,
+            Carnes_entradas.fecha_registro,
+            Carnes_productos.nombre_producto,
+            Carnes_entradas.producto_id,
+            Carnes_entradas.cajas,
+            Carnes_entradas.kilos_brutos,
+            Carnes_entradas.piezas_extra,
+            Carnes_entradas.destare_add,
+            Carnes_entradas.total_piezas,
+            Carnes_entradas.total_kilos,
+            Carnes_entradas.observaciones,
+            Carnes_entradas.fecha_modificacion,
+            Carnes_entradas.fecha_creacion
+            from Carnes_entradas
+        INNER JOIN
+            Carnes_productos
+            ON Carnes_entradas.producto_id = Carnes_productos.id
+    ";
     $Params = [];
     $types = [];
 
@@ -186,7 +213,7 @@ if (isset($_GET['action'])) {
                 // Colocar los valores en las variables
                 $fecha = $_POST['fecha'];
                 $producto = $_POST['producto'];
-                $cajas = $_POST['caja'] ?? 0;
+                $cajas = $_POST['cajas'] ?? 0;
                 $kilosBrutos = $_POST['KilosBrutos'] ?? 0.0;
                 $piezasExtra = $_POST['piezasExtra'] ?? 0;
                 $destareAdd = $_POST['destareAdd'] ?? 0.0;
@@ -213,8 +240,8 @@ if (isset($_GET['action'])) {
                 $id_entrada = $_POST['id'];
                 $fecha = $_POST['fecha'];
                 $producto = $_POST['producto'];
-                $cajas = $_POST['caja'] ?? 0;
-                $kilosBrutos = $_POST['KilosBrutos'] ?? 0.0;
+                $cajas = $_POST['cajas'] ?? 0;
+                $kilosBrutos = $_POST['kilosBrutos'] ?? 0.0;
                 $piezasExtra = $_POST['piezasExtra'] ?? 0;
                 $destareAdd = $_POST['destareAdd'] ?? 0.0;
                 $observaciones = $_POST['observaciones'] ?? '-';

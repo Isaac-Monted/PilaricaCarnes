@@ -3,7 +3,6 @@ import { ColocarDatosEnCasillas, LimpiarProductos } from '../views/productos/fun
 export function LlenarTabla(products){
     const Tabla = document.getElementById("contenedorTablaProductos");// El contenedor donde se mostrarán la tabla
     Tabla.innerHTML = ''; // Limpiar el contenedor para agregar la informacion
-    
 
     // Comprobar si hay un error en los datos (por ejemplo, "error" en la respuesta)
     if (products.error) {

@@ -57,7 +57,7 @@ export async function AgregarProductos(){
             LimpiarProductos();
         }else{
             console.error('Error:', respuesta.message);
-            alert("Opps! No se agrego el producto")
+            alert("Opps! No se agrego el producto");
         }
     }
 }

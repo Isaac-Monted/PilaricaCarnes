@@ -1,4 +1,71 @@
 import { ColocarSeleccionEnCasillas } from '../views/entradas/functions.js';
+
+export function LlenarTabla(products){
+    const Tabla = document.getElementById("contenedorTablaEntradas"); // El contenedor donde se mostrara la tabla
+    Tabla.innerHTML = '';
+
+    // Comprobar si hay un error en los datos (por ejemplo, "error" en la respuesta)
+    if (products.error){
+        const errorRow = document.createElement("tr"); // Crear la fila en blanco en caso de error
+        errorRow.innerHTML = `
+            <td style="display: none"> </td>
+            <td> </td>
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        `;
+        Tabla.appendChild(errorRow); // Mostar el mensaje de error en el DOM
+        return;
+    }
+
+    // si no hay productos, mostrar un mensaje adecuado
+    if (products.length === 0){
+        const noProductRow = document.createElement("tr"); // Crar la fila en blanco en caso de no haber productos
+        noProductRow.innerHTML =`
+            <td style="display: none"> </td>
+            <td> </td>
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        `;
+        Tabla.appendChild(noProductRow);
+        return;
+    }
+
+    // Recorer las entradas y crear elementos para mostrarlos
+    products.forEach(product => {
+        const entradasTable = document.createElement("tr"); // Crear una fila para cada fila retornada
+
+        // Agregar contenido a la targeta del producto
+        entradasTable.innerHTML = `
+            <td style="display: none">${product.id}</td>
+            <td>${product.nombre_producto}</td>
+            <td style="display: none">${product.producto_id}</td>
+            <td>${product.cajas}</td>
+            <td>${product.kilos_brutos}</td>
+            <td>${product.piezas_extra}</td>
+            <td>${product.destare_add}</td>
+            <td>${product.total_piezas}</td>
+            <td>${product.total_kilos}</td>
+        `;
+
+        Tabla.appendChild(entradasTable);
+
+        // Agregar un evento para cada una de las filas
+        entradasTable.addEventListener('click', () => {
+            console.log(product.id);
+        });
+    });
+}
+
 export function ColocarProductosEnLista(products){
     // declarar la lista que se va a llenar
     const Lista = document.getElementById("productoF_entradas");

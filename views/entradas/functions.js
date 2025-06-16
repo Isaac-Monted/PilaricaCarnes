@@ -1,3 +1,4 @@
+import * as globales from '../../js/global.js';
 import * as funciones from '../../models/entradas.js';
 // ========================== DOM ==========================
 window.addEventListener("DOMContentLoaded", function(){
@@ -317,7 +318,7 @@ export async function CalcularCamposCalculados(){
         let piezasExtra = parseFloat(entradasElements.piezasExt.value) || 0;
         let destareAdicional = parseFloat(entradasElements.destareAdd.value) || 0;
         // Buscar cuantas piezas tiene cada caja de producto
-        const DataProd = await BuscarProductoId(entradasElements.id_producto.value);
+        const DataProd = await globales.BuscarProductoId(entradasElements.id_producto.value);
         let piezasCaja = 0;
         if(DataProd && !DataProd.error){
             console.log(DataProd);
@@ -332,81 +333,5 @@ export async function CalcularCamposCalculados(){
         entradasElements.totalPz.value = TotalPiezas;
         entradasElements.totalKg.value = TotalKilos.toFixed(2);
 
-    }
-}
-
-export async function BuscarProductoId(id_prod){
-    // Construir el objeto de filtros
-    const filters = {
-        id: id_prod,
-    };
-
-    // Crear un objeto URLSearchParams y añadir los filtros
-    const params = new URLSearchParams();
-    params.append('action', 'LeerProductos'); // Siempre añadir la acción
-
-
-    // COMIENZO DEL CAMBIO CLAVE: Codificar el objeto filters a JSON
-    params.append('filters', JSON.stringify(filters)); // <-- Envía todo el objeto filters como una cadena JSON
-
-    // Construir la URL completa usando template literals y params.toString()
-    const url = `/../carnes/api/Productos.php?${params.toString()}`;
-    //                                         ^ Solo un '?' aquí
-
-    // Realizar la solicitud fetch
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            // Lanzar un error si el estado HTTP no fue exitoso
-            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
-        }
-
-        const data = await response.json(); // Esperar a que el JSON se parseé
-
-        //console.log(data);
-        return data;
-
-    } catch (error) {
-        console.error("Error al buscar productos:", error);
-        // Podrías retornar un array vacío o null aquí si hay un error
-        return [];
-    }
-}
-
-async function BuscarProductoText(Product_text){
-    // Construir el objeto de filtros
-    const filters = {
-        nombre_producto_buscar: Product_text,
-    };
-
-    // Crear un objeto URLSearchParams y añadir los filtros
-    const params = new URLSearchParams();
-    params.append('action', 'LeerProductos'); // Siempre añadir la acción
-
-    // COMIENZO DEL CAMBIO CLAVE: Codificar el objeto filters a JSON
-        params.append('filters', JSON.stringify(filters)); // <-- Envía todo el objeto filters como una cadena JSON
-    
-    // Construir la URL completa usando template literals y params.toString()
-    const url = `/../carnes/api/Productos.php?${params.toString()}`;
-    //                                         ^ Solo un '?' aquí
-
-    // Realizar la solicitud fetch
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            // Lanzar un error si el estado HTTP no fue exitoso
-            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
-        }
-
-        const data = await response.json(); // Esperar a que el JSON se parseé
-
-        return data;
-
-    } catch (error) {
-        console.error("Error al buscar productos:", error);
-        // Podrías retornar un array vacío o null aquí si hay un error
-        return [];
     }
 }

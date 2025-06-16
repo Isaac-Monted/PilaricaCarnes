@@ -16,10 +16,19 @@
                     <input type="date" id="fechaF_cambios" name="fechaF_cambios">
                 </div>
                 <div>
-                    <label for="productoF_cambios">Producto:</label>
-                    <select id="productoF_cambios" name="productoF_cambios">
-                        <option value="opcion1">Opción 1</option>
+                    <label for="producto_OF_cambios">Producto Origen:</label>
+                    <select id="producto_OF_cambios" name="producto_OF_cambios">
+                        <option value="1"></option>
                     </select>
+                </div>
+                <div>
+                    <label for="producto_DF_cambios">Producto Destino:</label>
+                    <select id="producto_DF_cambios" name="producto_DF_cambios">
+                        <option value="1"></option>
+                    </select>
+                </div>
+                <div>
+                    <button id="filtrar_cambios" name="filtrar_cambios">🔎</button>
                 </div>
             </div>
         </div>
@@ -89,14 +98,20 @@
                 <input type="hidden" id="id_cambios" name="id_cambios">
                 <div>
                     <div>
-                        <label for="nombre_cambios">Producto Origen</label>
-                        <input type="text" id="nombre_cambios" name="nombre_cambios">
-                        <input type="hidden" id="id_producto" name="id_producto">
+                        <label for="id_producto_origen_cambios">Producto Origen</label>
+                        <input type="hidden" id="id_producto_origen_cambios" name="id_producto_origen_cambios">
+                        <section class="filtroDeListaOrigen">
+                            <input type="search" id="nombre_origen_cambios" name="nombre_origen_cambios" class="campoBusqueda">
+                            <ul id="listaResultadosOrigenCambios" class="listaResultados"></ul>
+                        </section>
                     </div>
                     <div>
-                        <label for="nombre_cambios">Producto Destino</label>
-                        <input type="text" id="nombre_cambios" name="nombre_cambios">
-                        <input type="hidden" id="id_producto" name="id_producto">
+                        <label for="id_producto_destino_cambios">Producto Destino</label>
+                        <input type="hidden" id="id_producto_destino_cambios" name="id_producto_destino_cambios">
+                        <section class="filtroDeListaDestino">
+                            <input type="search" id="nombre_destino_cambios" name="nombre_destino_cambios" class="campoBusqueda">
+                            <ul id="listaResultadosDestinoCambios" class="listaResultados"></ul>
+                        </section>
                     </div>
                 </div>
                 <div>
@@ -167,20 +182,25 @@
 
 <script type="module">
     import * as funciones from './views/cambios/functions.js';
+    // ========= BOTONES =========
+    document.getElementById("filtrar_cambios").addEventListener("click", function (){
+        funciones.AplicarFiltros();
+    });
+
     document.getElementById("agregar_cambios").addEventListener("click", function (){
-        funciones.AgregarArticulo();
+        funciones.AgregarCambio();
     });
 
     document.getElementById("limpiar_cambios").addEventListener("click", function (){
-        funciones.LimpiarArticulo();
+        funciones.LimpiarCambios();
     });
 
     document.getElementById("editar_cambios").addEventListener("click", function (){
-        funciones.EditarArticulo();
+        funciones.EditarCambio();
     });
 
     document.getElementById("eliminar_cambios").addEventListener("click", function (){
-        funciones.EliminarArticulo();
+        funciones.EliminarCambio();
     });
 
 

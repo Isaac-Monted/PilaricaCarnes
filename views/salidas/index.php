@@ -71,7 +71,7 @@
             <div>
                 <input type="hidden" id="id_salidas" name="id_salidas">
                 <div>
-                    <label for="nombre_salidas">Producto</label>
+                    <label for="id_producto_salidas">Producto</label>
                     <input type="hidden" id="id_producto_salidas" name="id_producto_salidas">
                     <section class="filtroDeLista">
                         <input type="search" id="nombre_salidas" name="nombre_salidas" class="campoBusqueda">

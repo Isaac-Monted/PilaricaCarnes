@@ -72,7 +72,7 @@
                 <input type="hidden" id="id_entradas" name="id_entradas">
                 <div>
                     <label for="nombre_entradas">Producto</label>
-                    <input type="hidden" id="id_producto" name="id_producto">
+                    <input type="hidden" id="id_producto_entradas" name="id_producto_entradas">
                     <section class="filtroDeLista">
                         <input type="search" id="nombre_entradas" name="nombre_entradas" class="campoBusqueda">
                         <ul id="listaResultadosEntradas" class="listaResultados"></ul>

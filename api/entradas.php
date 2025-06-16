@@ -54,7 +54,6 @@ function AgregarEntrada($conn, $fecha, $id_producto, $cajas, $kilos_brutos, $pie
     }
 
     $stmt->close();
-    
 }
 
 function EditarEntrada($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones) {
@@ -131,7 +130,11 @@ function LeerEntradas($conn, $filters = []) {
                 $Params[] = "%" . $value . "%"; // añadir los comodines aqui
                 $types[] = "s";
             } else {
-                $conditions[] = "Carnes_entradas.$field = ?";
+                if($field === "nombre_producto"){
+                    $conditions[] = "Carnes_productos.$field = ?";
+                }else{
+                    $conditions[] = "Carnes_entradas.$field = ?";
+                }
                 $Params[] = $value;
 
                 // determinar tipo para bind_param
@@ -172,7 +175,7 @@ function LeerEntradas($conn, $filters = []) {
 function EliminarEntrada($conn, $id_entrada) {
     // Verificar que $id_entrada es un numero valido
     if (!is_numeric($id_entrada)){
-        return "Error al eliminar el producto";
+        return "Error al eliminar la entrada";
     }
 
     // Preparar la consulta SQL para eliminar el producto
@@ -219,7 +222,7 @@ if (isset($_GET['action'])) {
                 $destareAdd = $_POST['destareAdd'] ?? 0.0;
                 $observaciones = $_POST['observaciones'] ?? '-';
 
-                // Llamar a la función para editar el correo en la base de datos
+                // Llamar a la función para agregar la entrada en la base de datos
                 $result = AgregarEntrada($conn, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);
 
                 // Procesar el resultado
@@ -246,7 +249,7 @@ if (isset($_GET['action'])) {
                 $destareAdd = $_POST['destareAdd'] ?? 0.0;
                 $observaciones = $_POST['observaciones'] ?? '-';
 
-                // Llamar a la función para editar el correo en la base de datos
+                // Llamar a la función para editar la entrada en la base de datos
                 $result = EditarEntrada($conn, $id_entrada, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);
 
                 // Procesar el resultado
@@ -267,13 +270,13 @@ if (isset($_GET['action'])) {
 
             // Prosesar el resultado
             try {
-                // Llamar a la función para editar el correo en la base de datos
+                // Llamar a la función para leer las entradas en la base de datos
                 $result = LeerEntradas($conn, $filters);
 
                 // Procesar el resultado
                 $data = $result;
             } catch(Exception $e){
-                $data = ["error" => $e->getMessage()];
+                $data = ["error" => "Operacion fallida"];
             }
 
             break;
@@ -283,7 +286,7 @@ if (isset($_GET['action'])) {
                 // Colocar los valores en variables
                 $id_entrada = $_POST['id'];
 
-                 // Llamar a la función para editar el correo en la base de datos
+                 // Llamar a la función para eliminar la entrada  en la base de datos
                 $result = EliminarEntrada($conn, $id_entrada);
 
                 // Procesar el resultado

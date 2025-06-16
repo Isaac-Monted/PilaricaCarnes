@@ -38,13 +38,13 @@ CREATE TRIGGER trg_entrada_before_insert
 BEFORE INSERT ON Carnes_entradas
 FOR EACH ROW
 BEGIN
-    DECLARE piezas_x_caja INT DEFAULT 0;
+    DECLARE piezas INT DEFAULT 0;
 
-    SELECT piezas_x_caja INTO piezas_x_caja
+    SELECT piezas_x_caja INTO piezas
     FROM Carnes_productos
     WHERE id = NEW.producto_id;
 
-    SET NEW.total_piezas = (piezas_x_caja * NEW.cajas + NEW.piezas_extra);
+    SET NEW.total_piezas = (piezas * NEW.cajas + NEW.piezas_extra);
     SET NEW.total_kilos = (NEW.kilos_brutos - (NEW.cajas * 2.4) - NEW.destare_add);
 END$$
 
@@ -52,13 +52,13 @@ CREATE TRIGGER trg_entrada_before_update
 BEFORE UPDATE ON Carnes_entradas
 FOR EACH ROW
 BEGIN
-    DECLARE piezas_x_caja INT DEFAULT 0;
+    DECLARE piezas INT DEFAULT 0;
 
-    SELECT piezas_x_caja INTO piezas_x_caja
+    SELECT piezas_x_caja INTO piezas
     FROM Carnes_productos
     WHERE id = NEW.producto_id;
 
-    SET NEW.total_piezas = (piezas_x_caja * NEW.cajas + NEW.piezas_extra);
+    SET NEW.total_piezas = (piezas * NEW.cajas + NEW.piezas_extra);
     SET NEW.total_kilos = (NEW.kilos_brutos - (NEW.cajas * 2.4) - NEW.destare_add);
 END$$
 
@@ -86,13 +86,13 @@ CREATE TRIGGER trg_salida_before_insert
 BEFORE INSERT ON Carnes_salidas
 FOR EACH ROW
 BEGIN
-    DECLARE piezas_x_caja INT DEFAULT 0;
+    DECLARE piezas INT DEFAULT 0;
 
-    SELECT piezas_x_caja INTO piezas_x_caja
+    SELECT piezas_x_caja INTO piezas
     FROM Carnes_productos
     WHERE id = NEW.producto_id;
 
-    SET NEW.total_piezas = (piezas_x_caja * NEW.cajas + NEW.piezas_extra);
+    SET NEW.total_piezas = (piezas * NEW.cajas + NEW.piezas_extra);
     SET NEW.total_kilos = (NEW.kilos_brutos - (NEW.cajas * 2.4) - NEW.destare_add);
 END$$
 
@@ -100,13 +100,13 @@ CREATE TRIGGER trg_salida_before_update
 BEFORE UPDATE ON Carnes_salidas
 FOR EACH ROW
 BEGIN
-    DECLARE piezas_x_caja INT DEFAULT 0;
+    DECLARE piezas INT DEFAULT 0;
 
-    SELECT piezas_x_caja INTO piezas_x_caja
+    SELECT piezas_x_caja INTO piezas
     FROM Carnes_productos
     WHERE id = NEW.producto_id;
 
-    SET NEW.total_piezas = (piezas_x_caja * NEW.cajas + NEW.piezas_extra);
+    SET NEW.total_piezas = (piezas * NEW.cajas + NEW.piezas_extra);
     SET NEW.total_kilos = (NEW.kilos_brutos - (NEW.cajas * 2.4) - NEW.destare_add);
 END$$
 

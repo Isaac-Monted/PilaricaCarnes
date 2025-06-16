@@ -22,15 +22,79 @@ if (isset($_GET['action'])) {
 
     // Dependiendo de la acción solicitada, ejecutar la función correspondiente
     switch ($action) {
-        case 'main':
-            // Llamar a la función para editar el correo en la base de datos
-            $result = '';
+        case 'AgregarSalida':
+            if (isset($_POST[''])){
+                // Colocar los valores en las variables
 
-            // Procesar el resultado
-            if (str_starts_with($result, "Operacion realizada")) {
-                $data = ["success" => $result];
+                 // Llamar a la función para agregar la salida en la base de datos
+                $result = '';
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
             } else {
-                $data = ["error" => $result];
+                $data = ["error" => "operacion fallida"];
+            }
+
+            break;
+
+        case 'EditarSalida':
+            if (isset($_POST[''])){
+                // Colocar los valores en las variables
+
+                 // Llamar a la función para agregar la salida en la base de datos
+                $result = '';
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
+            } else {
+                $data = ["error" => "operacion fallida"];
+            }
+
+            break;
+
+        case 'LeerSalidas':
+            if (isset($_POST[''])){
+                // Colocar los valores en las variables
+
+                // Procesar el resultado
+                try {
+                    // Llamar a la función para agregar la salida en la base de datos
+                    $result = '';
+
+                    // Procesar el resultado
+                $data = $result;
+                } catch(Exception $e){
+                    $data = ["error" => $e->getMessage()];
+                }
+            } else {
+                $data = ["error" => "operacion fallida"];
+            }
+
+            break;
+
+        case 'EliminarSalida':
+            if (isset($_POST[''])){
+                // Colocar los valores en las variables
+
+                 // Llamar a la función para agregar la salida en la base de datos
+                $result = '';
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
+            } else {
+                $data = ["error" => "operacion fallida"];
             }
 
             break;

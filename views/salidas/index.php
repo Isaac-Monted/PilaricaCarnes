@@ -18,8 +18,11 @@
                 <div>
                     <label for="productoF_salidas">Producto:</label>
                     <select id="productoF_salidas" name="productoF_salidas">
-                        <option value="opcion1">Opción 1</option>
+                        <option value="1"></option>
                     </select>
+                </div>
+                <div>
+                    <button id="filtrar_salidas" name="filtrar_salidas">🔎</button>
                 </div>
             </div>
         </div>
@@ -40,7 +43,7 @@
                             <th>Total Kilos</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="contenedorTablaSalidas">
                         <tr>
                             <td style="display: none"> </td>
                             <td> </td>
@@ -69,8 +72,11 @@
                 <input type="hidden" id="id_salidas" name="id_salidas">
                 <div>
                     <label for="nombre_salidas">Producto</label>
-                    <input type="text" id="nombre_salidas" name="nombre_salidas">
-                    <input type="hidden" id="id_producto" name="id_producto">
+                    <input type="hidden" id="id_producto_salidas" name="id_producto_salidas">
+                    <section class="filtroDeLista">
+                        <input type="search" id="nombre_salidas" name="nombre_salidas" class="campoBusqueda">
+                        <ul id="listaResultadosSalidas" class="listaResultados"></ul>
+                    </section>
                 </div>
                 <div>
                     <div>
@@ -112,19 +118,53 @@
 
 <script type="module">
     import * as funciones from './views/salidas/functions.js';
+    // ========= BOTONES =========
+    document.getElementById("filtrar_salidas").addEventListener("click", function (){
+        funciones.AplicarFiltros();
+    });
+    
     document.getElementById("agregar_salidas").addEventListener("click", function (){
-        funciones.AgregarArticulo();
+        funciones.AgregarSalida();
     });
 
     document.getElementById("limpiar_salidas").addEventListener("click", function (){
-        funciones.LimpiarArticulo();
+        funciones.LimpiarSalidas();
     });
 
     document.getElementById("editar_salidas").addEventListener("click", function (){
-        funciones.EditarArticulo();
+        funciones.EditarSalida();
     });
 
     document.getElementById("eliminar_salidas").addEventListener("click", function (){
-        funciones.EliminarArticulo();
+        funciones.EliminarSalida();
+    });
+
+    // ========= CASILLAS =========
+    //casilla de seleccion de producto
+    document.getElementById("nombre_salidas").addEventListener("input", function (){
+        const Search = document.getElementById("nombre_salidas");
+        funciones.SeleccionarProducto(Search.value);
+    });
+    document.getElementById("nombre_salidas").addEventListener("focus", function () {
+        setTimeout(() => funciones.focoCasilla(true), 200);
+    });
+    document.getElementById("nombre_salidas").addEventListener("blur", function () {
+        setTimeout(() =>funciones.focoCasilla(false), 200);
+    });
+    // casilla de cajas
+    document.getElementById("cajas_salidas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
+    });
+    // casilla de kilos brutos
+    document.getElementById("kilosB_salidas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
+    });
+    // casilla de piezas extras
+    document.getElementById("piezasE_salidas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
+    });
+    // casilla de destare adicional
+    document.getElementById("destareA_salidas").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados();
     });
 </script>

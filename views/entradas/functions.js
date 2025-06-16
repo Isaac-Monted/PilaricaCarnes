@@ -11,7 +11,7 @@ const entradasElements = {
     filtroProductos: document.getElementById("productoF_entradas"),
     id: document.getElementById("id_entradas"),
     producto: document.getElementById("nombre_entradas"),
-    id_producto: document.getElementById("id_producto"),
+    id_producto: document.getElementById("id_producto_entradas"),
     cajas: document.getElementById("cajas_entradas"),
     kilosBru: document.getElementById("kilosB_entradas"),
     piezasExt: document.getElementById("piezasE_entradas"),
@@ -319,7 +319,7 @@ export async function CalcularCamposCalculados(){
         // Buscar cuantas piezas tiene cada caja de producto
         const DataProd = await BuscarProductoId(entradasElements.id_producto.value);
         let piezasCaja = 0;
-        if(DataProd){
+        if(DataProd && !DataProd.error){
             console.log(DataProd);
             piezasCaja = DataProd[0].piezas_x_caja;
         }

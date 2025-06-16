@@ -208,7 +208,7 @@ if (isset($_GET['action'])) {
                 $kgIniciales = $_POST['kilosIniciales'] ?? 0.0;
                 $estado = $_POST['estado'] ?? 'Activo';
 
-                // Llamar a la función para editar el producto en la base de datos
+                // Llamar a la función para agregar el producto en la base de datos
                 $result = AgregarProducto($conn, $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado);
 
                 // Procesar el resultado
@@ -238,7 +238,7 @@ if (isset($_GET['action'])) {
                 $kgIniciales = $_POST['kilosIniciales'] ?? 0.0;
                 $estado = $_POST['estado'] ?? 'Activo';
             
-                // Llamar a la función para editar el correo en la base de datos
+                // Llamar a la función para editar el producto en la base de datos
                 $result = EditarProducto($conn, $id_producto, $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado);
 
                 // Procesar el resultado
@@ -259,7 +259,7 @@ if (isset($_GET['action'])) {
 
             // Procesar el resultado
             try {
-                // Llamar a la función para editar el correo en la base de datos
+                // Llamar a la función para leer los productos en la base de datos
                 $result = leerProductos($conn, $filters);
                 $data = $result;
             } catch (Exception $e) {
@@ -273,7 +273,7 @@ if (isset($_GET['action'])) {
                 // Colocar los valores en variables
                 $id_producto = $_POST['id'];
 
-                // Llamar a la función para editar el correo en la base de datos
+                // Llamar a la función para eliminar el producto en la base de datos
                 $result = EliminarProducto($conn, $id_producto);
 
                 // Procesar el resultado

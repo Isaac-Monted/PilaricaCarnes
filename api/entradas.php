@@ -81,12 +81,12 @@ function EditarEntrada($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_
     }
 
     // Vinculamos los parametros
-    $stmt->bind_param("siididsi", $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones);
+    $stmt->bind_param("siididsi", $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones, $id_entrada);
 
     //ejecutamos la consulta
     if ($stmt->execute()){
         if ($stmt->affected_rows > 0){
-            return "operacion realizada";
+            return "Operacion realizada";
         } else {
             return "error de escritura";
         }
@@ -214,7 +214,7 @@ if (isset($_GET['action'])) {
                 $fecha = $_POST['fecha'];
                 $producto = $_POST['producto'];
                 $cajas = $_POST['cajas'] ?? 0;
-                $kilosBrutos = $_POST['KilosBrutos'] ?? 0.0;
+                $kilosBrutos = $_POST['kilosBrutos'] ?? 0.0;
                 $piezasExtra = $_POST['piezasExtra'] ?? 0;
                 $destareAdd = $_POST['destareAdd'] ?? 0.0;
                 $observaciones = $_POST['observaciones'] ?? '-';

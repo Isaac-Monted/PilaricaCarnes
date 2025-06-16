@@ -75,12 +75,12 @@ export function LimpiarProductos(){
 }
 
 export async function EditarProductos(){
-    if(!productosElements.producto.value){
+    if(!productosElements.producto.value || !productosElements.id.value){
         alert("por favor seleccione un producto");
         return;
     }else{
-        console.log("Ediatr");
-         // promesa para enviar los datos al servidor y esperar la coonfirmacion
+        console.log("Editar");
+         // promesa para enviar los datos al servidor y esperar la confirmacion
         const responseData = await fetch(`/../carnes/api/Productos.php?action=EditarProducto`, {
             method: 'POST',
             headers: {
@@ -110,7 +110,7 @@ export async function EditarProductos(){
             LimpiarProductos();
         }else{
             console.error('Error:', respuesta.message);
-            alert("Opps! No se editado el producto")
+            alert("Opps! No se a editado el producto");
         }
     }
 }

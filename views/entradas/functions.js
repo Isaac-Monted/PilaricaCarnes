@@ -28,8 +28,10 @@ const Lista = document.getElementById("listaResultadosEntradas");
 export async function AgregarEntrada(){
     if(!entradasElements.filtroFecha.value){
         alert("por favor seleccione una fecha");
+        return;
     }else if(!entradasElements.producto.value){
         alert("por favor seleccione un producto");
+        return;
     } else{
         console.log("Agregar");
         // promesa para enviar los datos al servidor y esperar la confirmacion
@@ -80,12 +82,82 @@ export function LimpiarEntradas(){
     LlenartablaEntradas();
 }
 
-export function EditarEntrada(){
-    console.log("Editar");
+export async function EditarEntrada(){
+    if(!entradasElements.filtroFecha.value){
+        alert("por favor seleccione una fecha");
+        return;
+    }else if(!entradasElements.producto.value || !entradasElements.id.value){
+        alert("por favor seleccione un registro");
+        return;
+    } else {
+        console.log("Editar");
+        // Promesa para enviar los datos al servidor y esperar ñas confirmacion
+        const responseData = await fetch(`/../carnes/api/entradas.php?action=EditarEntrada`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id: entradasElements.id.value,
+                fecha: entradasElements.filtroFecha.value,
+                producto: entradasElements.id_producto.value,
+                cajas: entradasElements.cajas.value,
+                kilosBrutos: entradasElements.kilosBru.value,
+                piezasExtra: entradasElements.piezasExt.value,
+                destareAdd: entradasElements.destareAdd.value,
+                observaciones: entradasElements.observaciones.value
+            })
+        });
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+        // mostar el mensaje acorde a la respuesta del servidor
+        if(respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha editado correctamente");
+            LimpiarEntradas();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se a editado la entrada");
+        }
+    }
 }
 
-export function EliminarEntrada(){
-    console.log("Eliminar");
+export async function EliminarEntrada(){
+    // declarar la casilla con el id a eliminar
+    const idCasilla = entradasElements.id;
+    if(!idCasilla.value){
+        alert("por favor seleccione un producto");
+        return;
+    }
+    let confirmar = confirm("Esta seguro de eliminar la entrada");
+
+    if(confirmar){
+        console.log("Eliminar");
+        // promesa para enviar los datos al servidor y esperar la coonfirmacion
+        const responseData = await fetch('/../carnes/api/entradas.php?action=EliminarEntradas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id: idCasilla.value
+            })
+        });
+
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+        // mostrar el mensaje acorde a la respuesta del servidor
+        if (respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha eliminado correctamentre");
+            LimpiarEntradas();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se eliminado la entrada")
+        }
+    }
 }
 
 export async function SeleccionarProducto(Texto){

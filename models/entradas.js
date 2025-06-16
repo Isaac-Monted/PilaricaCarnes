@@ -140,19 +140,23 @@ export function LlenarListaConDatos(Datos){
 }
 
 export function ColocarDatosFormulario(Datos, entradasElements){
-    
+    // conmprobar si hay un error en los datos (por ejemplo "error" en la respueta)
     if (Datos.error){
         LimpiarEntradas();
         return;
     }
+    // si no hay entradas limpiar las casillas del formulario
     if (Datos.length === 0){
         LimpiarEntradas();
         return;
     }
-
+    // recorrer todos los elementos y llenar las casillas
     Datos.forEach(dato => {
         console.log(Datos);
+        const fecha = new Date(dato.fecha_registro);
+
         entradasElements.id.value = dato.id
+        entradasElements.filtroFecha.value =  fecha.toISOString().split("T")[0]
         entradasElements.producto.value = dato.nombre_producto
         entradasElements.id_producto.value = dato.producto_id
         entradasElements.cajas.value = dato.cajas

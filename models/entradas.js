@@ -1,4 +1,4 @@
-import { ColocarSeleccionEnCasillas } from '../views/entradas/functions.js';
+import { ColocarSeleccionEnCasillas, LimpiarEntradas, LlenarCasillaConDatos } from '../views/entradas/functions.js';
 
 export function LlenarTabla(products){
     const Tabla = document.getElementById("contenedorTablaEntradas"); // El contenedor donde se mostrara la tabla
@@ -61,7 +61,7 @@ export function LlenarTabla(products){
 
         // Agregar un evento para cada una de las filas
         entradasTable.addEventListener('click', () => {
-            console.log(product.id);
+            LlenarCasillaConDatos(product.id);
         });
     });
 }
@@ -137,4 +137,30 @@ export function LlenarListaConDatos(Datos){
     } else{
         document.getElementById("id_producto").value = ""
     }
+}
+
+export function ColocarDatosFormulario(Datos, entradasElements){
+    
+    if (Datos.error){
+        LimpiarEntradas();
+        return;
+    }
+    if (Datos.length === 0){
+        LimpiarEntradas();
+        return;
+    }
+
+    Datos.forEach(dato => {
+        console.log(Datos);
+        entradasElements.id.value = dato.id
+        entradasElements.producto.value = dato.nombre_producto
+        entradasElements.id_producto.value = dato.producto_id
+        entradasElements.cajas.value = dato.cajas
+        entradasElements.kilosBru.value = dato.kilos_brutos
+        entradasElements.piezasExt.value = dato.piezas_extra
+        entradasElements.destareAdd.value = dato.destare_add
+        entradasElements.totalPz.value = dato.total_piezas
+        entradasElements.totalKg.value = dato.total_kilos
+        entradasElements.observaciones.value = dato.observaciones
+    });
 }

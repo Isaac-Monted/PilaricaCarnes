@@ -111,7 +111,7 @@ export function focoCasilla(evento){
     }
 }
 
-export function AplicarFiltros(){
+export async function AplicarFiltros(){
     console.log("Filtrado");
     // construir el objeto con filtros
     const filters = {};
@@ -123,12 +123,79 @@ export function AplicarFiltros(){
     }
     if(entradasElements.filtroProductos.value){
         console.log("Producto");
-        filters["nombre_producto"] = entradasElements.filtroProductos.value;
+        filters["producto_id"] = entradasElements.filtroProductos.value;
     }
     if(!entradasElements.filtroFecha.value && !entradasElements.filtroProductos.value){
         console.log("Ninguno");
         LlenartablaEntradas();
         return;
+    }
+
+    // Crear un objeto URLSearchParams y añadir los filtros
+    const params = new URLSearchParams();
+    params.append('action', 'LeerEntradas'); // siempre añadir la accion
+
+    // Codificar el objeto filters a JSON
+    params.append('filters', JSON.stringify(filters)); // <-- Enviar todo el objeto filters como una cadena JSON
+
+    // Construir la URL Completa usando template literals y params.toString()
+    const url = `/../carnes/api/entradas.php?${params.toString()}`;
+
+    // Realizar la solicitud Ajax
+    try{
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            // Lanzar un error si el estado HTTP no fue exitoso
+            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json(); // Esperar a que el JSON se parseé
+
+        console.log(data);
+        funciones.LlenarTabla(data);
+
+    } catch (error) {
+        console.error("Error al buscar entradas:", error);
+        // Podras retornar un array vacio o null aqui si hay un error
+        return [];
+    }
+}
+
+export async function LlenarCasillaConDatos(id_entradas){
+    // construir el objeto de filtros
+    const filters = {
+        id: id_entradas,
+    };
+
+    // Crear un objeto URLSearchParams y añadir los filtros
+    const params = new URLSearchParams();
+    params.append('action', 'LeerEntradas'); // Siempre añadir la accion
+
+    // Codificar eñ objeto filters a JSON
+    params.append('filters', JSON.stringify(filters)); // <-- Enviar todo el objeto filters como una cadena JSON
+
+    // Construir la URL completa usando template literals y params.toString()
+    const url = `/../carnes/api/entradas.php?${params.toString()}`;
+
+    // Realizar la solicitud Ajax
+    try{
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            // Lanzar un error si el estado HTTP no fue exitoso
+            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json(); // Esperar a que el JSON se parseé
+
+        //console.log(data);
+        funciones.ColocarDatosFormulario(data, entradasElements);
+
+    } catch (error) {
+        console.error("Error al buscar productos:", error);
+        // Podras retornar un array vacío o null aquí si hay un error
+        return [];
     }
 }
 

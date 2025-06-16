@@ -192,7 +192,7 @@ export async function FitroBuscarProducto(texto){
 
     } catch (error) {
         console.error("Error al buscar productos:", error);
-        // Podrías retornar un array vacío o null aquí si hay un error
+        // Podras retornar un array vacío o null aquí si hay un error
         return [];
     }
 }
@@ -247,7 +247,7 @@ export async function ColocarDatosEnCasillas(id_prod){
 
     } catch (error) {
         console.error("Error al buscar productos:", error);
-        // Podrías retornar un array vacío o null aquí si hay un error
+        // Podras retornar un array vacío o null aquí si hay un error
         return [];
     }
 }

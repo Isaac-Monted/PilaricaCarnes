@@ -131,7 +131,7 @@ function LeerEntradas($conn, $filters = []) {
                 $Params[] = "%" . $value . "%"; // añadir los comodines aqui
                 $types[] = "s";
             } else {
-                $conditions[] = "$field = ?";
+                $conditions[] = "Carnes_entradas.$field = ?";
                 $Params[] = $value;
 
                 // determinar tipo para bind_param

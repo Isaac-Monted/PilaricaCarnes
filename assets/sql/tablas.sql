@@ -18,6 +18,7 @@ create table if not exists Carnes_productos(
 
 create table if not exists Carnes_entradas(
 	id INT PRIMARY KEY AUTO_INCREMENT,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     producto_id INT NOT NULL,
     cajas INT DEFAULT 0,
     kilos_brutos DECIMAL(10,2) DEFAULT 0.0,
@@ -66,6 +67,7 @@ DELIMITER ;
 
 create table if not exists Carnes_salidas(
 	id INT PRIMARY KEY AUTO_INCREMENT,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     producto_id INT NOT NULL,
     cajas INT DEFAULT 0,
     kilos_brutos DECIMAL(10,2) DEFAULT 0.0,
@@ -114,6 +116,7 @@ DELIMITER ;
 
 create table if not exists Carnes_cambios(
 	id INT PRIMARY KEY AUTO_INCREMENT,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     producto_origen_id INT NOT NULL,
     producto_destino_id INT NOT NULL,
     cajas_origen INT DEFAULT 0,

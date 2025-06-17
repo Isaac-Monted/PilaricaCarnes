@@ -1,3 +1,4 @@
+import * as globales from '../../js/global.js';
 import * as funciones from '../../models/cambios.js';
 // ========================== DOM ==========================
 window.addEventListener("DOMContentLoaded", function(){
@@ -31,6 +32,7 @@ const cambiosElements = {
 };
 
 const ListaOrigen = {
+    id_producto: cambiosElements.id_producto_Origen,
     cajas: cambiosElements.cajas_Origen,
     kilosBru: cambiosElements.kilosBru_Origen,
     piezasExt: cambiosElements.piezasExt_Origen,
@@ -40,6 +42,7 @@ const ListaOrigen = {
 }
 
 const ListaDestino = {
+    id_producto: cambiosElements.id_producto_Destino,
     cajas: cambiosElements.cajas_Destino,
     kilosBru: cambiosElements.kilosBru_Destino,
     piezasExt: cambiosElements.piezasExt_Destino,
@@ -60,7 +63,22 @@ export async function AgregarCambio(){
 }
 
 export function LimpiarCambios(){
+    console.log("Limpiar");
+    
+    // limpiar cada una de las casillas
+    Object.keys(cambiosElements).forEach(key => {
+        const casilla = cambiosElements[key];
+        casilla.value = "";
+    });
 
+    Listas.ListaOrigen.innerHTML = ''; // Limpiar el contenido de la lista
+    Listas.ListaDestino.innerHTML = ''; // Limpiar el contenido de la lista
+
+    //Calcular los campos calculados
+    CalcularCamposCalculados("origen");
+    CalcularCamposCalculados("destino");
+    // Actualizar la tabla
+    LlenartablaCambios();
 }
 
 export async function EditarCambio(){
@@ -71,16 +89,61 @@ export async function EliminarCambio(){
 
 }
 
-export async function SeleccionarProducto(){ // Dual
-    
+export async function SeleccionarProducto(Casilla, Texto){ // Dual
+    let listaLocal;
+    // crear sub lista con las casillas necesarias para la operacion
+    listaLocal ={};
+    if(Casilla === "origen"){
+        listaLocal = ListaOrigen;
+    }else if(Casilla === "destino"){
+        listaLocal = ListaDestino;
+    }else{
+        throw new Error("La lista no contiene las casillas requeridas")
+    }
+    const productosFiltrados = await globales.BuscarProductoText(Texto);
+    funciones.LlenarListaConDatos(listaLocal, productosFiltrados);
 }
 
-export function ColocarSeleccionEnCasillas(){ // Dual
+export function ColocarSeleccionEnCasillas(Casillas ,id_producto, nombre_producto){ // Dual
+    let listaLocal = {}
+    let casillasLocal = {}
+    // crear sub lista con las casillas necesarias para la operacion
+    if(Casillas === "origen"){
+        casillasLocal = ListaOrigen;
+        listaLocal = Listas.ListaOrigen;
+    }else if(Casillas === "destino"){
+        casillasLocal = ListaDestino;
+        listaLocal = Listas.ListaDestino;
+    }else{
+        throw new Error("La lista no contiene las casillas requeridas")
+    }
     
+    console.log(Casillas, id_producto, nombre_producto);
+    // colocar los datos en las casillas
+    casillasLocal.id_producto.value = id_producto;
+    casillasLocal.producto.value = nombre_producto;
+    listaLocal.innerHTML = ''; // Limpiar el contenido de la lista
 }
 
-export function focoCasilla(){ // Dual
-    
+export function focoCasilla(Casilla, evento){ // Dual
+    let listaLocal;
+    // crear sub lista con las casillas necesarias para la operacion
+    listaLocal ={};
+    if(Casilla === "origen"){
+        listaLocal = Listas.ListaOrigen;
+    }else if(Casilla === "destino"){
+        listaLocal = Listas.ListaDestino;
+    }else{
+        throw new Error("Lqa lista no contiene las casillas requeridas")
+    }
+
+    if(evento===true){
+        listaLocal.style.display = 'block'; // Asegurarse de que la lista esté oculta
+    }else if(evento === false){
+        listaLocal.style.display = 'none'; // Asegurarse de que la lista esté oculta
+    }else{
+        listaLocal.innerHTML = ''; // Limpiar el contenido de la lista
+    }
 }
 
 export async function AplicarFiltros(){
@@ -149,7 +212,7 @@ export async function CalcularCamposCalculados(Casillas){ // Dual
         let piezasExtra = parseFloat(listaLocal.piezasExt.value) || 0;
         let destareAdicional = parseFloat(listaLocal.destareAdd.value) || 0;
         // Buscar cuantas piezas tiene cada caja de producto
-        const DataProd = await BuscarProductoId(listaLocal.id_producto.value);
+        const DataProd = await globales.BuscarProductoId(listaLocal.id_producto.value);
         let piezasCaja = 0;
         if(DataProd && !DataProd.error){
             console.log(DataProd);
@@ -164,12 +227,4 @@ export async function CalcularCamposCalculados(Casillas){ // Dual
         listaLocal.totalPz.value = TotalPiezas;
         listaLocal.totalKg.value = TotalKilos.toFixed(2);
     }
-}
-
-export async function BuscarProductoId(){
-
-}
-
-export async function BuscarProductoText(){
-
 }

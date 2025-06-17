@@ -36,7 +36,7 @@ export function ColocarProductosEnLista(casilla, products){
     });
 }
 
-export function LlenarListaConDatos(Datos){
+export function LlenarListaConDatos(Casilla, Datos){
 
 }
 

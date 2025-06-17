@@ -203,5 +203,64 @@
         funciones.EliminarCambio();
     });
 
+    // ========= CASILLAS =========
+    //casilla de seleccion de producto origen
+    document.getElementById("nombre_origen_cambios").addEventListener("input", function (){
+        const Search = document.getElementById("nombre_origen_cambios");
+        funciones.SeleccionarProducto("origen", Search.value);
+    });
+    document.getElementById("nombre_origen_cambios").addEventListener("focus", function () {
+        setTimeout(() => funciones.focoCasilla("origen", true), 200);
+    });
+    document.getElementById("nombre_origen_cambios").addEventListener("blur", function () {
+        setTimeout(() =>funciones.focoCasilla("origen", false), 200);
+    });
+    //casilla de seleccion de producto destino
+    document.getElementById("nombre_destino_cambios").addEventListener("input", function (){
+        const Search = document.getElementById("nombre_destino_cambios");
+        funciones.SeleccionarProducto("destino", Search.value);
+    });
+    document.getElementById("nombre_destino_cambios").addEventListener("focus", function () {
+        setTimeout(() => funciones.focoCasilla("destino", true), 200);
+    });
+    document.getElementById("nombre_destino_cambios").addEventListener("blur", function () {
+        setTimeout(() =>funciones.focoCasilla("destino",false), 200);
+    });
+
+    // casilla de cajas Origen
+    document.getElementById("cajasOri_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("origen");
+    });
+    // casilla de cajas Destino
+    document.getElementById("cajasDes_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("destino");
+    });
+
+    // casilla de kilos brutos Origen
+    document.getElementById("kilosBOri_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("origen");
+    });
+    // casilla de kilos brutos Destino
+    document.getElementById("kilosBDes_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("destino");
+    });
+
+    // casilla de piezas extras Origen
+    document.getElementById("piezasEOri_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("origen");
+    });
+    // casilla de piezas extras Destino
+    document.getElementById("piezasEDes_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("destino");
+    });
+
+    // casilla de destare adicional Origen
+    document.getElementById("destareAOri_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("origen");
+    });
+    // casilla de destare adicional Destino
+    document.getElementById("destareADes_cambios").addEventListener("input", function(){
+        funciones.CalcularCamposCalculados("destino");
+    });
 
 </script>

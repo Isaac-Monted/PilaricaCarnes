@@ -162,7 +162,7 @@ export async function EliminarSalida(){
 }
 
 export async function SeleccionarProducto(Texto){
-    const productosFiltrados = await BuscarProductoText(Texto);
+    const productosFiltrados = await globales.BuscarProductoText(Texto);
     funciones.LlenarListaConDatos(productosFiltrados);
 }
 

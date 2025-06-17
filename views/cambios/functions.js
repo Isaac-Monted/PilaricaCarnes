@@ -178,7 +178,7 @@ async function LlenarFiltroProductos(casilla){
 
 async function LlenartablaCambios(){
     // Traer todos las cambios de la base de datos
-    /* await fetch(`/../carnes/api/cambios.php?action=LeerCambios`)
+    await fetch(`/../carnes/api/cambios.php?action=LeerCambios`)
         .then(respuesta => respuesta.json()) // Esperar la respuesta como JSON
         .then(data => {
             console.log(data);
@@ -186,7 +186,7 @@ async function LlenartablaCambios(){
         })
         .catch(error => {
             console.error("Error al buscar cambios:", error);
-    }); */
+    });
 }
 
 export async function CalcularCamposCalculados(Casillas){ // Dual

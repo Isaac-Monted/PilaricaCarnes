@@ -111,8 +111,8 @@ function LeerCambios($conn, $filters = []) {
         SELECT
             Carnes_cambios.id,
             Carnes_cambios.fecha_registro,
-            Carnes_productos.nombre_producto AS nombre_producto_origen,
-            Carnes_productos.nombre_producto AS nombre_producto_destino,
+            producto_Origen.nombre_producto AS nombre_producto_origen,
+            producto_Destino.nombre_producto AS nombre_producto_destino,
             Carnes_cambios.producto_origen_id,
             Carnes_cambios.producto_destino_id,
             Carnes_cambios.cajas_origen,
@@ -132,8 +132,11 @@ function LeerCambios($conn, $filters = []) {
             Carnes_cambios.fecha_creacion
             from Carnes_cambios
         INNER JOIN
-            Carnes_productos
-            ON Carnes_salidas.producto_id = Carnes_productos.id
+            Carnes_productos AS producto_Origen
+            ON Carnes_cambios.producto_origen_id = producto_Origen.id
+        INNER JOIN
+            Carnes_productos AS producto_Destino
+            ON Carnes_cambios.producto_destino_id = producto_Destino.id
     ";
     $Params = [];
     $types = [];

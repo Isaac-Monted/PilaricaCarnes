@@ -31,35 +31,86 @@ const cambiosElements = {
     observaciones: document.getElementById("Observaciones_cambios")
 };
 
-const ListaOrigen = {
-    id_producto: cambiosElements.id_producto_Origen,
-    cajas: cambiosElements.cajas_Origen,
-    kilosBru: cambiosElements.kilosBru_Origen,
-    piezasExt: cambiosElements.piezasExt_Origen,
-    destareAdd: cambiosElements.destareAdd_Origen,
-    totalPz: cambiosElements.totalPz_Origen,
-    totalKg: cambiosElements.totalKg_Origen
-}
-
-const ListaDestino = {
-    id_producto: cambiosElements.id_producto_Destino,
-    cajas: cambiosElements.cajas_Destino,
-    kilosBru: cambiosElements.kilosBru_Destino,
-    piezasExt: cambiosElements.piezasExt_Destino,
-    destareAdd: cambiosElements.destareAdd_Destino,
-    totalPz: cambiosElements.totalPz_Destino,
-    totalKg: cambiosElements.totalKg_Destino
-}
-
 // declarar las listas que se van a llenar
 const Listas = {
     ListaOrigen: document.getElementById("listaResultadosOrigenCambios"),
     ListaDestino: document.getElementById("listaResultadosDestinoCambios")
 };
 
+// Creamos listas especificas para cada uno de los grupos de widgwts
+const ListaOrigen = {
+    id_producto: cambiosElements.id_producto_Origen,
+    producto: cambiosElements.producto_Origen,
+    cajas: cambiosElements.cajas_Origen,
+    kilosBru: cambiosElements.kilosBru_Origen,
+    piezasExt: cambiosElements.piezasExt_Origen,
+    destareAdd: cambiosElements.destareAdd_Origen,
+    totalPz: cambiosElements.totalPz_Origen,
+    totalKg: cambiosElements.totalKg_Origen,
+    lista: Listas.ListaOrigen,
+    tipo: "origen"
+}
+
+const ListaDestino = {
+    id_producto: cambiosElements.id_producto_Destino,
+    producto: cambiosElements.producto_Destino,
+    cajas: cambiosElements.cajas_Destino,
+    kilosBru: cambiosElements.kilosBru_Destino,
+    piezasExt: cambiosElements.piezasExt_Destino,
+    destareAdd: cambiosElements.destareAdd_Destino,
+    totalPz: cambiosElements.totalPz_Destino,
+    totalKg: cambiosElements.totalKg_Destino,
+    lista: Listas.ListaDestino,
+    tipo: "destino"
+}
+
 // ========================== EVENTOS ==========================
 export async function AgregarCambio(){
+    if(!cambiosElements.filtroFecha.value){
+        alert("por favor seleccione una fecha");
+        return;
+    }else if(!cambiosElements.producto_Origen.value){
+        alert("por favor seleccione un producto inicial");
+        return;
+    }else if(!cambiosElements.producto_Destino.value){
+        alert("por favor seleccione un producto final");
+        return;
+    }else{
+        console.log("Agregar");
+        // promesa para enviar los datos al servidor y esperar la confirmacion
+        const responseData = await fetch(`/../carnes/api/cambios.php?action=AgregarCambio`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                fecha: cambiosElements.filtroFecha.value,
+                producto_origen: cambiosElements.id_producto_Origen.value,
+                producto_destino: cambiosElements.id_producto_Destino.value,
+                cajas_origen: cambiosElements.cajas_Origen.value,
+                kilosBrutos_origen: cambiosElements.kilosBru_Origen.value,
+                piezasExtra_origen: cambiosElements.piezasExt_Origen.value,
+                destareAdd_origen: cambiosElements.destareAdd_Origen.value,
+                cajas_destino: cambiosElements.cajas_Destino.value,
+                kilosBrutos_destino: cambiosElements.kilosBru_Destino.value,
+                piezasExtra_destino: cambiosElements.piezasExt_Destino.value,
+                destareAdd_destino: cambiosElements.destareAdd_Destino.value,
+                observaciones: cambiosElements.observaciones.value
+            })
+        });
+        // Verifiacar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
 
+        // mostra el mnensaje acorde a la respuesta del servidor
+        if(respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha agregado correctamente");
+            LimpiarCambios();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se agrego la salida");
+        }
+    }
 }
 
 export function LimpiarCambios(){
@@ -86,7 +137,7 @@ export async function EditarCambio(){
 }
 
 export async function EliminarCambio(){
-
+    
 }
 
 export async function SeleccionarProducto(Casilla, Texto){ // Dual
@@ -118,7 +169,7 @@ export function ColocarSeleccionEnCasillas(Casillas ,id_producto, nombre_product
         throw new Error("La lista no contiene las casillas requeridas")
     }
     
-    console.log(Casillas, id_producto, nombre_producto);
+    //console.log(Casillas, id_producto, nombre_producto);
     // colocar los datos en las casillas
     casillasLocal.id_producto.value = id_producto;
     casillasLocal.producto.value = nombre_producto;

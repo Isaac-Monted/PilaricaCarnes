@@ -1,7 +1,96 @@
-
+import { ColocarSeleccionEnCasillas, LlenarCasillaConDatos } from '../views/cambios/functions.js';
 
 export function LlenarTabla(products){
+    const Tabla = document.getElementById("contenedorTablaCambios"); // El contenedor donde se mostrara la tabla
+    Tabla.innerHTML = '';
 
+    // Comprobar si hay un error en los datos (por ejemplo, "error" en la respuesta)
+    if (products.error){
+        const errorRow = document.createElement("tr"); // Crear la fila en blanco en caso de error
+        errorRow.innerHTML = `
+            <td style="display: none"> </td>
+            <td> </td>
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+
+            <td> </td>
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        `;
+        Tabla.appendChild(errorRow); // Mostar el mensaje de error en el DOM
+        return;
+    }
+
+    // si no hay productos, mostrar un mensaje adecuado
+    if (products.length === 0){
+        const noProductRow = document.createElement("tr"); // Crar la fila en blanco en caso de no haber productos
+        noProductRow.innerHTML =`
+            <td style="display: none"> </td>
+            <td> </td>
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+
+            <td> </td>
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+        `;
+        Tabla.appendChild(noProductRow);
+        return;
+    }
+
+    // Recorer las salidas y crear elementos para mostrarlos
+    products.forEach(product => {
+        const salidasTable = document.createElement("tr"); // Crear una fila para cada fila retornada
+
+        // Agregar contenido a la targeta del producto
+        salidasTable.innerHTML = `
+            <td style="display: none">${product.id}</td>
+            <td>${product.nombre_producto_origen}</td>
+            <td style="display: none">${product.producto_origen_id}</td>
+            <td>${product.cajas_origen}</td>
+            <td>${product.kilos_brutos_origen}</td>
+            <td>${product.piezas_extra_origen}</td>
+            <td>${product.destare_add_origen}</td>
+            <td>${product.total_piezas_origen}</td>
+            <td>${product.total_kilos_origen}</td>
+
+            <td>${product.nombre_producto_destino}</td>
+            <td style="display: none">${product.producto_destino_id}</td>
+            <td>${product.cajas_destino}</td>
+            <td>${product.kilos_brutos_destino}</td>
+            <td>${product.piezas_extra_destino}</td>
+            <td>${product.destare_add_destino}</td>
+            <td>${product.total_piezas_destino}</td>
+            <td>${product.total_kilos_destino}</td>
+        `;
+
+        Tabla.appendChild(salidasTable);
+
+        // Agregar un evento para cada una de las filas
+        salidasTable.addEventListener('click', () => {
+            LlenarCasillaConDatos(product.id);
+        });
+    });
 }
 
 export function ColocarProductosEnLista(casilla, products){
@@ -37,7 +126,44 @@ export function ColocarProductosEnLista(casilla, products){
 }
 
 export function LlenarListaConDatos(Casilla, Datos){
+    //console.log(Datos);
+    // declarar la casilla del filtro
+    const filtro = Casilla.producto;
+    // declarar la lista que se va a llenar
+    const Lista = Casilla.lista;
+    Lista.innerHTML = ''; // Limpiar el contenido de la lista
 
+        // Comprobar si hay un error en los datos (por ejemplo, "error" en la respuesta)
+    if (Datos.error) {
+        const errorlist = document.createElement("li"); // Crear el item en blanco en caso de error
+        errorlist.innerText = 'error al buscar los datos';
+        Lista.appendChild(errorlist); // Mostrar el mensaje de error en el DOM
+        return;
+    }
+    // Si no hay productos, mostrar un mensaje adecuado
+    if (Datos.length == 0){
+        const noProductlist = document.createElement("li"); // Crear el item en blanco en caso de error
+        noProductlist.innerText = 'no hay datos disponibles';
+        Lista.appendChild(noProductlist); // Mostrar el mensaje de error en el DOM
+        return;
+    }
+    if (filtro.value != ""){
+        // Recorrer los productos y crear elementos para mostrarlos
+        Datos.forEach(Dato => {
+            const productList = document.createElement("li"); // Crear una fila para cada fila retornada
+            // Agregar contenido a la tarjeta del producto
+            productList.innerText = `${Dato.nombre_producto}`;
+
+            Lista.appendChild(productList);
+
+            // Agregar un evento para cada una de las filas
+            productList.addEventListener('click', () => {
+                ColocarSeleccionEnCasillas(Casilla.tipo, Dato.id, Dato.nombre_producto);
+            });
+        });
+    } else{
+        Casilla.id_producto.value = ""
+    }
 }
 
 export function ColocarDatosFormulario(Datos, salidasElements){

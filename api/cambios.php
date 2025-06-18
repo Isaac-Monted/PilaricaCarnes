@@ -17,7 +17,7 @@ if($conn->connect_error){
 }
 
 // ================================= FUNCIONES =================================
-function AgregarCambio($conn, $fecha, $id_producto_origen, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $id_producto_destino, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones) {
+function AgregarCambio($conn, $fecha, $id_producto_origen, $id_producto_destino, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones) {
     if (empty($fecha) || empty($id_producto_origen) || empty($id_producto_destino)){
         return "Error: debes de proporcionar los datos nececarios para agregar";
     }
@@ -26,7 +26,7 @@ function AgregarCambio($conn, $fecha, $id_producto_origen, $cajas_origen, $kilos
     $query = " INSERT IGNORE INTO Carnes_cambios (
     fecha_registro,
     producto_origen_id,
-    producto_destino_id
+    producto_destino_id,
     cajas_origen,
     kilos_brutos_origen,
     piezas_extra_origen,
@@ -45,7 +45,7 @@ function AgregarCambio($conn, $fecha, $id_producto_origen, $cajas_origen, $kilos
     }
 
     // Vinculamos los parametros
-    $stmt->bind_param("siiidididids", $fecha, $id_producto_origen, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $id_producto_destino, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones);
+    $stmt->bind_param("siiidididids", $fecha, $id_producto_origen, $id_producto_destino, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones);
 
     // ejecutamos la consulta
     if ($stmt->execute()){

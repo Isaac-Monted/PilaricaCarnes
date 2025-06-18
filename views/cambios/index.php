@@ -59,7 +59,7 @@
                             <th>Total Kilos Destino</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="contenedorTablaCambios">
                         <tr>
                             <td style="display: none"> </td>
                             <td> </td>
@@ -71,7 +71,6 @@
                             <td> </td>
                             <td> </td>
 
-                            <td style="display: none"> </td>
                             <td> </td>
                             <td style="display: none"> </td>
                             <td> </td>

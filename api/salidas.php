@@ -56,8 +56,8 @@ function AgregarSalida($conn, $fecha, $id_producto, $cajas, $kilos_brutos, $piez
     $stmt->close();
 }
 
-function EditarSalida($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones) {
-    if (empty($id_entrada) || empty($fecha) || empty($id_producto)){
+function EditarSalida($conn, $id_salida, $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones) {
+    if (empty($id_salida) || empty($fecha) || empty($id_producto)){
         return "Error: debes proporcionar los datos necesarios para agregar";
     }
 
@@ -80,7 +80,7 @@ function EditarSalida($conn, $id_entrada, $fecha, $id_producto, $cajas, $kilos_b
     }
 
     // Vinculamos los parametros
-    $stmt->bind_param("siididsi", $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones, $id_entrada);
+    $stmt->bind_param("siididsi", $fecha, $id_producto, $cajas, $kilos_brutos, $piezas_extra, $destare_add, $observaciones, $id_salida);
 
     //ejecutamos la consulta
     if ($stmt->execute()){

@@ -7,6 +7,7 @@ require_once './controllers/entradasController.php';
 require_once './controllers/salidasController.php';
 require_once './controllers/cambiosController.php';
 require_once './controllers/productosController.php';
+require_once './controllers/usuariosController.php';
 
 $routes = [
     [
@@ -43,6 +44,11 @@ $routes = [
         'method' => 'GET',
         'uri' => '/productos', // Ruta para productos
         'action' => 'ProductosController::index'
+    ],
+    [
+        'method' => 'GET',
+        'uri' => '/usuarios', // Ruta para usuarios
+        'action' => 'UsuariosController::index'
     ],
 ];
 ?>

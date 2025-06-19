@@ -166,6 +166,40 @@ export function LlenarListaConDatos(Casilla, Datos){
     }
 }
 
-export function ColocarDatosFormulario(Datos, salidasElements){
+export function ColocarDatosFormulario(Datos, cambiosElements){
+    // conmprobar si hay un error en los datos (por ejemplo "error" en la respueta)
+    if (Datos.error){
+        LimpiarSalidas();
+        return;
+    }
+    // si no hay salidas limpiar las casillas del formulario
+    if (Datos.length === 0){
+        LimpiarSalidas();
+        return;
+    }
+    // recorrer todos los elementos y llenar las casillas
+    Datos.forEach(dato => {
+        console.log(Datos);
+        const fecha = new Date(dato.fecha_registro);
 
+        cambiosElements.filtroFecha.value = fecha.toISOString().split("T")[0]
+        cambiosElements.id.value = dato.id
+        cambiosElements.producto_Origen.value = dato.nombre_producto_origen
+        cambiosElements.id_producto_Origen.value = dato.producto_origen_id
+        cambiosElements.producto_Destino.value = dato.nombre_producto_destino
+        cambiosElements.id_producto_Destino.value = dato.producto_destino_id
+        cambiosElements.cajas_Origen.value = dato.cajas_origen
+        cambiosElements.kilosBru_Origen.value = dato.kilos_brutos_origen
+        cambiosElements.piezasExt_Origen.value = dato.piezas_extra_origen
+        cambiosElements.destareAdd_Origen.value = dato.destare_add_origen
+        cambiosElements.totalPz_Origen.value = dato.total_piezas_origen
+        cambiosElements.totalKg_Origen.value = dato.total_kilos_origen
+        cambiosElements.cajas_Destino.value = dato.cajas_destino
+        cambiosElements.kilosBru_Destino.value = dato.kilos_brutos_destino
+        cambiosElements.piezasExt_Destino.value = dato.piezas_extra_destino
+        cambiosElements.destareAdd_Destino.value = dato.destare_add_destino
+        cambiosElements.totalPz_Destino.value = dato.total_piezas_destino
+        cambiosElements.totalKg_Destino.value = dato.total_kilos_destino
+        cambiosElements.observaciones.value = dato.observaciones
+    });
 }

@@ -133,11 +133,89 @@ export function LimpiarCambios(){
 }
 
 export async function EditarCambio(){
+    if(!cambiosElements.filtroFecha.value){
+        alert("por favor seleccione una fecha");
+        return;
+    }else if(!cambiosElements.producto_Origen.value || !cambiosElements.id.value){
+        alert("por favor seleccione un producto inicial");
+        return;
+    }else if(!cambiosElements.producto_Destino.value || !cambiosElements.id.value){
+        alert("por favor seleccione un producto final");
+        return;
+    }else{
+        console.log("Editar");
+        // Promesa para enviar los datos al servidor y esperar ñas confirmacion
+        const responseData = await fetch(`/../carnes/api/cambios.php?action=EditarCambio`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id: cambiosElements.id.value,
+                fecha: cambiosElements.filtroFecha.value,
+                producto_origen: cambiosElements.id_producto_Origen.value,
+                producto_destino: cambiosElements.id_producto_Destino.value,
+                cajas_origen: cambiosElements.cajas_Origen.value,
+                kilosBrutos_origen: cambiosElements.kilosBru_Origen.value,
+                piezasExtra_origen: cambiosElements.piezasExt_Origen.value,
+                destareAdd_origen: cambiosElements.destareAdd_Origen.value,
+                cajas_destino: cambiosElements.cajas_Destino.value,
+                kilosBrutos_destino: cambiosElements.kilosBru_Destino.value,
+                piezasExtra_destino: cambiosElements.piezasExt_Destino.value,
+                destareAdd_destino: cambiosElements.destareAdd_Destino.value,
+                observaciones: cambiosElements.observaciones.value
+            })
+        });
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
 
+        // mostar el mensaje acorde a la respuesta del servidor
+        if(respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha editado correctamente");
+            LimpiarCambios();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se a editado la salida");
+        }
+    }
 }
 
 export async function EliminarCambio(){
-    
+    // declarar la casilla con el id a eliminar
+    const idCasilla = cambiosElements.id;
+    if(!idCasilla.value){
+        alert("por favor seleccione un producto");
+        return;
+    }
+    let confirmar = confirm("Esta seguro de eliminar el cambio");
+
+    if(confirmar){
+        console.log("Eliminar");
+        // promesa para enviar los datos al servidor y esperar la coonfirmacion
+        const responseData = await fetch('/../carnes/api/cambios.php?action=EliminarCambio', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id: idCasilla.value
+            })
+        });
+
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+        // mostrar el mensaje acorde a la respuesta del servidor
+        if (respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha eliminado correctamentre");
+            LimpiarCambios();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se eliminado la cambio")
+        }
+    }
 }
 
 export async function SeleccionarProducto(Casilla, Texto){ // Dual
@@ -198,11 +276,95 @@ export function focoCasilla(Casilla, evento){ // Dual
 }
 
 export async function AplicarFiltros(){
-    
+    console.log("Filtrado");
+    // construir el objeto con filtros
+    const filters = {};
+
+    // Determinar que filtros estan activos para armar la consulta
+    if(cambiosElements.filtroFecha.value){
+        console.log("Fecha");
+        filters["fecha_registro"] = cambiosElements.filtroFecha.value;
+    }
+    if(cambiosElements.filtroProducto_Origen.value){
+        console.log("Producto Origen");
+        filters["producto_origen_id"] = cambiosElements.filtroProducto_Origen.value;
+    }
+    if(cambiosElements.filtroProducto_Destino.value){
+        console.log("Producto Destino");
+        filters["producto_destino_id"] = cambiosElements.filtroProducto_Destino.value;
+    }
+    if(!cambiosElements.filtroFecha.value && !cambiosElements.filtroProducto_Origen.value && !cambiosElements.filtroProducto_Destino.value){
+        console.log("Ninguno");
+        LlenartablaCambios();
+        return;
+    }
+
+    // Crear un objeto URLSearchParams y añadir los filtros
+    const params = new URLSearchParams();
+    params.append('action', 'LeerCambios'); // siempre añadir la accion
+
+    // Codificar el objeto filters a JSON
+    params.append('filters', JSON.stringify(filters)); // <-- Enviar todo el objeto filters como una cadena JSON
+
+    // Construir la URL Completa usando template literals y params.toString()
+    const url = `/../carnes/api/cambios.php?${params.toString()}`;
+
+    // Realizar la solicitud Ajax
+    try{
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            // Lanzar un error si el estado HTTP no fue exitoso
+            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json(); // Esperar a que el JSON se parseé
+
+        console.log(data);
+        funciones.LlenarTabla(data);
+
+    } catch (error) {
+        console.error("Error al buscar cambios:", error);
+        // Podras retornar un array vacio o null aqui si hay un error
+        return [];
+    }
 }
 
-export async function LlenarCasillaConDatos(){
-    
+export async function LlenarCasillaConDatos(id_cambio){
+    // construir el objeto de filtros
+    const filters = {
+        id: id_cambio,
+    };
+
+    // Crear un objeto URLSearchParams y añadir los filtros
+    const params = new URLSearchParams();
+    params.append('action', 'LeerCambios'); // Siempre añadir la accion
+
+    // Codificar eñ objeto filters a JSON
+    params.append('filters', JSON.stringify(filters)); // <-- Enviar todo el objeto filters como una cadena JSON
+
+    // Construir la URL completa usando template literals y params.toString()
+    const url = `/../carnes/api/cambios.php?${params.toString()}`;
+
+    // Realizar la solicitud Ajax
+    try{
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            // Lanzar un error si el estado HTTP no fue exitoso
+            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json(); // Esperar a que el JSON se parseé
+
+        //console.log(data);
+        funciones.ColocarDatosFormulario(data, cambiosElements);
+
+    } catch (error) {
+        console.error("Error al buscar productos:", error);
+        // Podras retornar un array vacío o null aquí si hay un error
+        return [];
+    }
 }
 
 function Cargarpagina(){

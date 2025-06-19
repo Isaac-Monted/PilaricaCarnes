@@ -61,7 +61,7 @@ function AgregarCambio($conn, $fecha, $id_producto_origen, $id_producto_destino,
     $stmt->close();
 }
 
-function EditarCambio($conn, $id_cambio, $fecha, $id_producto_origen, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $id_producto_destino, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones) {
+function EditarCambio($conn, $id_cambio, $fecha, $id_producto_origen, $id_producto_destino, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones) {
     if (empty($id_cambio) || empty($fecha) || empty($id_producto_origen) || empty($id_producto_destino)){
         return "Error: debes proporcionar los datos necesarios para editar";
     }
@@ -90,7 +90,7 @@ function EditarCambio($conn, $id_cambio, $fecha, $id_producto_origen, $cajas_ori
     }
 
     // Vinculamos los parametros
-    $stmt->bind_param("siiididididsi", $fecha, $id_producto_origen, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $id_producto_destino, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones, $id_cambio);
+    $stmt->bind_param("siiididididsi", $fecha, $id_producto_origen, $id_producto_destino, $cajas_origen, $kilos_brutos_origen, $piezas_extra_origen, $destare_add_origen, $cajas_destino, $kilos_brutos_destino, $piezas_extra_destino, $destare_add_destino, $observaciones, $id_cambio);
 
     //ejecutamos la consulta
     if ($stmt->execute()){
@@ -322,7 +322,7 @@ if (isset($_GET['action'])) {
                 $id_cambio = $_POST['id'];
 
                 // Llamar a la función para agregar la cambio en la base de datos
-                $result = EditarCambio($conn, $id_cambio);
+                $result = EliminarCambio($conn, $id_cambio);
 
                 // Procesar el resultado
                 if (str_starts_with($result, "Operacion realizada")) {

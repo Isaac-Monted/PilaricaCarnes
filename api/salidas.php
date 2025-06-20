@@ -172,9 +172,9 @@ function LeerSalidas($conn, $filters = []) {
     $stmt->close();
 }
 
-function EliminarSalidas($conn, $id_entrada) {
-    // Verificar que $id_entrada es un numero valido
-    if (!is_numeric($id_entrada)){
+function EliminarSalidas($conn, $id_salida) {
+    // Verificar que $id_salida es un numero valido
+    if (!is_numeric($id_salida)){
         return "Error al eliminar la salida";
     }
 
@@ -187,13 +187,13 @@ function EliminarSalidas($conn, $id_entrada) {
     }
 
     // Vincular el parametro y ejecutar la consulta
-    $stmt->bind_param("i", $id_entrada);
+    $stmt->bind_param("i", $id_salida);
 
     if ($stmt->execute()){
         if ($stmt->affected_rows > 0){
             return "Operacion realizada";
         } else {
-            return "Entrada no eliminada";
+            return "Salida no eliminada";
         }
     } else {
         return "Error al ejecutar la operacion: " . $stmt->error;
@@ -242,7 +242,7 @@ if (isset($_GET['action'])) {
         case 'EditarSalida':
             if (isset($_POST['id']) && isset($_POST['fecha']) && isset($_POST['producto'])){
                 // Colocar los valores en las variables
-                $id_entrada = $_POST['id'];
+                $id_salida = $_POST['id'];
                 $fecha = $_POST['fecha'];
                 $producto = $_POST['producto'];
                 $cajas = $_POST['cajas'] ?? 0;
@@ -252,7 +252,7 @@ if (isset($_GET['action'])) {
                 $observaciones = $_POST['observaciones'] ?? '-';
 
                 // Llamar a la función para agregar la salida en la base de datos
-                $result = EditarSalida($conn, $id_entrada, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);
+                $result = EditarSalida($conn, $id_salida, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);
 
                 // Procesar el resultado
                 if (str_starts_with($result, "Operacion realizada")) {
@@ -286,10 +286,10 @@ if (isset($_GET['action'])) {
         case 'EliminarSalida':
             if (isset($_POST['id'])){
                 // Colocar los valores en las variables
-                $id_entrada = $_POST['id'];
+                $id_salida = $_POST['id'];
                 
                  // Llamar a la función para agregar la salida en la base de datos
-                $result = EliminarSalidas($conn, $id_entrada);
+                $result = EliminarSalidas($conn, $id_salida);
 
                 // Procesar el resultado
                 if (str_starts_with($result, "Operacion realizada")) {

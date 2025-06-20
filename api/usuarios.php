@@ -423,6 +423,18 @@ if (isset($_GET['action'])) {
 
             break;
 
+        case 'Inicio':
+            // Procesar el resultado
+            try {
+                // Llamar a la función para eliminar el usuario en la base de datos
+                $result = AgregarUsuario($conn, 'ADMIN', '-', '-', '-', '1234', '-', '-', 'Activo');
+                $data = ["success" => 'Inicializado'];
+            } catch (Exception $e) {
+                $data = ["error" => $e->getMessage()];
+            }
+
+            break;
+
         default:
             // Si la acción no es válida, se devuelve un error
             $data = ["error" => "Accion no valida"];

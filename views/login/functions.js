@@ -27,9 +27,41 @@ export function LimpiarFormulario() {
     Contrasena.value = "";
 }
 
-export function IniciarSesion() {
+export async function IniciarSesion() {
+    // buscar los datos del administrador
+    const data = await globales.BuscarUsuarioText(document.getElementById("usuario_login").value.toUpperCase());
+    
+    if(data.error){
+        // Lanzar un error si el estado HTTP no fue exitoso
+        alert("No esta registrado el usuario registrado");
+        return;
+    }
+    
+    // declarar la contraseña
+    const contrasena = data[0].contrasena;
 
-    document.location.href = '/carnes/inicio';
+    // promesa para enviar los datos al servidor y esperar la coonfirmacion
+    const responseData = await fetch('/../carnes/api/usuarios.php?action=Validacion', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+            escrita: document.getElementById("contrsena_login").value,
+            almacenada: contrasena
+        })
+    });
+
+    // Verificar si la respuesta fue exitosa
+    const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+    // mostrar el mensaje acorde a la respuesta del servidor
+    if (respuesta.success){
+        document.location.href = '/carnes/inicio';
+    }else{
+        console.error('Error:', respuesta.message);
+        alert("Opps! esa no es la contraseña del usuario")
+    }
 }
 
 async function CabiarModoUsuario(){
@@ -44,6 +76,7 @@ async function CabiarModoUsuario(){
 
         if(data.error){
             alert("No hay un administrador configurelo inmediatamente");
+            await fetch('/../carnes/api/usuarios.php?action=Inicio');
             document.location.href = '/carnes/usuarios';
         }
         
@@ -72,8 +105,6 @@ async function CabiarModoUsuario(){
             console.error('Error:', respuesta.message);
             alert("Opps! esa no es la contraseña del usuario")
         }
-
-        
     } else {
         //reiniciar el contador
         contador = 0;

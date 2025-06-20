@@ -1,13 +1,13 @@
 <?php
 // Verifica si la cookie no existe o es inválida
-/*if (!isset($_COOKIE['acceso']) || $_COOKIE['acceso'] !== 'true') {
+if (!isset($_COOKIE['acceso']) || $_COOKIE['acceso'] !== 'true') {
     // Redirige al login
     echo "<script>
         alert('Por favor inicie sesión');
         window.location.href = '/carnes/';
     </script>";
     exit;
-}*/
+}
 ?>
 
 <!-- views/gestor/index.php -->

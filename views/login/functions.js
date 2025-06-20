@@ -46,8 +46,32 @@ async function CabiarModoUsuario(){
             alert("No hay un administrador configurelo inmediatamente");
             document.location.href = '/carnes/usuarios';
         }
+        
+        // declarar la contraseña
+        const contrasena = data[0].contrasena;
 
-        console.log(data);
+        // promesa para enviar los datos al servidor y esperar la coonfirmacion
+        const responseData = await fetch('/../carnes/api/usuarios.php?action=Validacion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                escrita: nombre,
+                almacenada: contrasena
+            })
+        });
+
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+        // mostrar el mensaje acorde a la respuesta del servidor
+        if (respuesta.success){
+            document.location.href = '/carnes/usuarios';
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! esa no es la contraseña del usuario")
+        }
 
         
     } else {

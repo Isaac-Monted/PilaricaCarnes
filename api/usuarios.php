@@ -287,11 +287,11 @@ if (isset($_GET['action'])) {
                 $usuario = $_POST['usuario'];
                 $nombre = $_POST['nombre'];
                 $apellidoP = $_POST['apellido_paterno'];
-                $apellidoM = $_POST['apellido_materno'] ?? '-';
-                $contrasena = $_POST['contrasena'] ?? '1234';
-                $correo = $_POST['correo'] ?? '-';
-                $telefono = $_POST['telefono'] ?? '-';
-                $estado = $_POST['estado'] ?? 'Activo';
+                $apellidoM = !empty($_POST['apellido_materno']) ? $_POST['apellido_materno'] : '-';
+                $contrasena = !empty($_POST['contrasena']) ? $_POST['contrasena'] : '1234';
+                $correo = !empty($_POST['correo']) ? $_POST['correo'] : '-';
+                $telefono = !empty($_POST['telefono']) ? $_POST['telefono'] : '-';
+                $estado = !empty($_POST['estado']) ? $_POST['estado'] : 'Activo';
 
                 // Llamar a la función para agregar el producto en la base de datos
                 $result = AgregarUsuario($conn, $usuario, $nombre, $apellidoP, $apellidoM, $contrasena, $correo, $telefono, $estado);
@@ -315,11 +315,11 @@ if (isset($_GET['action'])) {
                 $usuario = $_POST['usuario'];
                 $nombre = $_POST['nombre'];
                 $apellidoP = $_POST['apellido_paterno'];
-                $apellidoM = $_POST['apellido_materno'] ?? '-';
-                $contrasena = $_POST['contrasena'] ?? '1234';
-                $correo = $_POST['correo'] ?? '-';
-                $telefono = $_POST['telefono'] ?? '-';
-                $estado = $_POST['estado'] ?? 'Activo';
+                $apellidoM = !empty($_POST['apellido_materno']) ? $_POST['apellido_materno'] : '-';
+                $contrasena = !empty($_POST['contrasena']) ? $_POST['contrasena'] : '1234';
+                $correo = !empty($_POST['correo']) ? $_POST['correo'] : '-';
+                $telefono = !empty($_POST['telefono']) ? $_POST['telefono'] : '-';
+                $estado = !empty($_POST['estado']) ? $_POST['estado'] : 'Activo';
             
                 // Llamar a la función para editar el usuario en la base de datos
                 $result = EditarUsuario($conn, $id_usuario, $usuario, $nombre, $apellidoP, $apellidoM, $contrasena, $correo, $telefono, $estado);
@@ -367,6 +367,58 @@ if (isset($_GET['action'])) {
                 }
             } else{
                 $data = ["error" => "Operacion fallida"];
+            }
+
+            break;
+
+        case 'Desencriptar':
+            if(isset($_GET['encriptado'])){
+                // declarar la cadena de texto encriptada
+                $encriptado = $_GET['encriptado'];
+
+                // Procesar el resultado
+                try {
+                    // Llamar a la función para eliminar el usuario en la base de datos
+                    $result = desencriptar($encriptado);
+                    $data = $result;
+                } catch (Exception $e) {
+                    $data = ["error" => $e->getMessage()];
+                }
+            } else {
+                $data = ["error" => "Operacion fallida"];
+            }
+
+            break;
+
+        case 'Validacion':
+            if (isset($_POST['escrita']) && isset($_POST['almacenada'])) {
+                // Colocar los valores en variables
+                $pass_escrita = $_POST['escrita'];
+                $pass_almacenada = $_POST['almacenada'];
+
+                // Llamar a la función para eliminar el usuario en la base de datos
+                $result = verifyPassword($pass_escrita, $pass_almacenada);
+
+                // Procesar el resultado
+                if ($result) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
+            } else{
+                $data = ["error" => "Operacion fallida"];
+            }
+
+            break;
+
+        case 'CerrarSesion':
+            // Procesar el resultado
+            try {
+                // Llamar a la función para eliminar el usuario en la base de datos
+                $result = eliminarCookieAcceso();
+                $data = ["success" => 'Cerrado'];
+            } catch (Exception $e) {
+                $data = ["error" => $e->getMessage()];
             }
 
             break;

@@ -79,7 +79,7 @@ export async function BuscarProductoText(Product_text){
 export async function BuscarUsuarioText(usuario_text) {
     // Construir el objeto de filtros
     const filters = {
-        nombre_usuario_buscar: 'administrador',
+        nombre_usuario_buscar: usuario_text,
     };
 
     // Crear un objeto URLSearchParams y añadir los filtros

@@ -39,7 +39,7 @@ if (!isset($_COOKIE['acceso']) || $_COOKIE['acceso'] !== 'true') {
                 <a href="/carnes/gestor">Gestor de movimientos</a>
             </li>
             <li>
-                <a href="/carnes/">Cerrar sesion</a>
+                <a id="cerrarSesion_home">Cerrar sesion</a>
             </li>
         </ul>
         </div>
@@ -47,7 +47,9 @@ if (!isset($_COOKIE['acceso']) || $_COOKIE['acceso'] !== 'true') {
 </body>
 
 <script type="module">
-    import * as funciones from './views/login/functions.js';
-
+    import * as funciones from './views/home/functions.js';
+    document.getElementById("cerrarSesion_home").addEventListener("click", function () {
+        funciones.CerrarSesion();
+    });
 </script>
 

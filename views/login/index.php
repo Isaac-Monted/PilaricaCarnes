@@ -2,7 +2,7 @@
 // Verificar si el usuario ya tiene la cookie 'acceso' activa
 if (isset($_COOKIE['acceso']) && $_COOKIE['acceso'] === 'true') {
     // Redirige a la página principal si ya está autenticado
-    header('Location: principal');
+    header('Location: inicio');
     exit;
 }
 ?>

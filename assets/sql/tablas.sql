@@ -202,8 +202,8 @@ CREATE TABLE IF NOT EXISTS usuarios (
     segundo_apellido VARCHAR(50) DEFAULT '-',
     usuario VARCHAR(50) NOT NULL UNIQUE,
     contrasena VARCHAR(255) NOT NULL,
-    correo VARCHAR(100) DEFAULT '-',
-    telefono  VARCHAR(20) DEFAULT '-',
+    correo TEXT DEFAULT '-',
+    telefono  TEXT DEFAULT '-',
 
     rol_id INT NOT NULL,
     estado ENUM('Activo', 'Inactivo') DEFAULT 'Activo',

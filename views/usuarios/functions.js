@@ -20,7 +20,41 @@ const usuariosElements = {
 
 // ========================== EVENTOS ==========================
 export async function AgregarUsuario(){
+    if(!usuariosElements.usuario.value || !usuariosElements.nombre.value || !usuariosElements.apellidoP.value){
+        alert("por favor seleccione un usuario");
+        return;
+    }else{
+        console.log("Agregar");
+            // promesa para enviar los datos al servidor y esperar la coonfirmacion
+        const responseData = await fetch(`/../carnes/api/usuarios.php?action=AgregarUsuario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                usuario: usuariosElements.usuario.value.toUpperCase(),
+                nombre: usuariosElements.nombre.value,
+                apellido_paterno: usuariosElements.apellidoP.value,
+                apellido_materno: usuariosElements.apellidoM.value,
+                contrasena: usuariosElements.contrasena.value,
+                correo: usuariosElements.correo.value,
+                telefono: usuariosElements.telefono.value,
+                estado: usuariosElements.estado.value
+            })
+        });
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
 
+        // mostrar el mensaje acorde a la respuesta del servidor
+        if (respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha agregado correctamentre");
+            LimpiarUsuarios();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se agrego el usuario");
+        }
+    }
 }
 
 export function LimpiarUsuarios(){
@@ -36,11 +70,79 @@ export function LimpiarUsuarios(){
 }
 
 export async function EditarUsuario(){
+    if(!usuariosElements.usuario.value || !usuariosElements.id.value){
+        alert("por favor seleccione un usuario");
+        return;
+    }else{
+        console.log("Editar");
+            // promesa para enviar los datos al servidor y esperar la confirmacion
+        const responseData = await fetch(`/../carnes/api/usuarios.php?action=EditarUsuario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id: usuariosElements.id.value,
+                usuario: usuariosElements.usuario.value.toUpperCase(),
+                nombre: usuariosElements.nombre.value,
+                apellido_paterno: usuariosElements.apellidoP.value,
+                apellido_materno: usuariosElements.apellidoM.value,
+                contrasena: usuariosElements.contrasena.value,
+                correo: usuariosElements.correo.value,
+                telefono: usuariosElements.telefono.value,
+                estado: usuariosElements.estado.value
+            })
+        });
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
 
+        // mostrar el mensaje acorde a la respuesta del servidor
+        if (respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha editado correctamentre");
+            LimpiarUsuarios();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se a editado el usuario");
+        }
+    }
 }
 
 export async function EliminarUsuario(){
+    // declarar la casilla con el id a eliminar
+    const idCasilla = usuariosElements.id
+    if(!idCasilla.value){
+        alert("por favor seleccione un usuario");
+        return;
+    }
+    let confirmar = confirm("Esta seguro de eliminar el usuario");
 
+    if(confirmar){
+        console.log("Eliminar");
+        // promesa para enviar los datos al servidor y esperar la coonfirmacion
+        const responseData = await fetch('/../carnes/api/usuarios.php?action=EliminarUsuario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                id: idCasilla.value
+            })
+        });
+
+        // Verificar si la respuesta fue exitosa
+        const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+        // mostrar el mensaje acorde a la respuesta del servidor
+        if (respuesta.success){
+            console.log('Respuesta:', respuesta.message);
+            alert("Se ha eliminado correctamentre");
+            LimpiarUsuarios();
+        }else{
+            console.error('Error:', respuesta.message);
+            alert("Opps! No se eliminado el usuario")
+        }
+    }
 }
 
 export async function FitroBuscarUsuario(texto){
@@ -96,7 +198,7 @@ async function CargarPagina(){
 }
 // ========================== FUNCIONES ==========================
 async function LlenartablaUsuarios(){
-    // Traer todos los productos de la base de datos
+    // Traer todos los usuarios de la base de datos
     await fetch(`/../carnes/api/usuarios.php?action=LeerUsuarios`)
         .then(respuesta => respuesta.json()) // Espera la respuesta como JSON
         .then(data => {
@@ -104,10 +206,47 @@ async function LlenartablaUsuarios(){
             funciones.LlenarTabla(data);
         })
         .catch(error => {
-            console.error("Error al buscar productos:", error);
+            console.error("Error al buscar usuarios:", error);
     });
 }
 
-export async function ColocarDatosEnCasillas(id_prod){
+export async function ColocarDatosEnCasillas(id_user){
+    console.log(`fila con id: ${id_user}`)
+    
+    // Construir el objeto de filtros
+    const filters = {
+        id: id_user,
+    };
 
+    // Crear un objeto URLSearchParams y añadir los filtros
+    const params = new URLSearchParams();
+    params.append('action', 'LeerUsuarios'); // Siempre añadir la acción
+
+
+    // COMIENZO DEL CAMBIO CLAVE: Codificar el objeto filters a JSON
+    params.append('filters', JSON.stringify(filters)); // <-- Envía todo el objeto filters como una cadena JSON
+
+    // Construir la URL completa usando template literals y params.toString()
+    const url = `/../carnes/api/Usuarios.php?${params.toString()}`;
+    //                                         ^ Solo un '?' aquí
+
+    // Realizar la solicitud fetch
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            // Lanzar un error si el estado HTTP no fue exitoso
+            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json(); // Esperar a que el JSON se parseé
+
+        console.log(data);
+        funciones.ColocarDatos(data, usuariosElements);
+
+    } catch (error) {
+        console.error("Error al buscar usuarios:", error);
+        // Podras retornar un array vacío o null aquí si hay un error
+        return [];
+    }
 }

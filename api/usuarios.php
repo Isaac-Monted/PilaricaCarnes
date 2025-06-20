@@ -1,16 +1,16 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Cargar el autoload de Composer
 require __DIR__ . '/../vendor/autoload.php';
+// Importar la coneccion al servidor
+require '../api/db.php';
+
+// Activar el reporte de errores para depuración
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Cargar las variables de entorno desde el archivo .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__, '/../assets/settings.env');
 $dotenv->load();
-
-// Importar la coneccion al servidor
-require '../api/db.php';
 
 // Crear conexion
 $conn = Database::connect();
@@ -21,10 +21,31 @@ if ($conn->connect_error){
 }
 
 // Declarar el metodo y la llave para encriptar
-$ENCRYPT_METHOD = $_ENV['ENCRYPT_METHOD'];
-$SECRET_KEY = $_ENV['SECRET_KEY'];
-
+$ENCRYPT_METHOD = (string) $_ENV['ENCRYPT_METHOD'];
+$SECRET_KEY = (string) $_ENV['SECRET_KEY'];
 // ================================= FUNCIONES =================================
+
+function crearCookieAcceso() {
+    setcookie('acceso', 'true', [
+        'path' => '/',
+        //'secure' => true,       // Solo por HTTPS
+        'httponly' => true,     // Inaccesible por JavaScript
+        'samesite' => 'Strict'  // Previene CSRF
+    ]);
+}
+
+function eliminarCookieAcceso() {
+    // Elimina del navegador
+    setcookie('acceso', '', [
+        'path' => '/',
+        //'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Strict'
+    ]);
+
+    // Elimina del entorno actual de PHP
+    unset($_COOKIE['acceso']);
+}
 
 function hashPasswordBcrypt($password){
     // PASSWORD_DEFAULT es la constante recomendada para password_hash().
@@ -38,10 +59,15 @@ function verifyPassword($userPassword, $storedHash){
     // password_verify() es la forma segura y correcta de comparar
     // una contraseña en texto plano con un hash.
     // Maneja el salting y el algoritmo automáticamente.
-    return password_verify($userPassword, $storedHash);
+    $confirmacion = password_verify($userPassword, $storedHash);
+    if($confirmacion){
+        crearCookieAcceso();
+    }
+    return $confirmacion;
 }
 
 function encriptar($texto) {
+    global $SECRET_KEY, $ENCRYPT_METHOD;
     $clave = hash('sha256', $SECRET_KEY, true);
     $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($ENCRYPT_METHOD));
     $texto_encriptado = openssl_encrypt($texto, $ENCRYPT_METHOD, $clave, 0, $iv);
@@ -50,6 +76,7 @@ function encriptar($texto) {
 }
 
 function desencriptar($texto_encriptado_base64) {
+    global $SECRET_KEY, $ENCRYPT_METHOD;
     $clave = hash('sha256', $SECRET_KEY, true);
     $datos = base64_decode($texto_encriptado_base64);
     
@@ -173,7 +200,7 @@ function leerUsuarios($conn, $filters = []) {
 
         foreach ($filters as $field => $value){
             if ($field === 'nombre_usuario_buscar') {
-                $conditions[] = "nombre_usuario LIKE ?";
+                $conditions[] = "usuario LIKE ?";
                 $Params[] = "%" . $value . "%"; // Añadir los comodines aquí
                 $types[] = "s";
             } else {
@@ -215,7 +242,7 @@ function leerUsuarios($conn, $filters = []) {
     $stmt->close();
 }
 
-function EliminarUsuarios($conn, $id_usuario) {
+function EliminarUsuario($conn, $id_usuario) {
     // Verificar que $id_usuario es un numero valido
     if (!is_numeric($id_usuario)){
         return "Error al eliminar la salida";
@@ -254,20 +281,20 @@ if (isset($_GET['action'])) {
 
     // Dependiendo de la acción solicitada, ejecutar la función correspondiente
     switch ($action) {
-        case 'AgregarProducto':
+        case 'AgregarUsuario':
             if (isset($_POST['usuario']) && isset($_POST['nombre']) && isset($_POST['apellido_paterno'])){
                 // Colocar los valores en variables
                 $usuario = $_POST['usuario'];
                 $nombre = $_POST['nombre'];
                 $apellidoP = $_POST['apellido_paterno'];
                 $apellidoM = $_POST['apellido_materno'] ?? '-';
-                $contrasena = $_POST['pesoXcontrasenapieza'] ?? '1234';
+                $contrasena = $_POST['contrasena'] ?? '1234';
                 $correo = $_POST['correo'] ?? '-';
                 $telefono = $_POST['telefono'] ?? '-';
                 $estado = $_POST['estado'] ?? 'Activo';
 
                 // Llamar a la función para agregar el producto en la base de datos
-                $result = AgregarProducto($conn, $usuario, $nombre, $apellidoP, $apellidoM, $contrasena, $correo, $telefono, $estado);
+                $result = AgregarUsuario($conn, $usuario, $nombre, $apellidoP, $apellidoM, $contrasena, $correo, $telefono, $estado);
 
                 // Procesar el resultado
                 if (str_starts_with($result, "Operacion realizada")) {
@@ -289,7 +316,7 @@ if (isset($_GET['action'])) {
                 $nombre = $_POST['nombre'];
                 $apellidoP = $_POST['apellido_paterno'];
                 $apellidoM = $_POST['apellido_materno'] ?? '-';
-                $contrasena = $_POST['pesoXcontrasenapieza'] ?? '1234';
+                $contrasena = $_POST['contrasena'] ?? '1234';
                 $correo = $_POST['correo'] ?? '-';
                 $telefono = $_POST['telefono'] ?? '-';
                 $estado = $_POST['estado'] ?? 'Activo';

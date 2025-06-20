@@ -22,6 +22,11 @@ $routes = [
     ],
     [
         'method' => 'GET',
+        'uri' => '/login', // Ruta del inicio de sesion
+        'action' => 'LoginController::index'
+    ],
+    [
+        'method' => 'GET',
         'uri' => '/gestor', // Ruta para gestor
         'action' => 'GestorController::index'
     ],

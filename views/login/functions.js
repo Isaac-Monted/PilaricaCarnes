@@ -1,9 +1,9 @@
+import * as globales from '../../js/global.js';
 
 // Contador para habilitar modo usuario
 let contador = 0;
 
 export function MostrarContrasena() {
-
     // Funsion del boton
     const Contrasena = document.getElementById("contrsena_login");
     if(Contrasena.type=="password"){
@@ -32,13 +32,26 @@ export function IniciarSesion() {
     document.location.href = '/carnes/inicio';
 }
 
-function CabiarModoUsuario(){
+async function CabiarModoUsuario(){
     //pedir la contraseña del administrador
     let nombre = prompt("Ingrese la contraseña del administrador");
     if(nombre){
+        // reiniciar el contador
         contador = 0;
-        document.location.href = '/carnes/usuarios'
+        
+        // buscar los datos del administrador
+        const data = await globales.BuscarUsuarioText('ADMIN');
+
+        if(data.error){
+            alert("No hay un administrador configurelo inmediatamente");
+            document.location.href = '/carnes/usuarios';
+        }
+
+        console.log(data);
+
+        
     } else {
+        //reiniciar el contador
         contador = 0;
     }
 }

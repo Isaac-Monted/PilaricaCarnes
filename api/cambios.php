@@ -242,15 +242,15 @@ if (isset($_GET['action'])) {
                 $fecha = $_POST['fecha'];
                 $producto_origen = $_POST['producto_origen'];
                 $producto_destino = $_POST['producto_destino'];
-                $cajas_origen = $_POST['cajas_origen'] ?? 0;
-                $kilosBrutos_origen = $_POST['kilosBrutos_origen'] ?? 0.0;
-                $piezasExtra_origen = $_POST['piezasExtra_origen'] ?? 0;
-                $destareAdd_origen = $_POST['destareAdd_origen'] ?? 0.0;
-                $cajas_destino = $_POST['cajas_destino'] ?? 0;
-                $kilosBrutos_destino = $_POST['kilosBrutos_destino'] ?? 0.0;
-                $piezasExtra_destino = $_POST['piezasExtra_destino'] ?? 0;
-                $destareAdd_destino = $_POST['destareAdd_destino'] ?? 0.0;
-                $observaciones = $_POST['observaciones'] ?? '-';
+                $cajas_origen = !empty($_POST['cajas_origen']) ? $_POST['cajas_origen'] : 0;
+                $kilosBrutos_origen = !empty($_POST['kilosBrutos_origen']) ? $_POST['kilosBrutos_origen'] : 0.0;
+                $piezasExtra_origen = !empty($_POST['piezasExtra_origen']) ? $_POST['piezasExtra_origen'] : 0;
+                $destareAdd_origen = !empty($_POST['destareAdd_origen']) ? $_POST['destareAdd_origen'] : 0.0;
+                $cajas_destino = !empty($_POST['cajas_destino']) ? $_POST['cajas_destino'] : 0;
+                $kilosBrutos_destino = !empty($_POST['kilosBrutos_destino']) ? $_POST['kilosBrutos_destino'] : 0.0;
+                $piezasExtra_destino = !empty($_POST['piezasExtra_destino']) ? $_POST['piezasExtra_destino'] : 0;
+                $destareAdd_destino = !empty($_POST['destareAdd_destino']) ? $_POST['destareAdd_destino'] : 0.0;
+                $observaciones = !empty($_POST['observaciones']) ?? '-';
 
                 // Llamar a la función para agregar la cambio en la base de datos
                 $result = AgregarCambio($conn, $fecha, $producto_origen, $producto_destino, $cajas_origen, $kilosBrutos_origen, $piezasExtra_origen, $destareAdd_origen, $cajas_destino, $kilosBrutos_destino, $piezasExtra_destino, $destareAdd_destino, $observaciones);
@@ -274,15 +274,15 @@ if (isset($_GET['action'])) {
                 $fecha = $_POST['fecha'];
                 $producto_origen = $_POST['producto_origen'];
                 $producto_destino = $_POST['producto_destino'];
-                $cajas_origen = $_POST['cajas_origen'] ?? 0;
-                $kilosBrutos_origen = $_POST['kilosBrutos_origen'] ?? 0.0;
-                $piezasExtra_origen = $_POST['piezasExtra_origen'] ?? 0;
-                $destareAdd_origen = $_POST['destareAdd_origen'] ?? 0.0;
-                $cajas_destino = $_POST['cajas_destino'] ?? 0;
-                $kilosBrutos_destino = $_POST['kilosBrutos_destino'] ?? 0.0;
-                $piezasExtra_destino = $_POST['piezasExtra_destino'] ?? 0;
-                $destareAdd_destino = $_POST['destareAdd_destino'] ?? 0.0;
-                $observaciones = $_POST['observaciones'] ?? '-';
+                $cajas_origen = !empty($_POST['cajas_origen']) ? $_POST['cajas_origen'] : 0;
+                $kilosBrutos_origen = !empty($_POST['kilosBrutos_origen']) ? $_POST['kilosBrutos_origen'] : 0.0;
+                $piezasExtra_origen = !empty($_POST['piezasExtra_origen']) ? $_POST['piezasExtra_origen'] : 0;
+                $destareAdd_origen = !empty($_POST['destareAdd_origen']) ? $_POST['destareAdd_origen'] : 0.0;
+                $cajas_destino = !empty($_POST['cajas_destino']) ? $_POST['cajas_destino'] : 0;
+                $kilosBrutos_destino = !empty($_POST['kilosBrutos_destino']) ? $_POST['kilosBrutos_destino'] : 0.0;
+                $piezasExtra_destino = !empty($_POST['piezasExtra_destino']) ? $_POST['piezasExtra_destino'] : 0;
+                $destareAdd_destino = !empty($_POST['destareAdd_destino']) ? $_POST['destareAdd_destino'] : 0.0;
+                $observaciones = !empty($_POST['observaciones']) ?? '-';
 
                 // Llamar a la función para agregar la cambio en la base de datos
                 $result = EditarCambio($conn, $id_cambio, $fecha, $producto_origen, $producto_destino, $cajas_origen, $kilosBrutos_origen, $piezasExtra_origen, $destareAdd_origen, $cajas_destino, $kilosBrutos_destino, $piezasExtra_destino, $destareAdd_destino, $observaciones);

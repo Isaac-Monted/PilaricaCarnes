@@ -198,15 +198,15 @@ if (isset($_GET['action'])) {
             if (isset($_POST['producto'])){
                 // Colocar los valores en variables
                 $producto = $_POST['producto'];
-                $descripcion = $_POST['descripcion'] ?? '-';
-                $clave = $_POST['clave'] ?? '-';
-                $presentacion = $_POST['presentacion'] ?? 'Pieza';
-                $pesoXpz = $_POST['pesoXpieza'] ?? 0.0;
-                $piezaXcj = $_POST['piezaXcaja'] ?? 0;
-                $precio = $_POST['precio'] ?? 0.0;
-                $pzIniciales = $_POST['piezasIniciales'] ?? 0;
-                $kgIniciales = $_POST['kilosIniciales'] ?? 0.0;
-                $estado = $_POST['estado'] ?? 'Activo';
+                $descripcion = !empty($_POST['descripcion']) ? $_POST['descripcion'] : '-';
+                $clave = !empty($_POST['clave']) ? $_POST['clave'] : '-';
+                $presentacion = !empty($_POST['presentacion']) ? $_POST['presentacion'] : 'Pieza';
+                $pesoXpz = !empty($_POST['pesoXpieza']) ? $_POST['pesoXpieza'] : 0.0;
+                $piezaXcj = !empty($_POST['piezaXcaja']) ? $_POST['piezaXcaja'] : 0;
+                $precio = !empty($_POST['precio']) ? $_POST['precio'] : 0.0;
+                $pzIniciales = !empty($_POST['piezasIniciales']) ? $_POST['piezasIniciales'] : 0;
+                $kgIniciales = !empty($_POST['kilosIniciales']) ? $_POST['kilosIniciales'] : 0.0;
+                $estado = !empty($_POST['estado']) ? $_POST['estado'] : 'Activo';
 
                 // Llamar a la función para agregar el producto en la base de datos
                 $result = AgregarProducto($conn, $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado);
@@ -228,15 +228,15 @@ if (isset($_GET['action'])) {
                 // Colocar los valores en variables
                 $id_producto = $_POST['id'];
                 $producto = $_POST['producto'];
-                $descripcion = $_POST['descripcion'] ?? '-';
-                $clave = $_POST['clave'] ?? '-';
-                $presentacion = $_POST['presentacion'] ?? 'Pieza';
-                $pesoXpz = $_POST['pesoXpieza'] ?? 0.0;
-                $piezaXcj = $_POST['piezaXcaja'] ?? 0;
-                $precio = $_POST['precio'] ?? 0.0;
-                $pzIniciales = $_POST['piezasIniciales'] ?? 0;
-                $kgIniciales = $_POST['kilosIniciales'] ?? 0.0;
-                $estado = $_POST['estado'] ?? 'Activo';
+                $descripcion = !empty($_POST['descripcion']) ? $_POST['descripcion'] : '-';
+                $clave = !empty($_POST['clave']) ? $_POST['clave'] : '-';
+                $presentacion = !empty($_POST['presentacion']) ? $_POST['presentacion'] : 'Pieza';
+                $pesoXpz = !empty($_POST['pesoXpieza']) ? $_POST['pesoXpieza'] : 0.0;
+                $piezaXcj = !empty($_POST['piezaXcaja']) ? $_POST['piezaXcaja'] : 0;
+                $precio = !empty($_POST['precio']) ? $_POST['precio'] : 0.0;
+                $pzIniciales = !empty($_POST['piezasIniciales']) ? $_POST['piezasIniciales'] : 0;
+                $kgIniciales = !empty($_POST['kilosIniciales']) ? $_POST['kilosIniciales'] : 0.0;
+                $estado = !empty($_POST['estado']) ? $_POST['estado'] : 'Activo';
             
                 // Llamar a la función para editar el producto en la base de datos
                 $result = EditarProducto($conn, $id_producto, $producto, $descripcion, $clave, $presentacion, $pesoXpz, $piezaXcj, $precio, $pzIniciales, $kgIniciales, $estado);

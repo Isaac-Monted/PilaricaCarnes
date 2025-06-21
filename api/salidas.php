@@ -218,11 +218,11 @@ if (isset($_GET['action'])) {
                 // Colocar los valores en las variables
                 $fecha = $_POST['fecha'];
                 $producto = $_POST['producto'];
-                $cajas = $_POST['cajas'] ?? 0;
-                $kilosBrutos = $_POST['kilosBrutos'] ?? 0.0;
-                $piezasExtra = $_POST['piezasExtra'] ?? 0;
-                $destareAdd = $_POST['destareAdd'] ?? 0.0;
-                $observaciones = $_POST['observaciones'] ?? '-';
+                $cajas = !empty($_POST['cajas']) ? $_POST['cajas'] : 0;
+                $kilosBrutos = !empty($_POST['kilosBrutos']) ? $_POST['kilosBrutos'] : 0.0;
+                $piezasExtra = !empty($_POST['piezasExtra']) ? $_POST['piezasExtra'] : 0;
+                $destareAdd = !empty($_POST['destareAdd']) ? $_POST['destareAdd'] : 0.0;
+                $observaciones = !empty($_POST['observaciones']) ? $_POST['observaciones'] : '-';
 
                 // Llamar a la función para agregar la salida en la base de datos
                 $result = AgregarSalida($conn, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);
@@ -245,11 +245,11 @@ if (isset($_GET['action'])) {
                 $id_salida = $_POST['id'];
                 $fecha = $_POST['fecha'];
                 $producto = $_POST['producto'];
-                $cajas = $_POST['cajas'] ?? 0;
-                $kilosBrutos = $_POST['kilosBrutos'] ?? 0.0;
-                $piezasExtra = $_POST['piezasExtra'] ?? 0;
-                $destareAdd = $_POST['destareAdd'] ?? 0.0;
-                $observaciones = $_POST['observaciones'] ?? '-';
+                $cajas = !empty($_POST['cajas']) ? $_POST['cajas'] : 0;
+                $kilosBrutos = !empty($_POST['kilosBrutos']) ? $_POST['kilosBrutos'] : 0.0;
+                $piezasExtra = !empty($_POST['piezasExtra']) ? $_POST['piezasExtra'] : 0;
+                $destareAdd = !empty($_POST['destareAdd']) ? $_POST['destareAdd'] : 0.0;
+                $observaciones = !empty($_POST['observaciones']) ? $_POST['observaciones'] : '-';
 
                 // Llamar a la función para agregar la salida en la base de datos
                 $result = EditarSalida($conn, $id_salida, $fecha, $producto, $cajas, $kilosBrutos, $piezasExtra, $destareAdd, $observaciones);

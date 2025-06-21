@@ -148,7 +148,7 @@ if (!isset($_COOKIE['acceso']) || $_COOKIE['acceso'] !== 'true') {
     });
 
     document.getElementById("eliminar_entradas").addEventListener("click", function (){
-        funciones.EliminarEntrada();
+        funciones.EstadoEntrada();
     });
 
     // ========= CASILLAS =========

@@ -55,7 +55,7 @@ function AgregarCambio($conn, $fecha, $id_producto_origen, $id_producto_destino,
             return "Error de escritura";
         }
     } else {
-        return "Error al agregar la salida" . $stmt->error;
+        return "Error al agregar el cambio" . $stmt->error;
     }
 
     $stmt->close();
@@ -100,7 +100,7 @@ function EditarCambio($conn, $id_cambio, $fecha, $id_producto_origen, $id_produc
             return "error de escritura";
         }
     } else {
-        return "Error al editar la salida: " . $stmt->error;
+        return "Error al editar el cambio: " . $stmt->error;
     }
 
     $stmt->close();
@@ -227,6 +227,40 @@ function EliminarCambio($conn, $id_cambio) {
     $stmt->close();
 }
 
+function EstadoCambio($conn, $id_salida, $estado) {
+    if (!is_numeric($id_salida)){
+        return "Error: debes proporcionar los datos necesarios para cambiar el estado";
+    }
+
+    // Consulta SQL para editar los datos en la base de datos
+    $query = "UPDATE Carnes_cambios SET
+        estado = ?
+    WHERE id = ?
+    ";
+
+    // preparacion de la consulta
+    $stmt = $conn->prepare($query);
+    if ($stmt === false){
+        return "Error en la preparacion de la consulta: " . $conn->error;
+    }
+
+    // Vinculamos los parametros
+    $stmt->bind_param("si", $estado, $id_salida);
+
+    //ejecutamos la consulta
+    if ($stmt->execute()){
+        if ($stmt->affected_rows > 0){
+            return "Operacion realizada";
+        } else {
+            return "error de escritura";
+        }
+    } else {
+        return "Error al editar el cambio: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
 // ================================= ENRUTAMIENTO =================================
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
@@ -250,7 +284,7 @@ if (isset($_GET['action'])) {
                 $kilosBrutos_destino = !empty($_POST['kilosBrutos_destino']) ? $_POST['kilosBrutos_destino'] : 0.0;
                 $piezasExtra_destino = !empty($_POST['piezasExtra_destino']) ? $_POST['piezasExtra_destino'] : 0;
                 $destareAdd_destino = !empty($_POST['destareAdd_destino']) ? $_POST['destareAdd_destino'] : 0.0;
-                $observaciones = !empty($_POST['observaciones']) ?? '-';
+                $observaciones = !empty($_POST['observaciones']) ? $_POST['observaciones'] : '-';
 
                 // Llamar a la función para agregar la cambio en la base de datos
                 $result = AgregarCambio($conn, $fecha, $producto_origen, $producto_destino, $cajas_origen, $kilosBrutos_origen, $piezasExtra_origen, $destareAdd_origen, $cajas_destino, $kilosBrutos_destino, $piezasExtra_destino, $destareAdd_destino, $observaciones);
@@ -282,7 +316,7 @@ if (isset($_GET['action'])) {
                 $kilosBrutos_destino = !empty($_POST['kilosBrutos_destino']) ? $_POST['kilosBrutos_destino'] : 0.0;
                 $piezasExtra_destino = !empty($_POST['piezasExtra_destino']) ? $_POST['piezasExtra_destino'] : 0;
                 $destareAdd_destino = !empty($_POST['destareAdd_destino']) ? $_POST['destareAdd_destino'] : 0.0;
-                $observaciones = !empty($_POST['observaciones']) ?? '-';
+                $observaciones = !empty($_POST['observaciones']) ? $_POST['observaciones'] : '-';
 
                 // Llamar a la función para agregar la cambio en la base de datos
                 $result = EditarCambio($conn, $id_cambio, $fecha, $producto_origen, $producto_destino, $cajas_origen, $kilosBrutos_origen, $piezasExtra_origen, $destareAdd_origen, $cajas_destino, $kilosBrutos_destino, $piezasExtra_destino, $destareAdd_destino, $observaciones);
@@ -332,6 +366,27 @@ if (isset($_GET['action'])) {
                 }
             } else {
                 $data = ["error" => "operacion fallida"];
+            }
+
+            break;
+
+        case 'EstadoCambio':
+            if (isset($_POST['id']) && isset($_POST['estado'])){
+                // Colocar los valores en las variables
+                $id_cambio = $_POST['id'];
+                $estado = $_POST['estado'];
+
+                // Llamar a la función para modificar el cambio en la base de datos
+                $result = EstadoCambio($conn, $id_cambio, $estado);
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
+            } else {
+                $data = ["error" => "Operacion fallida"];
             }
 
             break;

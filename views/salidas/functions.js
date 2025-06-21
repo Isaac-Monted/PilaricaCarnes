@@ -128,7 +128,7 @@ export async function EliminarSalida(){
     // declarar la casilla con el id a eliminar
     const idCasilla = salidasElements.id;
     if(!idCasilla.value){
-        alert("por favor seleccione un producto");
+        alert("por favor seleccione un registro");
         return;
     }
     let confirmar = confirm("Esta seguro de eliminar la salida");
@@ -157,6 +157,42 @@ export async function EliminarSalida(){
         }else{
             console.error('Error:', respuesta.message);
             alert("Opps! No se eliminado la salida")
+        }
+    }
+}
+
+export async function EstadoSalida(){
+    if(!salidasElements.id.value){
+        alert("por favor seleccione un registro");
+        return;
+    } else {
+        let confirmar = confirm("Esta seguro de eliminar la salida");
+
+        if(confirmar){
+            console.log("Estado");
+            // Promesa para enviar los datos al servidor y esperar ñas confirmacion
+            const responseData = await fetch(`/../carnes/api/salidas.php?action=EstadoSalida`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    id: salidasElements.id.value,
+                    estado: 'Inactivo'
+                })
+            });
+            // Verificar si la respuesta fue exitosa
+            const respuesta = await responseData.json(); // Aseguramos que el PHP devuelve un JSON
+
+            // mostar el mensaje acorde a la respuesta del servidor
+            if(respuesta.success){
+                console.log('Respuesta:', respuesta.message);
+                alert("Se ha eliminado correctamente");
+                LimpiarSalidas();
+            }else{
+                console.error('Error:', respuesta.message);
+                alert("Opps! No se a eliminado la salida");
+            }
         }
     }
 }
@@ -281,7 +317,7 @@ function Cargarpagina(){
 // ========================== FUNCIONES ==========================
 async function LlenarFiltroProductos(){
     // Traer todos los productos de la base de datos
-    await fetch(`/../carnes/api/Productos.php?action=LeerProductos`)
+    await fetch(`/../carnes/api/Productos.php?action=LeerProductos&filters=%7B%22estado%22%3A%22Activo%22%7D`)
         .then(respuesta => respuesta.json()) // Espera la respuesta como JSON
         .then(data => {
             console.log(data);
@@ -294,7 +330,7 @@ async function LlenarFiltroProductos(){
 
 async function LlenartablaSalidas(){
     // Traer todos las salidas de la base de datos
-    await fetch(`/../carnes/api/salidas.php?action=LeerSalidas`)
+    await fetch(`/../carnes/api/salidas.php?action=LeerSalidas&filters=%7B%22estado%22%3A%22Activo%22%7D`)
         .then(respuesta => respuesta.json()) // Esperar la respuesta como JSON
         .then(data => {
             console.log(data);

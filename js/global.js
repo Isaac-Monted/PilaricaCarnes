@@ -43,6 +43,7 @@ export async function BuscarProductoText(Product_text){
     // Construir el objeto de filtros
     const filters = {
         nombre_producto_buscar: Product_text,
+        estado: 'Activo'
     };
 
     // Crear un objeto URLSearchParams y añadir los filtros

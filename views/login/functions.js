@@ -34,6 +34,14 @@ export async function IniciarSesion() {
     if(data.error){
         // Lanzar un error si el estado HTTP no fue exitoso
         alert("No esta registrado el usuario registrado");
+        LimpiarFormulario();
+        return;
+    }
+
+    if(data[0].estado === "Inactivo"){
+        // Lanzar un error si el estado HTTP no fue exitoso
+        alert("El usuario no esta permitido");
+        LimpiarFormulario();
         return;
     }
     
@@ -57,6 +65,7 @@ export async function IniciarSesion() {
 
     // mostrar el mensaje acorde a la respuesta del servidor
     if (respuesta.success){
+        LimpiarFormulario();
         document.location.href = '/carnes/inicio';
     }else{
         console.error('Error:', respuesta.message);

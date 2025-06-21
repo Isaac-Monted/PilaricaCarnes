@@ -202,7 +202,39 @@ function EliminarSalidas($conn, $id_salida) {
     $stmt->close();
 }
 
+function EstadoSalida($conn, $id_salida, $estado) {
+    if (!is_numeric($id_salida)){
+        return "Error: debes proporcionar los datos necesarios para cambiar el estado";
+    }
 
+    // Consulta SQL para editar los datos en la base de datos
+    $query = "UPDATE Carnes_salidas SET
+        estado = ?
+    WHERE id = ?
+    ";
+
+    // preparacion de la consulta
+    $stmt = $conn->prepare($query);
+    if ($stmt === false){
+        return "Error en la preparacion de la consulta: " . $conn->error;
+    }
+
+    // Vinculamos los parametros
+    $stmt->bind_param("si", $estado, $id_salida);
+
+    //ejecutamos la consulta
+    if ($stmt->execute()){
+        if ($stmt->affected_rows > 0){
+            return "Operacion realizada";
+        } else {
+            return "error de escritura";
+        }
+    } else {
+        return "Error al editar la salida: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
 
 // ================================= ENRUTAMIENTO =================================
 if (isset($_GET['action'])) {
@@ -299,6 +331,27 @@ if (isset($_GET['action'])) {
                 }
             } else {
                 $data = ["error" => "operacion fallida"];
+            }
+
+            break;
+
+        case 'EstadoSalida':
+            if (isset($_POST['id']) && isset($_POST['estado'])){
+                // Colocar los valores en las variables
+                $id_salida = $_POST['id'];
+                $estado = $_POST['estado'];
+
+                // Llamar a la función para modificar la salida en la base de datos
+                $result = EstadoSalida($conn, $id_salida, $estado);
+
+                // Procesar el resultado
+                if (str_starts_with($result, "Operacion realizada")) {
+                    $data = ["success" => $result];
+                } else {
+                    $data = ["error" => $result];
+                }
+            } else {
+                $data = ["error" => "Operacion fallida"];
             }
 
             break;

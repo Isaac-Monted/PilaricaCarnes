@@ -227,7 +227,7 @@ export async function ColocarDatosEnCasillas(id_user){
     params.append('filters', JSON.stringify(filters)); // <-- Envía todo el objeto filters como una cadena JSON
 
     // Construir la URL completa usando template literals y params.toString()
-    const url = `/../carnes/api/Usuarios.php?${params.toString()}`;
+    const url = `/../carnes/api/usuarios.php?${params.toString()}`;
 
     // Realizar la solicitud fetch
     try {

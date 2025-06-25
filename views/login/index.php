@@ -2,7 +2,10 @@
 // Verificar si el usuario ya tiene la cookie 'acceso' activa
 if (isset($_COOKIE['acceso']) && $_COOKIE['acceso'] === 'true') {
     // Redirige a la página principal si ya está autenticado
-    header('Location: inicio');
+    //header('Location: inicio');
+    echo "<script>
+        window.location.href = '/carnes/inicio';
+    </script>";
     exit;
 }
 ?>

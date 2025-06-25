@@ -240,6 +240,9 @@ export async function AplicarFiltros(){
         return;
     }
 
+    // Colocar el filtro para mostrar solo registros activos
+    filters["estado"] = 'Activo';
+
     // Crear un objeto URLSearchParams y añadir los filtros
     const params = new URLSearchParams();
     params.append('action', 'LeerEntradas'); // siempre añadir la accion

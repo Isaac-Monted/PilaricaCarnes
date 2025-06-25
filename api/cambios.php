@@ -174,7 +174,7 @@ function LeerCambios($conn, $filters = []) {
         }
         $query .= " WHERE " . implode(" AND ", $conditions);
     }
-    $query .= " ORDER BY id ASC";
+    $query .= " ORDER BY id DESC";
 
     // Preparar y ejecutar la consulta
     $stmt = $conn->prepare($query);

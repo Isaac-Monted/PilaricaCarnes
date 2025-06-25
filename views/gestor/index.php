@@ -12,34 +12,34 @@
             <p>Filtros</p>
             <div>
                 <div>
-                    <label for="fechaF_salidas">Fecha Inicio:</label>
-                    <input type="date" id="fechaF_salidas" name="fechaF_salidas">
+                    <label for="fechaInitF_gestor">Fecha Inicio:</label>
+                    <input type="date" id="fechaInitF_gestor" name="fechaInitF_gestor">
                 </div>
                 <div>
-                    <label for="fechaF_salidas">Fecha Termino:</label>
-                    <input type="date" id="fechaF_salidas" name="fechaF_salidas">
+                    <label for="fechaFinalF_gestor">Fecha Termino:</label>
+                    <input type="date" id="fechaFinalF_gestor" name="fechaFinalF_gestor" disabled>
                 </div>
             </div>
             <div>
                 <div>
-                    <label for="usuariosF_usuarios">Producto:</label>
-                    <input type="hidden" id="id_producto_salidas" name="id_producto_salidas">
+                    <label for="productoF_gestor">Producto:</label>
+                    <input type="hidden" id="id_productoF_gestor" name="id_producto_gestor">
                     <section class="filtroDeLista" style="width: 100%">
-                        <input type="search" id="usuariosF_usuarios" name="usuariosF_usuarios">
-                        <ul id="listaResultadosSalidas" class="listaResultados"><li>a</li></ul>
+                        <input type="search" id="productoF_gestor" name="productoF_gestor">
+                        <ul id="listaResultadosGestor" class="listaResultados"></ul>
                     </section>
                 </div>
                 <div>
-                    <label for="productoF_salidas">Producto Destino:</label>
-                    <select id="productoF_salidas" name="productoF_salidas">
+                    <label for="productoDestinoF_gestor">Producto Destino:</label>
+                    <select id="productoDestinoF_gestor" name="productoDestinoF_gestor" disabled>
                         <option value="1"></option>
                     </select>
                 </div>
             </div>
             <div>
-                <label for="productoF_salidas">movimiento:</label>
-                <select id="productoF_salidas" name="productoF_salidas">
-                    <option value="" selected disabled>Selecciona un producto</option>
+                <label for="movimientoF_gestor">movimiento:</label>
+                <select id="movimientoF_gestor" name="movimientoF_gestor">
+                    <option value="" selected disabled>Selecciona un movimiento</option>
                     <option value="Entradas">Entradas</option>
                     <option value="Salidas">Salidas</option>
                     <option value="Cambios">Cambios de presentacion</option>
@@ -47,39 +47,39 @@
                 </select>
             </div>
             <div>
-                <label for="productoF_salidas">Agrupacion:</label>
-                <select id="productoF_salidas" name="productoF_salidas">
+                <label for="agrupacionF_gestor">Agrupacion:</label>
+                <select id="agrupacionF_gestor" name="agrupacionF_gestor" disabled>
                     <option value="" selected disabled>Selecciona una agrupacion</option>
                     <option value="Agrupado">Agrupado</option>
                     <option value="Separado">Separado</option>
                 </select>
             </div>
             <div>
-                <label for="productoF_salidas">Estado:</label>
-                <select id="productoF_salidas" name="productoF_salidas">
+                <label for="estadoF_gestor">Estado:</label>
+                <select id="estadoF_gestor" name="estadoF_gestor" disabled>
                     <option value="" selected disabled>Selecciona un estado</option>
                     <option value="Activo">Activo</option>
                     <option value="Inactivo">Inactivo</option>
                 </select>
             </div>
             <div>
-                <label for="productoF_salidas">Orientacion:</label>
-                <select id="productoF_salidas" name="productoF_salidas">
+                <label for="orientacionF_gestor">Orientacion:</label>
+                <select id="orientacionF_gestor" name="orientacionF_gestor" disabled>
                     <option value="" selected disabled>Selecciona la orientacion</option>
                     <option value="ASC">Ascendente</option>
                     <option value="DESC">Descendente</option>
                 </select>
             </div>
             <div>
-                <button id="filtrar_salidas" name="filtrar_salidas">🔎 Buscar </button>
-                <button id="filtrar_salidas" name="filtrar_salidas">🧹 Limpiar</button>
+                <button id="filtrar_gestor" name="filtrar_gestor">🔎 Buscar </button>
+                <button id="limpiar_gestor" name="limpiar_gestor">🧹 Limpiar</button>
             </div>
         </div>
         <div>
             <h3>Gestion de Movimientos</h3>
             <div class="contenedorTabla">
                 <table>
-                    <thead id="contenedorTablaSalidas">
+                    <thead id="contenedorTablagestor">
                         <tr>
                             <th style="display: none"></th>
                             <th></th>
@@ -92,7 +92,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody id="contenedorTablaSalidas">
+                    <tbody id="contenedorTablagestor">
                         <tr>
                             <td style="display: none"></td>
                             <td> </td>
@@ -112,3 +112,31 @@
 
     </div>
 </body>
+
+<script type="module">
+    import * as funciones from './views/gestor/functions.js';
+    // ========= EVENTOS =========
+    document.getElementById("movimientoF_gestor").addEventListener("input", function (){
+        const movimineto = document.getElementById("movimientoF_gestor").value;
+        funciones.DetectarMovimiento(movimineto);
+    });
+    // ========= BOTONES =========
+    document.getElementById("filtrar_gestor").addEventListener("click", function(){
+        funciones.FiltrarInformacion();
+    });
+    document.getElementById("limpiar_gestor").addEventListener("click", function(){
+        funciones.LimpiarGestor();
+    });
+    // ========= CASILLAS =========
+    //casilla de seleccion de producto
+    document.getElementById("productoF_gestor").addEventListener("input", function (){
+        const Search = document.getElementById("productoF_gestor");
+        funciones.SeleccionarProducto(Search.value);
+    });
+    document.getElementById("productoF_gestor").addEventListener("focus", function (){
+        setTimeout(() => funciones.focoCasilla(true), 200);
+    });
+    document.getElementById("productoF_gestor").addEventListener("blur", function (){
+        setTimeout(() =>funciones.focoCasilla(false), 200);
+    });
+</script>

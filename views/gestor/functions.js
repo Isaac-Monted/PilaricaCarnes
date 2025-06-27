@@ -61,16 +61,19 @@ export function LimpiarGestor(){
     DetectarMovimiento("Inventario");
 }
 
-export function FiltrarInformacion(){
+export async function FiltrarInformacion(){
     console.log("Filtrado");
+    // Constantes del tipo de movimiento
+    const movimiento = gestorElemens.filtroMovimiento.value;
+    let data = null;
     // construir el objeto con filtros
     const filters = {};
     // Validar si hay un movimiento seleccionado
-    if(gestorElemens.filtroMovimiento.value === ""){
+    if(movimiento === ""){
         alert("Por favor selecciona un movimiento para filtrar");
         return;
         // determinar que filtros estan activos para armal la conslulta
-    }else if(gestorElemens.filtroMovimiento.value === "Inventario"){
+    }else if(movimiento === "Inventario"){
         // Colocar los filtros que son unicamente del inventario
         if(gestorElemens.filtroFechaInicio.value){
             filters["fecha"] = gestorElemens.filtroFechaInicio.value;
@@ -80,6 +83,8 @@ export function FiltrarInformacion(){
         }
         // llamar a la API para gestionar el inventario
         console.log(filters);
+        data = await ExecuteApiRest('CalcularInventario','/../carnes/api/gestor.php?',filters);
+        console.log(data);
         return;
     } else {
         // colocar la fecha inicial y la fecha de termino
@@ -91,7 +96,7 @@ export function FiltrarInformacion(){
         }
 
         // determinar si es entrada o cambio para gestionar que datos enviar
-        if(gestorElemens.filtroMovimiento.value === "Cambios"){
+        if(movimiento === "Cambios"){
             if(gestorElemens.id_producto.value){
                 filters["producto_origen"] = gestorElemens.id_producto.value;
             }
@@ -115,17 +120,53 @@ export function FiltrarInformacion(){
         }
 
         // llamar a la API para gestionar la informacion
-        switch(gestorElemens.filtroMovimiento.value){
+        switch(movimiento){
             case "Cambios":
                 console.log(filters);
+                data = await ExecuteApiRest('FiltarCambios','/../carnes/api/gestor.php?',filters);
+                console.log(data);
                 return;
             case "Entradas":
                 console.log(filters);
+                data = await ExecuteApiRest('FiltarEntradas','/../carnes/api/gestor.php?',filters);
+                console.log(data);
                 return;
             case "Salidas":
                 console.log(filters);
+                data = await ExecuteApiRest('FiltarSalidas','/../carnes/api/gestor.php?',filters);
+                console.log(data);
                 return;
         }
+    }
+}
+
+async function ExecuteApiRest(action, api, filters){
+    // Crear un objeto URLSearchParams y añadir los fitros
+    const params = new URLSearchParams();
+    params.append('action', action.toString()); // Siempre añadir la accion
+
+    // Codificar el objeto filters a JSON
+    params.append('filters', JSON.stringify(filters)); // <-- Enviar todo el objeto filters como una cadena JSON
+
+    //Construir la url completa usando template literals y params.tostring()
+    const url = `${api.toString()}${params.toString()}`;
+
+    // Realizar la solicitud Ajax
+    try{
+        const response = await fetch(url);
+
+        if(!response.ok){
+            // Lanzar un error si el estado HTP no fue exitoso
+            throw new Error(`¡Error HTTP! Estado: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json(); // Espera a que el JSON se parseé
+
+        return data;
+    } catch (error) {
+        console.error("Error al buscar la informacion:", error);
+        // Retornar un array vacio o null aqui si hay un error
+        return [];
     }
 }
 

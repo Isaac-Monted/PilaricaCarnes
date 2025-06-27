@@ -50,8 +50,8 @@
                 <label for="agrupacionF_gestor">Agrupacion:</label>
                 <select id="agrupacionF_gestor" name="agrupacionF_gestor" disabled>
                     <option value="" selected disabled>Selecciona una agrupacion</option>
-                    <option value="Agrupado">Agrupado</option>
-                    <option value="Separado">Separado</option>
+                    <option value="true">Agrupado</option>
+                    <option value="false">Separado</option>
                 </select>
             </div>
             <div>

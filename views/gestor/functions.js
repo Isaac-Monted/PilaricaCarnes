@@ -62,7 +62,71 @@ export function LimpiarGestor(){
 }
 
 export function FiltrarInformacion(){
+    console.log("Filtrado");
+    // construir el objeto con filtros
+    const filters = {};
+    // Validar si hay un movimiento seleccionado
+    if(gestorElemens.filtroMovimiento.value === ""){
+        alert("Por favor selecciona un movimiento para filtrar");
+        return;
+        // determinar que filtros estan activos para armal la conslulta
+    }else if(gestorElemens.filtroMovimiento.value === "Inventario"){
+        // Colocar los filtros que son unicamente del inventario
+        if(gestorElemens.filtroFechaInicio.value){
+            filters["fecha"] = gestorElemens.filtroFechaInicio.value;
+        }
+        if(gestorElemens.id_producto.value){
+            filters["producto_id"] = gestorElemens.id_producto.value;
+        }
+        // llamar a la API para gestionar el inventario
+        console.log(filters);
+        return;
+    } else {
+        // colocar la fecha inicial y la fecha de termino
+        if(gestorElemens.filtroFechaInicio.value){
+            filters["fecha_inicio"] = gestorElemens.filtroFechaInicio.value;
+        }
+        if(gestorElemens.filtroFechaFinal.value){
+            filters["fecha_termino"] = gestorElemens.filtroFechaFinal.value;
+        }
 
+        // determinar si es entrada o cambio para gestionar que datos enviar
+        if(gestorElemens.filtroMovimiento.value === "Cambios"){
+            if(gestorElemens.id_producto.value){
+                filters["producto_origen"] = gestorElemens.id_producto.value;
+            }
+            if(gestorElemens.filtroProductoDestino.value){
+                filters["producto_destino"] = gestorElemens.filtroProductoDestino.value;
+            }
+        } else {
+            if(gestorElemens.filtroProducto.value){
+                filters["producto_texto"] = gestorElemens.filtroProducto.value;
+            }
+        }
+        // Colocar los demas filtros compatibles con todos los movimientos
+        if(gestorElemens.filtroAgrupacion.value){
+            filters["agrupacion"] = gestorElemens.filtroAgrupacion.value;
+        }
+        if(gestorElemens.filtroEstado.value){
+            filters["estado"] = gestorElemens.filtroEstado.value;
+        }
+        if(gestorElemens.filtroOrientacion.value){
+            filters["orientacion"] = gestorElemens.filtroOrientacion.value;
+        }
+
+        // llamar a la API para gestionar la informacion
+        switch(gestorElemens.filtroMovimiento.value){
+            case "Cambios":
+                console.log(filters);
+                return;
+            case "Entradas":
+                console.log(filters);
+                return;
+            case "Salidas":
+                console.log(filters);
+                return;
+        }
+    }
 }
 
 export async function SeleccionarProducto(Texto){

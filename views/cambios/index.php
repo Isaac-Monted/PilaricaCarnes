@@ -203,7 +203,7 @@ if (!isset($_COOKIE['acceso']) || $_COOKIE['acceso'] !== 'true') {
     });
 
     document.getElementById("limpiar_cambios").addEventListener("click", function (){
-        funciones.LimpiarCambios();
+        funciones.LimpiarAllCambios();
     });
 
     document.getElementById("editar_cambios").addEventListener("click", function (){

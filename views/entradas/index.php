@@ -140,7 +140,7 @@ if (!isset($_COOKIE['acceso']) || $_COOKIE['acceso'] !== 'true') {
     });
 
     document.getElementById("limpiar_entradas").addEventListener("click", function (){
-        funciones.LimpiarEntradas();
+        funciones.LimpiarAllEntradas();
     });
 
     document.getElementById("editar_entradas").addEventListener("click", function (){

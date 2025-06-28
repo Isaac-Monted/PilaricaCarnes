@@ -31,6 +31,27 @@ const cambiosElements = {
     observaciones: document.getElementById("Observaciones_cambios")
 };
 
+const cambiosFormulario = {
+    id: document.getElementById("id_cambios"),
+    producto_Origen: document.getElementById("nombre_origen_cambios"),
+    id_producto_Origen: document.getElementById("id_producto_origen_cambios"),
+    producto_Destino: document.getElementById("nombre_destino_cambios"),
+    id_producto_Destino: document.getElementById("id_producto_destino_cambios"),
+    cajas_Origen: document.getElementById("cajasOri_cambios"),
+    kilosBru_Origen: document.getElementById("kilosBOri_cambios"),
+    piezasExt_Origen: document.getElementById("piezasEOri_cambios"),
+    destareAdd_Origen: document.getElementById("destareAOri_cambios"),
+    totalPz_Origen: document.getElementById("totalPOri_cambios"),
+    totalKg_Origen: document.getElementById("totalKOri_cambios"),
+    cajas_Destino: document.getElementById("cajasDes_cambios"),
+    kilosBru_Destino: document.getElementById("kilosBDes_cambios"),
+    piezasExt_Destino: document.getElementById("piezasEDes_cambios"),
+    destareAdd_Destino: document.getElementById("destareADes_cambios"),
+    totalPz_Destino: document.getElementById("totalPDes_cambios"),
+    totalKg_Destino: document.getElementById("totalKDes_cambios"),
+    observaciones: document.getElementById("Observaciones_cambios")
+}
+
 // declarar las listas que se van a llenar
 const Listas = {
     ListaOrigen: document.getElementById("listaResultadosOrigenCambios"),
@@ -119,6 +140,25 @@ export function LimpiarCambios(){
     // limpiar cada una de las casillas
     Object.keys(cambiosElements).forEach(key => {
         const casilla = cambiosElements[key];
+        casilla.value = "";
+    });
+
+    Listas.ListaOrigen.innerHTML = ''; // Limpiar el contenido de la lista
+    Listas.ListaDestino.innerHTML = ''; // Limpiar el contenido de la lista
+
+    //Calcular los campos calculados
+    CalcularCamposCalculados("origen");
+    CalcularCamposCalculados("destino");
+    // Actualizar la tabla
+    LlenartablaCambios();
+}
+
+export function LimpiarAllCambios(){
+    console.log("Limpiar");
+    
+    // limpiar cada una de las casillas
+    Object.keys(cambiosFormulario).forEach(key => {
+        const casilla = cambiosFormulario[key];
         casilla.value = "";
     });
 

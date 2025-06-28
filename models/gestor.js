@@ -66,26 +66,28 @@ function LlenarTablaE(products, encabezados, tabla){
         const errorRow = document.createElement("tr"); // Crear la fila en blanco en caso de error
         const headerError = document.createElement("tr"); // Crear el encabezado en blanco en caso de error
         errorRow.innerHTML=`
-            <td style="display: none"></td>
+            <td style="display: none"> </td>
             <td> </td>
-            <td style="display: none"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td> </td>
+            <td style="display: none"> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
         `;
         headerError.innerHTML = `
-            <th style="display: none"></th>
-            <th></th>
-            <th style="display: none"></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th style="display: none">id</th>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th style="display: none">id_producto</th>
+            <th>Cajas</th>
+            <th>Kilos Brutos</th>
+            <th>Piezas extras</th>
+            <th>Destare Adicional</th>
+            <th>Total Piezas</th>
+            <th>Total Kilos</th>
         `;
         Tabla.appendChild(errorRow); // Mostrar el mensaje de error en el DOM
         Encabezados.appendChild(headerError); // Colocar el encabezado en la tabla
@@ -99,6 +101,7 @@ function LlenarTablaE(products, encabezados, tabla){
         noProductRow.innerHTML = `
             <td style="display: none"> </td>
             <td> </td>
+            <td> </td>
             <td style="display: none"> </td>
             <td> </td>
             <td> </td>
@@ -108,15 +111,16 @@ function LlenarTablaE(products, encabezados, tabla){
             <td> </td>
         `;
         headerNoProduct.innerHTML = `
-            <td style="display: none"></td>
-            <td> </td>
-            <td style="display: none"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <th style="display: none">id</th>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th style="display: none">id_producto</th>
+            <th>Cajas</th>
+            <th>Kilos Brutos</th>
+            <th>Piezas extras</th>
+            <th>Destare Adicional</th>
+            <th>Total Piezas</th>
+            <th>Total Kilos</th>
         `;
         Tabla.appendChild(noProductRow); // Colocar las filas en la tabla
         Encabezados.appendChild(headerNoProduct); // Colocar el encabezado en la tabla
@@ -179,6 +183,7 @@ function LlenarTablaS(products, encabezados, tabla){
         errorRow.innerHTML=`
             <td style="display: none"> </td>
             <td> </td>
+            <td> </td>
             <td style="display: none"> </td>
             <td> </td>
             <td> </td>
@@ -188,15 +193,16 @@ function LlenarTablaS(products, encabezados, tabla){
             <td> </td>
         `;
         headerError.innerHTML = `
-            <th style="display: none"></th>
-            <th></th>
-            <th style="display: none"></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th style="display: none">id</th>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th style="display: none">id_producto</th>
+            <th>Cajas</th>
+            <th>Kilos Brutos</th>
+            <th>Piezas extras</th>
+            <th>Destare Adicional</th>
+            <th>Total Piezas</th>
+            <th>Total Kilos</th>
         `;
         Tabla.appendChild(errorRow); // Mostrar el mensaje de error en el DOM
         Encabezados.appendChild(headerError); // Colocar el encabezado en la tabla
@@ -210,6 +216,7 @@ function LlenarTablaS(products, encabezados, tabla){
         noProductRow.innerHTML = `
             <td style="display: none"> </td>
             <td> </td>
+            <td> </td>
             <td style="display: none"> </td>
             <td> </td>
             <td> </td>
@@ -219,15 +226,16 @@ function LlenarTablaS(products, encabezados, tabla){
             <td> </td>
         `;
         headerNoProduct.innerHTML = `
-            <td style="display: none"></td>
-            <td> </td>
-            <td style="display: none"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <th style="display: none">id</th>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th style="display: none">id_producto</th>
+            <th>Cajas</th>
+            <th>Kilos Brutos</th>
+            <th>Piezas extras</th>
+            <th>Destare Adicional</th>
+            <th>Total Piezas</th>
+            <th>Total Kilos</th>
         `;
         Tabla.appendChild(noProductRow); // Colocar las filas en la tabla
         Encabezados.appendChild(headerNoProduct); // Colocar el encabezado en la tabla
@@ -288,26 +296,48 @@ function LlenarTablaC(products, encabezados, tabla){
         const errorRow = document.createElement("tr"); // Crear la fila en blanco en caso de error
         const headerError = document.createElement("tr"); // Crear el encabezado en blanco en caso de error
         errorRow.innerHTML=`
-            <td style="display: none"> </td>
-            <td> </td>
-            <td style="display: none"> </td>
-            <td> </td>
+            <td style="display: none"></td>
+
             <td> </td>
             <td> </td>
+            <td style="display: none"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
             <td> </td>
-            <td> </td>
-            <td> </td>
+            <td style="display: none"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         `;
         headerError.innerHTML = `
-            <th style="display: none"></th>
-            <th></th>
-            <th style="display: none"></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th style="display: none">id_origen</th>
+
+            <th>Fecha</th>
+            <th>Producto Origen</th>
+            <th style="display: none">id_producto_origen</th>
+            <th>Cajas Origen</th>
+            <th>Kilos Brutos Origen</th>
+            <th>Piezas Extras Origen</th>
+            <th>Destare Adicional Origen</th>
+            <th>Total Piezas Origen</th>
+            <th>Total Kilos Origen</th>
+
+            <th>Producto Destino</th>
+            <th style="display: none">id_producto_destino</th>
+            <th>Cajas Destino</th>
+            <th>Kilos Brutos Destino</th>
+            <th>Piezas extras Destino</th>
+            <th>Destare Adicional Destino</th>
+            <th>Total Piezas Destino</th>
+            <th>Total Kilos Destino</th>
         `;
         Tabla.appendChild(errorRow); // Mostrar el mensaje de error en el DOM
         Encabezados.appendChild(headerError); // Colocar el encabezado en la tabla
@@ -319,26 +349,48 @@ function LlenarTablaC(products, encabezados, tabla){
         const noProductRow = document.createElement("tr"); // Crear la fila en blanco en caso de no haber productos
         const headerNoProduct = document.createElement("tr"); // Crear el encabezado en blanco en caso de no haber productos
         noProductRow.innerHTML = `
-            <td style="display: none"> </td>
-            <td> </td>
-            <td style="display: none"> </td>
-            <td> </td>
+            <td style="display: none"></td>
+
             <td> </td>
             <td> </td>
+            <td style="display: none"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+
             <td> </td>
-            <td> </td>
-            <td> </td>
+            <td style="display: none"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         `;
         headerNoProduct.innerHTML = `
-            <td style="display: none"></td>
-            <td> </td>
-            <td style="display: none"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <th style="display: none">id_origen</th>
+
+            <th>Fecha</th>
+            <th>Producto Origen</th>
+            <th style="display: none">id_producto_origen</th>
+            <th>Cajas Origen</th>
+            <th>Kilos Brutos Origen</th>
+            <th>Piezas Extras Origen</th>
+            <th>Destare Adicional Origen</th>
+            <th>Total Piezas Origen</th>
+            <th>Total Kilos Origen</th>
+
+            <th>Producto Destino</th>
+            <th style="display: none">id_producto_destino</th>
+            <th>Cajas Destino</th>
+            <th>Kilos Brutos Destino</th>
+            <th>Piezas extras Destino</th>
+            <th>Destare Adicional Destino</th>
+            <th>Total Piezas Destino</th>
+            <th>Total Kilos Destino</th>
         `;
         Tabla.appendChild(noProductRow); // Colocar las filas en la tabla
         Encabezados.appendChild(headerNoProduct); // Colocar el encabezado en la tabla
@@ -418,26 +470,20 @@ function LlenarTablaI(products, encabezados, tabla){
         const errorRow = document.createElement("tr"); // Crear la fila en blanco en caso de error
         const headerError = document.createElement("tr"); // Crear el encabezado en blanco en caso de error
         errorRow.innerHTML=`
-            <td style="display: none"> </td>
-            <td> </td>
-            <td style="display: none"> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
+            <th style="display: none">id</th>
+            <th>Producto</th>
+            
+            <th>Clave</th>
+            <th>Piezas</th>
+            <th>Kilos</th>
         `;
         headerError.innerHTML = `
-            <th style="display: none"></th>
-            <th></th>
-            <th style="display: none"></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <td style="display: none"></td>
+            <td></td>
+            
+            <td></td>
+            <td></td>
+            <td></td>
         `;
         Tabla.appendChild(errorRow); // Mostrar el mensaje de error en el DOM
         Encabezados.appendChild(headerError); // Colocar el encabezado en la tabla
@@ -449,23 +495,17 @@ function LlenarTablaI(products, encabezados, tabla){
         const noProductRow = document.createElement("tr"); // Crear la fila en blanco en caso de no haber productos
         const headerNoProduct = document.createElement("tr"); // Crear el encabezado en blanco en caso de no haber productos
         noProductRow.innerHTML = `
-            <td style="display: none"> </td>
-            <td> </td>
-            <td style="display: none"> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
+            <th style="display: none">id</th>
+            <th>Producto</th>
+            
+            <th>Clave</th>
+            <th>Piezas</th>
+            <th>Kilos</th>
         `;
         headerNoProduct.innerHTML = `
             <td style="display: none"></td>
             <td> </td>
-            <td style="display: none"></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            
             <td></td>
             <td></td>
             <td></td>

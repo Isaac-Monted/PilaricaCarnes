@@ -22,6 +22,19 @@ const entradasElements = {
     observaciones: document.getElementById("Observaciones_entradas")
 };
 
+const entradasFormulario = {
+    id: document.getElementById("id_entradas"),
+    producto: document.getElementById("nombre_entradas"),
+    id_producto: document.getElementById("id_producto_entradas"),
+    cajas: document.getElementById("cajas_entradas"),
+    kilosBru: document.getElementById("kilosB_entradas"),
+    piezasExt: document.getElementById("piezasE_entradas"),
+    destareAdd: document.getElementById("destareA_entradas"),
+    totalPz: document.getElementById("totalP_entradas"),
+    totalKg: document.getElementById("totalK_entradas"),
+    observaciones: document.getElementById("Observaciones_entradas")
+}
+
 // declarar la lista que se va a llenar
 const Lista = document.getElementById("listaResultadosEntradas");
 
@@ -72,6 +85,23 @@ export function LimpiarEntradas(){
     // limpiar cada una de las casillas
     Object.keys(entradasElements).forEach(key => {
         const casilla = entradasElements[key];
+        casilla.value = "";
+    });
+
+    Lista.innerHTML = ''; // Limpiar el contenido de la lista
+
+    //Calcular los campos calculados
+    CalcularCamposCalculados();
+    // Actualizar la tabla
+    LlenartablaEntradas();
+}
+
+export function LimpiarAllEntradas(){
+    console.log("Limpiar");
+
+    // limpiar cada una de las casillas
+    Object.keys(entradasFormulario).forEach(key => {
+        const casilla = entradasFormulario[key];
         casilla.value = "";
     });
 

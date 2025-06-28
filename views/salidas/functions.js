@@ -22,6 +22,19 @@ const salidasElements = {
     observaciones: document.getElementById("Observaciones_salidas")
 };
 
+const salidasFormulario = {
+    id: document.getElementById("id_salidas"),
+    producto: document.getElementById("nombre_salidas"),
+    id_producto: document.getElementById("id_producto_salidas"),
+    cajas: document.getElementById("cajas_salidas"),
+    kilosBru: document.getElementById("kilosB_salidas"),
+    piezasExt: document.getElementById("piezasE_salidas"),
+    destareAdd: document.getElementById("destareA_salidas"),
+    totalPz: document.getElementById("totalP_salidas"),
+    totalKg: document.getElementById("totalK_salidas"),
+    observaciones: document.getElementById("Observaciones_salidas")
+}
+
 // declarar la lista que se va a llenar
 const Lista = document.getElementById("listaResultadosSalidas");
 
@@ -67,6 +80,23 @@ export async function AgregarSalida(){
 }
 
 export function LimpiarSalidas(){
+    console.log("Limpiar");
+
+    // limpiar cada una de las casillas
+    Object.keys(salidasFormulario).forEach(key => {
+        const casilla = salidasFormulario[key];
+        casilla.value = "";
+    });
+
+    Lista.innerHTML = ''; // Limpiar el contenido de la lista
+
+    //Calcular los campos calculados
+    CalcularCamposCalculados();
+    // Actualizar la tabla
+    LlenartablaSalidas();
+}
+
+export function LimpiarAllSalidas(){
     console.log("Limpiar");
 
     // limpiar cada una de las casillas

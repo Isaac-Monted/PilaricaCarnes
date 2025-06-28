@@ -150,7 +150,7 @@ export function LimpiarCambios(){
     CalcularCamposCalculados("origen");
     CalcularCamposCalculados("destino");
     // Actualizar la tabla
-    LlenartablaCambios();
+    AplicarFiltros();
 }
 
 export function LimpiarAllCambios(){

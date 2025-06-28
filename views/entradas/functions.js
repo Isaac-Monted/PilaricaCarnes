@@ -93,7 +93,7 @@ export function LimpiarEntradas(){
     //Calcular los campos calculados
     CalcularCamposCalculados();
     // Actualizar la tabla
-    LlenartablaEntradas();
+    AplicarFiltros();
 }
 
 export function LimpiarAllEntradas(){

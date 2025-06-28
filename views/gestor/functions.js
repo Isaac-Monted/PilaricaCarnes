@@ -57,7 +57,7 @@ export function LimpiarGestor(){
     Lista.innerHTML = ''; // Limpiar el contenido de la lista
 
     // Actualizar la tabla
-    LlenartablaGestor();
+    LlenartablaGestor(null,null);
     DetectarMovimiento("Inventario");
 }
 
@@ -82,9 +82,9 @@ export async function FiltrarInformacion(){
             filters["producto_id"] = gestorElemens.id_producto.value;
         }
         // llamar a la API para gestionar el inventario
-        console.log(filters);
+        //console.log(filters);
         data = await ExecuteApiRest('CalcularInventario','/../carnes/api/gestor.php?',filters);
-        console.log(data);
+        LlenartablaGestor(data,movimiento); // Llamar a la funcion para llenar la tabla
         return;
     } else {
         // colocar la fecha inicial y la fecha de termino
@@ -122,19 +122,19 @@ export async function FiltrarInformacion(){
         // llamar a la API para gestionar la informacion
         switch(movimiento){
             case "Cambios":
-                console.log(filters);
+                //console.log(filters);
                 data = await ExecuteApiRest('FiltarCambios','/../carnes/api/gestor.php?',filters);
-                console.log(data);
+                LlenartablaGestor(data,movimiento); // Llamar a la funcion para llenar la tabla
                 return;
             case "Entradas":
-                console.log(filters);
+                //console.log(filters);
                 data = await ExecuteApiRest('FiltarEntradas','/../carnes/api/gestor.php?',filters);
-                console.log(data);
+                LlenartablaGestor(data,movimiento); // Llamar a la funcion para llenar la tabla
                 return;
             case "Salidas":
-                console.log(filters);
+                //console.log(filters);
                 data = await ExecuteApiRest('FiltarSalidas','/../carnes/api/gestor.php?',filters);
-                console.log(data);
+                LlenartablaGestor(data,movimiento); // Llamar a la funcion para llenar la tabla
                 return;
         }
     }
@@ -196,10 +196,6 @@ export function focoCasilla(evento){
     }
 }
 
-export async function AplicarFiltros(){
-
-}
-
 function CargarPagina(){
     LlenarFiltroProductos();
     LlenartablaGestor();
@@ -219,6 +215,10 @@ async function LlenarFiltroProductos(){
     });
 }
 
-async function LlenartablaGestor(){
-
+function LlenartablaGestor(array, event){
+    // creamos las constantes con la informacion
+    const products = array;
+    const movimientos = event
+    // llamos a la funcion para colocar los datos en la tabla
+    funciones.LlenarTabla(products, movimientos);
 }

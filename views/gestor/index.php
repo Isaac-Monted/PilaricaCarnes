@@ -79,7 +79,7 @@
             <h3>Gestion de Movimientos</h3>
             <div class="contenedorTabla">
                 <table>
-                    <thead id="contenedorTablagestor">
+                    <thead id="EncabezadoTablagestor">
                         <tr>
                             <th style="display: none"></th>
                             <th></th>

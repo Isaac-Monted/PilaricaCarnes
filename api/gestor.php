@@ -516,7 +516,7 @@ function CalcularInventario($conn, $filters = []) {
 
     // Definir valores por defecto
     $producto_id = null;
-    $fecha = date("d-m-Y"); // Fecha por defecto: hoy
+    $fecha = date("Y-m-d"); // Fecha por defecto: hoy
 
     // Verificar filtros
     if (!empty($filters)) {
@@ -544,6 +544,9 @@ function CalcularInventario($conn, $filters = []) {
     $result = $stmt->get_result();
 
     while ($row = $result->fetch_assoc()) {
+        $row['piezas_actuales'] = (int)$row['piezas_actuales'];
+        $row['kilos_actuales'] = (float)$row['kilos_actuales'];
+
         $comentarios[] = $row;
     }
     return $comentarios;

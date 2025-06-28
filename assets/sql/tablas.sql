@@ -244,19 +244,21 @@ begin
 		coalesce(cambiosE.total_piezas_entrada, 0) as total_piezas_cambios_entradas,
 		coalesce(cambiosE.total_kilos_entrada, 0) as total_kilos_cambios_entradas,
 		
-		coalesce(productos.piezas_iniciales, 0)
-	  + coalesce(entradas.total_piezas, 0)
-	  - coalesce(cambiosS.total_piezas_salida, 0)
-	  - coalesce(salidas.total_piezas, 0)
-	  + coalesce(cambiosE.total_piezas_entrada, 0)
-	  as piezas_actuales,
+        cast(
+            coalesce(productos.piezas_iniciales, 0)
+            + coalesce(entradas.total_piezas, 0)
+            - coalesce(cambiosS.total_piezas_salida, 0)
+            - coalesce(salidas.total_piezas, 0)
+            + coalesce(cambiosE.total_piezas_entrada, 0)
+        as signed) as piezas_actuales,
 
-	coalesce(productos.kilos_iniciales, 0)
-	  + coalesce(entradas.total_kilos, 0)
-	  - coalesce(cambiosS.total_kilos_salida, 0)
-	  - coalesce(salidas.total_kilos, 0)
-	  + coalesce(cambiosE.total_kilos_entrada, 0)
-	  as kilos_actuales
+        cast(
+            coalesce(productos.kilos_iniciales, 0)
+            + coalesce(entradas.total_kilos, 0)
+            - coalesce(cambiosS.total_kilos_salida, 0)
+            - coalesce(salidas.total_kilos, 0)
+            + coalesce(cambiosE.total_kilos_entrada, 0)
+        as decimal(10,2)) as kilos_actuales
 	from Carnes_productos  productos
 
 	left join (

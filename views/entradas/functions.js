@@ -83,8 +83,8 @@ export function LimpiarEntradas(){
     console.log("Limpiar");
 
     // limpiar cada una de las casillas
-    Object.keys(entradasElements).forEach(key => {
-        const casilla = entradasElements[key];
+    Object.keys(entradasFormulario).forEach(key => {
+        const casilla = entradasFormulario[key];
         casilla.value = "";
     });
 
@@ -100,8 +100,8 @@ export function LimpiarAllEntradas(){
     console.log("Limpiar");
 
     // limpiar cada una de las casillas
-    Object.keys(entradasFormulario).forEach(key => {
-        const casilla = entradasFormulario[key];
+    Object.keys(entradasElements).forEach(key => {
+        const casilla = entradasElements[key];
         casilla.value = "";
     });
 

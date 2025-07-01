@@ -138,8 +138,8 @@ export function LimpiarCambios(){
     console.log("Limpiar");
     
     // limpiar cada una de las casillas
-    Object.keys(cambiosElements).forEach(key => {
-        const casilla = cambiosElements[key];
+    Object.keys(cambiosFormulario).forEach(key => {
+        const casilla = cambiosFormulario[key];
         casilla.value = "";
     });
 
@@ -157,8 +157,8 @@ export function LimpiarAllCambios(){
     console.log("Limpiar");
     
     // limpiar cada una de las casillas
-    Object.keys(cambiosFormulario).forEach(key => {
-        const casilla = cambiosFormulario[key];
+    Object.keys(cambiosElements).forEach(key => {
+        const casilla = cambiosElements[key];
         casilla.value = "";
     });
 

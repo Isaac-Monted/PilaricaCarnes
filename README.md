@@ -3,7 +3,7 @@
 Aplicacion web para control de movimientos.
 
 ## Version
-1.27.10
+1.27.11
 
 ## Desarrollado por
 [Isaac Montes](https://github.com/Isaac-Monted)

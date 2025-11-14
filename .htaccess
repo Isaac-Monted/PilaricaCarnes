@@ -1,5 +1,12 @@
 RewriteEngine On
-RewriteBase /carnes/
+# RewriteBase /carnes/
+
+# Evitar que las reglas del dominio principal afecten al subdominio
+RewriteCond %{HTTP_HOST} ^docs\.pilarica\.pilarica\.com\.mx$ [NC]
+RewriteRule .* - [L]
+
+# Reglas propias del subdominio
+#RewriteBase /
 
 # Redirige todo excepto archivos y carpetas existentes
 RewriteCond %{REQUEST_FILENAME} !-f
